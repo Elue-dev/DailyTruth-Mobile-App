@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
   image: {
     flex: 1,
     resizeMode: "contain",
+    height: "100%",
     width,
   },
   titleText: {

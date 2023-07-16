@@ -8,6 +8,9 @@ export type RootStackParamList = {
   TabStack: NavigatorScreenParams<TabStackParamList>;
   Onboarding: undefined;
   CreateAccountStart: undefined;
+  AuthSequence: {
+    state?: string;
+  };
 };
 
 export type TabStackParamList = {

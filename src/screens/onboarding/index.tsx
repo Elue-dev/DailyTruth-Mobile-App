@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  Platform,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { screensData } from "./screensData";
 import { onBoardingScreensdata } from "../../types";
 import {
@@ -59,9 +60,13 @@ export default function OnboardingScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <TouchableOpacity onPress={skipOnboarding}>
-        <Text className="text-right mr-5 mt-4 text-primaryColor text-xl">
+        <Text
+          className={`text-right mr-5  text-primaryColor text-xl ${
+            Platform.OS === "ios" ? "mt-4" : "mt-12"
+          }`}
+        >
           Skip {">>"}
         </Text>
       </TouchableOpacity>

@@ -1,0 +1,18 @@
+export const interests = [
+  "Tech",
+  "Politics",
+  "Climate",
+  "Gadgets",
+  "Science",
+  "Culture",
+  "Sports",
+  "Stock",
+  "Economy",
+  "Health",
+  "Business",
+  "Fashion",
+  "Religion",
+  "World",
+  "Movies",
+  "Finance",
+];

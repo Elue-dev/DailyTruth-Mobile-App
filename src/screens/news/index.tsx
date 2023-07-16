@@ -1,18 +1,20 @@
 import { View, Text, SafeAreaView, Button } from "react-native";
-import React from "react";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function NewsScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
+  // async function resetOnboarding() {
+  //   await AsyncStorage.removeItem("userHasOnboarded");
+  //   navigation.navigate("Onboarding");
+  // }
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <Text className="">News Screen</Text>
-      <Button
-        title="Onboarding Screen"
-        onPress={() => navigation.navigate("Onboarding")}
-      />
+      {/* <Button title="Onboarding Screen" onPress={resetOnboarding} /> */}
     </SafeAreaView>
   );
 }

@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { COLORS } from "../common/colors";
+import AuthSequence from "../screens/auth_sequence";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -18,27 +19,25 @@ async function checkOnboardingStatus() {
 }
 
 export default function RouteNavigator() {
-  const [userHasOnboarded, setUserHasOnboarded] = useState(false);
-  const [isOnboardingCheckComplete, setIsOnboardingCheckComplete] =
-    useState(false);
+  // const [userHasOnboarded, setUserHasOnboarded] = useState(false);
+  // const [isOnboardingCheckComplete, setIsOnboardingCheckComplete] =
+  //   useState(false);
 
-  useEffect(() => {
-    async function getOnboardingCheckResults() {
-      const hasOnboarded = await checkOnboardingStatus();
-      setUserHasOnboarded(hasOnboarded);
-      setIsOnboardingCheckComplete(true);
-    }
+  // useEffect(() => {
+  //   async function getOnboardingCheckResults() {
+  //     const hasOnboarded = await checkOnboardingStatus();
+  //     setUserHasOnboarded(hasOnboarded);
+  //     setIsOnboardingCheckComplete(true);
+  //   }
 
-    getOnboardingCheckResults();
-  }, []);
+  //   getOnboardingCheckResults();
+  // }, []);
 
-  if (!isOnboardingCheckComplete)
-    return <ActivityIndicator color={COLORS.primaryColor} size="large" />;
+  // if (!isOnboardingCheckComplete)
+  //   return <ActivityIndicator color={COLORS.primaryColor} size="large" />;
 
   return (
-    <RootStack.Navigator
-      initialRouteName={userHasOnboarded ? "TabStack" : "Onboarding"}
-    >
+    <RootStack.Navigator initialRouteName={"Onboarding"}>
       <RootStack.Screen
         name="TabStack"
         component={TabNavigator}
@@ -56,6 +55,13 @@ export default function RouteNavigator() {
       <RootStack.Screen
         name="CreateAccountStart"
         component={CreateAccountStart}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name="AuthSequence"
+        component={AuthSequence}
         options={{
           headerShown: false,
         }}
