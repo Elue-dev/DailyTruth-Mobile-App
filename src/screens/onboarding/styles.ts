@@ -1,0 +1,51 @@
+import { Dimensions, StyleSheet } from "react-native";
+import { COLORS } from "../../common/colors";
+
+const { width, height } = Dimensions.get("window");
+
+export const styles = StyleSheet.create({
+  image: {
+    flex: 1,
+    resizeMode: "contain",
+    width,
+  },
+  titleText: {
+    marginTop: 15,
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: COLORS.primaryColorSec,
+  },
+  subTitle: {
+    marginTop: 10,
+    marginLeft: 19,
+    fontSize: 16,
+    textAlign: "center",
+    maxWidth: "90%",
+    color: COLORS.grayText,
+    lineHeight: 23,
+  },
+
+  slidesWrap: {
+    height: height * 0.25,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginHorizontal: 10,
+  },
+  indicator: {
+    height: 15,
+    width: 15,
+    backgroundColor: "#fff",
+    marginHorizontal: 3,
+    borderRadius: 50,
+    borderWidth: 1.5,
+    borderColor: COLORS.primaryColor,
+  },
+  btn: {
+    backgroundColor: COLORS.primaryColor,
+    paddingVertical: 10,
+    paddingHorizontal: 50,
+    borderRadius: 5,
+  },
+});
