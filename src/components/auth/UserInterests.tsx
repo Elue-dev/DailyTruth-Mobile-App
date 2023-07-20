@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { interests } from "../../data/interests";
@@ -13,6 +14,9 @@ import {
   NavigationProp,
   useNavigation,
 } from "@react-navigation/native";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, database } from "../../lib/firebase";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 export default function UserInterests({
   initiaCredentials,
@@ -22,6 +26,7 @@ export default function UserInterests({
   setSelectedCategories,
 }: UserInterestsProps) {
   const navigation = useNavigation<NavigationProp<any>>();
+  const { email, password, username } = credentials;
 
   function setUserInterests(interest: string) {
     if (selectedCategories.includes(interest)) {
@@ -34,12 +39,40 @@ export default function UserInterests({
   }
 
   async function createUserAccount() {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: "TabStack" }],
-      })
-    );
+    if (email !== "" && password !== "") {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        console.log("Signup success");
+        const user = userCredential.user;
+        if (user) {
+          const userDocRef = doc(database, "users", user.uid);
+          const userDocData = {
+            username,
+            email,
+            interests: selectedCategories,
+            avatar: "",
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          };
+          await setDoc(userDocRef, userDocData);
+          console.log("db record added");
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: "TabStack" }], // Replace "TabStack" with the name of your main stack
+            })
+          );
+        } else {
+          throw new Error("User not found");
+        }
+      } catch (error: any) {
+        Alert.alert("Signup error", error.message);
+      }
+    }
   }
 
   return (

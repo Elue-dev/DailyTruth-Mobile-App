@@ -5,11 +5,18 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { UserCredentialsProps } from "../../types/auth";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  CommonActions,
+  NavigationProp,
+  useNavigation,
+} from "@react-navigation/native";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../lib/firebase";
 
 export default function UserCredentials({
   initiaCredentials,
@@ -28,9 +35,24 @@ export default function UserCredentials({
   const navigation = useNavigation<NavigationProp<any>>();
   const { email, password, username } = credentials;
 
-  async function loginUser() {
-    navigation.navigate("TabStack");
-  }
+  const loginUser = () => {
+    console.log("signing in");
+
+    if (email !== "" && password !== "") {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((user) => {
+          console.log("Login success");
+          console.log({ user });
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: "TabStack" }], // Replace "TabStack" with the name of your main stack
+            })
+          );
+        })
+        .catch((err) => Alert.alert("Login error", err.message));
+    }
+  };
 
   return (
     <SafeAreaView className="bg-white flex-1">

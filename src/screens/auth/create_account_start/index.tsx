@@ -1,13 +1,16 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Button,
-} from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
+// import {
+//   GoogleSignin,
+//   statusCodes,
+//   GoogleSigninButton,
+// } from "@react-native-google-signin/google-signin";
+// import firebase from "@react-native-firebase/app";
+// import "@react-native-firebase/auth";
+// import { firebaseConfig } from "../../../../firebase"; // Import your Firebase configuration
+// import { useEffect } from "react";
 
 export default function CreateAccountStart() {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -16,6 +19,20 @@ export default function CreateAccountStart() {
     await AsyncStorage.removeItem("userHasOnboarded");
     navigation.navigate("TabStack");
   }
+
+  // useEffect(() => {
+  //   if (!firebase.apps.length) {
+  //     firebase.initializeApp(firebaseConfig);
+  //   }
+
+  //   configureGoogleSignin();
+  // }, []);
+
+  // function configureGoogleSignin() {
+  //   GoogleSignin.configure();
+  // }
+
+  async function handleGoogleSignIn() {}
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -43,7 +60,7 @@ export default function CreateAccountStart() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={handleGoogleSignIn}
             className="border border-1 border-lightGray mr-3 rounded-md mt-4"
           >
             <View className="flex-row items-center justify-center">
