@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export interface Credentials {
   username: string;
@@ -22,4 +22,24 @@ export interface UserInterestsProps {
   selectedCategories: string[];
   setSelectedCategories: Dispatch<SetStateAction<string[]>>;
   prevStep: () => void;
+}
+
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  interests: string[];
+  avatar: string;
+}
+
+export interface AuthState {
+  user: User | null;
+}
+
+export type AuthAction =
+  | { type: "SET_ACTIVE_USER"; payload: User | null }
+  | { type: "REMOVE_ACTIVE_USER" };
+
+export interface AuthProviderProps {
+  children: ReactNode;
 }

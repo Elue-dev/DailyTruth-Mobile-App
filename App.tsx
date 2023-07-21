@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import RouteNavigator from "./src/navigation/RouteNavigator";
 import * as Font from "expo-font";
 import { ActivityIndicator, View } from "react-native";
+import { AuthProvider } from "./src/context/auth/AuthContext";
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -40,10 +41,12 @@ export default function App() {
   return (
     <View className="flex-1">
       {fontLoaded ? (
-        <NavigationContainer theme={theme}>
-          <RouteNavigator />
-          <StatusBar style="dark" />
-        </NavigationContainer>
+        <AuthProvider>
+          <NavigationContainer theme={theme}>
+            <RouteNavigator />
+            <StatusBar style="dark" />
+          </NavigationContainer>
+        </AuthProvider>
       ) : (
         <ActivityIndicator color="#000" size="large" />
       )}

@@ -43,17 +43,10 @@ export default function OnboardingScreen() {
   }
 
   function skipOnboarding() {
-    // const lastSlideIndex = screensData.length - 1;
-    // const offset = lastSlideIndex * width;
-    // flatListRef?.current?.scrollToOffset({ offset });
-    // setCurrentSlideIndex(lastSlideIndex);
-
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: "CreateAccountStart" }],
-      })
-    );
+    const lastSlideIndex = screensData.length - 1;
+    const offset = lastSlideIndex * width;
+    flatListRef?.current?.scrollToOffset({ offset });
+    setCurrentSlideIndex(lastSlideIndex);
   }
 
   async function initiateAccountCreation() {

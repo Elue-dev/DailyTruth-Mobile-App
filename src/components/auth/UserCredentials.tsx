@@ -17,6 +17,7 @@ import {
 } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebase";
+import { useAuth } from "../../context/auth/AuthContext";
 
 export default function UserCredentials({
   initiaCredentials,
@@ -34,25 +35,38 @@ export default function UserCredentials({
   const changedActionState = authAction === "Sign Up" ? "Sign In" : "Sign Up";
   const navigation = useNavigation<NavigationProp<any>>();
   const { email, password, username } = credentials;
+  const { dispatch } = useAuth();
 
-  const loginUser = () => {
-    console.log("signing in");
-
+  async function loginUser() {
     if (email !== "" && password !== "") {
-      signInWithEmailAndPassword(auth, email, password)
-        .then((user) => {
-          console.log("Login success");
-          console.log({ user });
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{ name: "TabStack" }], // Replace "TabStack" with the name of your main stack
-            })
-          );
-        })
-        .catch((err) => Alert.alert("Login error", err.message));
+      try {
+        const user: any = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        if (user)
+          dispatch({
+            type: "SET_ACTIVE_USER",
+            payload: {
+              id: user.uid,
+              username: "",
+              email: "",
+              interests: [""],
+              avatar: "",
+            },
+          });
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "TabStack" }],
+          })
+        );
+      } catch (error: any) {
+        Alert.alert("Login error", error.message);
+      }
     }
-  };
+  }
 
   return (
     <SafeAreaView className="bg-white flex-1">
@@ -129,7 +143,7 @@ export default function UserCredentials({
             <Text
               className={`absolute ${
                 currentInput === "Email Address" || email
-                  ? "bottom-5 text-[12px] text-grayText"
+                  ? "bottom-5 text-[12px] text-grayText mb-2"
                   : "bottom-2 text-[16px]"
               }`}
             >
@@ -148,7 +162,7 @@ export default function UserCredentials({
             <Text
               className={`absolute ${
                 currentInput === "Password" || password
-                  ? "bottom-5 text-[12px] text-grayText"
+                  ? "bottom-5 text-[12px] text-grayText mb-2"
                   : "bottom-2 text-[16px]"
               }`}
             >
@@ -156,6 +170,7 @@ export default function UserCredentials({
             </Text>
             <TextInput
               value={password}
+              secureTextEntry
               onChangeText={(text) => handleTextChange("password", text)}
               className="border-b-2 border-lightGray relative text-[16px]"
               onFocus={() => setCurrentInput("Password")}

@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  ActivityIndicator,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { interests } from "../../data/interests";
@@ -17,6 +19,8 @@ import {
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, database } from "../../lib/firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { useState } from "react";
+import { useAuth } from "../../context/auth/AuthContext";
 
 export default function UserInterests({
   initiaCredentials,
@@ -25,8 +29,10 @@ export default function UserInterests({
   selectedCategories,
   setSelectedCategories,
 }: UserInterestsProps) {
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NavigationProp<any>>();
   const { email, password, username } = credentials;
+  const { setActiveUser, state } = useAuth();
 
   function setUserInterests(interest: string) {
     if (selectedCategories.includes(interest)) {
@@ -40,17 +46,18 @@ export default function UserInterests({
 
   async function createUserAccount() {
     if (email !== "" && password !== "") {
+      setLoading(true);
       try {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
           password
         );
-        console.log("Signup success");
         const user = userCredential.user;
         if (user) {
           const userDocRef = doc(database, "users", user.uid);
           const userDocData = {
+            id: user.uid,
             username,
             email,
             interests: selectedCategories,
@@ -59,17 +66,27 @@ export default function UserInterests({
             updatedAt: serverTimestamp(),
           };
           await setDoc(userDocRef, userDocData);
-          console.log("db record added");
+          const userObj = {
+            id: user.uid,
+            username,
+            email,
+            interests: selectedCategories,
+            avatar: "",
+          };
+          setActiveUser(userObj);
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
-              routes: [{ name: "TabStack" }], // Replace "TabStack" with the name of your main stack
+              routes: [{ name: "TabStack" }],
             })
           );
+          setLoading(false);
         } else {
+          setLoading(false);
           throw new Error("User not found");
         }
       } catch (error: any) {
+        setLoading(false);
         Alert.alert("Signup error", error.message);
       }
     }
@@ -120,14 +137,20 @@ export default function UserInterests({
         </View>
 
         <View className="mt-14 mb-24">
-          <TouchableOpacity
-            onPress={createUserAccount}
-            className="bg-primaryColor py-3 rounded-md"
-          >
-            <Text className="text-white font-semibold text-center text-xl">
-              Create Account
-            </Text>
-          </TouchableOpacity>
+          {loading ? (
+            <TouchableOpacity className="bg-primaryColorLighter py-3 rounded-md">
+              <ActivityIndicator color={"#fff"} size="small" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={createUserAccount}
+              className="bg-primaryColor py-3 rounded-md"
+            >
+              <Text className="text-white font-semibold text-center text-xl">
+                Create Account
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
