@@ -13,6 +13,7 @@ import VerifyScreen from "../screens/verify";
 import SearchScreen from "../screens/search";
 import SavedScreen from "../screens/saved";
 import ProfileScreen from "../screens/profile";
+import { COLORS } from "../common/colors";
 
 const TabStack = createBottomTabNavigator<TabStackParamList>();
 
@@ -73,42 +74,46 @@ export default function TabsNavigator() {
         },
         tabBarActiveTintColor: "#C2262E",
         tabBarInactiveTintColor: "#AEAEB2",
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
+        tabBarLabelStyle: styles.label,
+        headerStyle: {
+          backgroundColor: COLORS.grayNeutral,
+        },
       })}
     >
       <TabStack.Screen
         name="News"
         component={NewsScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <TabStack.Screen
         name="Verify"
         component={VerifyScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <TabStack.Screen
         name="Search"
         component={SearchScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <TabStack.Screen
         name="Saved"
         component={SavedScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <TabStack.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
     </TabStack.Navigator>
@@ -117,7 +122,10 @@ export default function TabsNavigator() {
 
 const styles = StyleSheet.create({
   tobBarIcon: {
-    paddingVertical: 6,
-    fontSize: 30,
+    fontSize: 26,
+    paddingTop: 5,
+  },
+  label: {
+    fontSize: 14,
   },
 });

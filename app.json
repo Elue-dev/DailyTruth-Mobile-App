@@ -16,6 +16,7 @@
       "useClassicUpdates": false,
       "url": "https://u.expo.dev/872e489c-8f8f-418a-961a-3055ac68f200"
     },
+
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.eluewisdom.DailyTruth"

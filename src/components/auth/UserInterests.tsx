@@ -32,7 +32,7 @@ export default function UserInterests({
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NavigationProp<any>>();
   const { email, password, username } = credentials;
-  const { setActiveUser, state } = useAuth();
+  const { setActiveUser } = useAuth();
 
   function setUserInterests(interest: string) {
     if (selectedCategories.includes(interest)) {

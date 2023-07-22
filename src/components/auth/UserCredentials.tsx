@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
@@ -16,8 +17,9 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../lib/firebase";
+import { auth, database } from "../../lib/firebase";
 import { useAuth } from "../../context/auth/AuthContext";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function UserCredentials({
   initiaCredentials,
@@ -29,40 +31,51 @@ export default function UserCredentials({
   prevStep,
 }: UserCredentialsProps) {
   const [currentInput, setCurrentInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const [authAction, setAuthAction] = useState(
     paramsPassed ? "Sign In" : "Sign Up"
   );
   const changedActionState = authAction === "Sign Up" ? "Sign In" : "Sign Up";
   const navigation = useNavigation<NavigationProp<any>>();
   const { email, password, username } = credentials;
-  const { dispatch } = useAuth();
+  const { setActiveUser } = useAuth();
 
   async function loginUser() {
     if (email !== "" && password !== "") {
+      setLoading(true);
       try {
         const user: any = await signInWithEmailAndPassword(
           auth,
           email,
           password
         );
-        if (user)
-          dispatch({
-            type: "SET_ACTIVE_USER",
-            payload: {
-              id: user.uid,
-              username: "",
-              email: "",
-              interests: [""],
-              avatar: "",
-            },
-          });
+        if (user) {
+          const userDocReference = doc(database, "users", user.user.uid);
+          const userDocSnapshot = await getDoc(userDocReference);
+
+          if (userDocSnapshot?.exists()) {
+            const userData = userDocSnapshot?.data();
+            const userObj = {
+              id: user.user.uid,
+              username: userData.username || "",
+              email: userData.email || "",
+              interests: userData.interests || [""],
+              avatar: userData.avatar || "",
+            };
+            setActiveUser(userObj);
+          }
+        }
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
             routes: [{ name: "TabStack" }],
           })
         );
+        setLoading(false);
       } catch (error: any) {
+        setLoading(false);
+        console.log(error);
+
         Alert.alert("Login error", error.message);
       }
     }
@@ -180,14 +193,20 @@ export default function UserCredentials({
         </View>
 
         <View className="mt-14">
-          <TouchableOpacity
-            onPress={authAction === "Sign In" ? loginUser : nextStep}
-            className="bg-primaryColor py-3 rounded-md"
-          >
-            <Text className="text-white font-semibold text-center text-xl">
-              {authAction === "Sign In" ? "Sign In" : "Continue"}
-            </Text>
-          </TouchableOpacity>
+          {loading ? (
+            <TouchableOpacity className="bg-primaryColorLighter py-3 rounded-md">
+              <ActivityIndicator color={"#fff"} size="small" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={authAction === "Sign In" ? loginUser : nextStep}
+              className="bg-primaryColor py-3 rounded-md"
+            >
+              <Text className="text-white font-semibold text-center text-xl">
+                {authAction === "Sign In" ? "Sign In" : "Continue"}
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

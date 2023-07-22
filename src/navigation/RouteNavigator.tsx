@@ -19,25 +19,27 @@ async function checkOnboardingStatus() {
 }
 
 export default function RouteNavigator() {
-  // const [userHasOnboarded, setUserHasOnboarded] = useState(false);
-  // const [isOnboardingCheckComplete, setIsOnboardingCheckComplete] =
-  //   useState(false);
+  const [userHasOnboarded, setUserHasOnboarded] = useState(false);
+  const [isOnboardingCheckComplete, setIsOnboardingCheckComplete] =
+    useState(false);
 
-  // useEffect(() => {
-  //   async function getOnboardingCheckResults() {
-  //     const hasOnboarded = await checkOnboardingStatus();
-  //     setUserHasOnboarded(hasOnboarded);
-  //     setIsOnboardingCheckComplete(true);
-  //   }
+  useEffect(() => {
+    async function getOnboardingCheckResults() {
+      const hasOnboarded = await checkOnboardingStatus();
+      setUserHasOnboarded(hasOnboarded);
+      setIsOnboardingCheckComplete(true);
+    }
 
-  //   getOnboardingCheckResults();
-  // }, []);
+    getOnboardingCheckResults();
+  }, []);
 
-  // if (!isOnboardingCheckComplete)
-  //   return <ActivityIndicator color={COLORS.primaryColor} size="large" />;
+  if (!isOnboardingCheckComplete)
+    return <ActivityIndicator color={COLORS.primaryColor} size="large" />;
 
   return (
-    <RootStack.Navigator initialRouteName={"Onboarding"}>
+    <RootStack.Navigator
+      initialRouteName={userHasOnboarded ? "TabStack" : "Onboarding"}
+    >
       <RootStack.Screen
         name="TabStack"
         component={TabNavigator}
