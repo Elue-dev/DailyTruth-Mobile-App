@@ -48,3 +48,8 @@ export interface OnboardingScreenProps {
   navigation: OnboardingScreenNavigationProp;
   route: OnboardingScreenRouteProp;
 }
+
+export interface RoutePropArg {
+  route: RouteProp<TabStackParamList, keyof TabStackParamList>;
+  navigation: any;
+}

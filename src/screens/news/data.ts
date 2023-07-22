@@ -5,7 +5,7 @@ export const newsData: News[] = [
     id: "1",
     title: "iOS 16.4 Second Test Hints Superb New iPhone Feature Is Near",
     content:
-      "Apple has just issued a second test of its superb new security feature, Rapid Security Response, in the iOS 16.4 Beta version. The latest test of the feature was released... Read More",
+      "Apple has just issued a second test of its superb new security feature, Rapid Security Response, in the iOS 16.4 Beta version. The latest test of the feature was released",
     category: "Technology",
     readTime: 4,
     upvotes: 15,
@@ -16,7 +16,7 @@ export const newsData: News[] = [
     id: "2",
     title: "WhatsApp Will Soon Let Users Choose when Group Chats Will Expire",
     content:
-      "If you've ever created or joined a WhatsApp group chat for a single event, then kept forgetting to delete it for years afterwards, there's an upcoming feature you may appreciate... Read More",
+      "If you've ever created or joined a WhatsApp group chat for a single event, then kept forgetting to delete it for years afterwards, there's an upcoming feature you may appreciate",
     category: "Technology",
     readTime: 2,
     upvotes: 10,
@@ -27,7 +27,7 @@ export const newsData: News[] = [
     id: "3",
     title: "Microsoft Debuts a New 'Velocity Green' Xbox Controller",
     content:
-      " There are certain colors you see and have an immediate association. For gamers, one of the most iconic might be that warm medium green seen on Yoshi and, most... Read More",
+      " There are certain colors you see and have an immediate association. For gamers, one of the most iconic might be that warm medium green seen on Yoshi and, most",
     category: "Technology",
     readTime: 4,
     upvotes: 30,

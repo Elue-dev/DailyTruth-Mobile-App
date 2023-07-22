@@ -9,6 +9,8 @@ import RouteNavigator from "./src/navigation/RouteNavigator";
 import * as Font from "expo-font";
 import { ActivityIndicator, View } from "react-native";
 import { AuthProvider } from "./src/context/auth/AuthContext";
+import { BottomSheetProvider } from "./src/context/bottom_sheet/BottomSheetContext";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -39,17 +41,21 @@ export default function App() {
   );
 
   return (
-    <View className="flex-1">
+    <GestureHandlerRootView className="flex-1">
       {fontLoaded ? (
         <AuthProvider>
-          <NavigationContainer theme={theme}>
-            <RouteNavigator />
-            <StatusBar style="dark" />
-          </NavigationContainer>
+          <BottomSheetProvider>
+            <NavigationContainer theme={theme}>
+              <RouteNavigator />
+              <StatusBar style="dark" />
+            </NavigationContainer>
+          </BottomSheetProvider>
         </AuthProvider>
       ) : (
-        <ActivityIndicator color="#000" size="large" />
+        <View className="pt-20">
+          <ActivityIndicator color="#000" size="large" />
+        </View>
       )}
-    </View>
+    </GestureHandlerRootView>
   );
 }

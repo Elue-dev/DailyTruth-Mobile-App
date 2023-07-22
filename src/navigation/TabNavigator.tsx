@@ -1,5 +1,8 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TabStackParamList } from "../types/navigation";
+import {
+  BottomTabNavigationOptions,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
+import { RoutePropArg, TabStackParamList } from "../types/navigation";
 import {
   MaterialCommunityIcons,
   AntDesign,
@@ -14,73 +17,81 @@ import SearchScreen from "../screens/search";
 import SavedScreen from "../screens/saved";
 import ProfileScreen from "../screens/profile";
 import { COLORS } from "../common/colors";
+import { useSheet } from "../context/bottom_sheet/BottomSheetContext";
 
 const TabStack = createBottomTabNavigator<TabStackParamList>();
 
 export default function TabsNavigator() {
+  const { state } = useSheet();
+
+  function screenOptions({ route }: RoutePropArg): BottomTabNavigationOptions {
+    return {
+      tabBarIcon: ({ focused, size }) => {
+        switch (route.name) {
+          case "News":
+            return (
+              <Ionicons
+                name="newspaper-outline"
+                size={size}
+                color={focused ? "#C2262E" : "#AEAEB2"}
+                style={styles.tobBarIcon}
+              />
+            );
+          case "Verify":
+            return (
+              <MaterialCommunityIcons
+                name="newspaper-check"
+                size={size}
+                color={focused ? "#C2262E" : "#AEAEB2"}
+                style={styles.tobBarIcon}
+              />
+            );
+          case "Search":
+            return (
+              <AntDesign
+                name="search1"
+                size={size}
+                color={focused ? "#C2262E" : "#AEAEB2"}
+                style={styles.tobBarIcon}
+              />
+            );
+          case "Saved":
+            return (
+              <Ionicons
+                name="bookmarks-outline"
+                size={size}
+                color={focused ? "#C2262E" : "#AEAEB2"}
+                style={styles.tobBarIcon}
+              />
+            );
+          case "Profile":
+            return (
+              <FontAwesome
+                name="user-o"
+                size={size}
+                color={focused ? "#C2262E" : "#AEAEB2"}
+                style={styles.tobBarIcon}
+              />
+            );
+          default:
+            return null;
+        }
+      },
+      tabBarActiveTintColor: "#C2262E",
+      tabBarInactiveTintColor: "#AEAEB2",
+      tabBarShowLabel: true,
+      tabBarLabelStyle: styles.label,
+      headerStyle: {
+        backgroundColor: COLORS.grayNeutral,
+      },
+      tabBarStyle: {
+        display: state.bottomSheetOpen ? "none" : "flex",
+      },
+    };
+  }
+
   return (
-    <TabStack.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, size }) => {
-          switch (route.name) {
-            case "News":
-              return (
-                <Ionicons
-                  name="newspaper-outline"
-                  size={size}
-                  color={focused ? "#C2262E" : "#AEAEB2"}
-                  style={styles.tobBarIcon}
-                />
-              );
-            case "Verify":
-              return (
-                <MaterialCommunityIcons
-                  name="newspaper-check"
-                  size={size}
-                  color={focused ? "#C2262E" : "#AEAEB2"}
-                  style={styles.tobBarIcon}
-                />
-              );
-            case "Search":
-              return (
-                <AntDesign
-                  name="search1"
-                  size={size}
-                  color={focused ? "#C2262E" : "#AEAEB2"}
-                  style={styles.tobBarIcon}
-                />
-              );
-            case "Saved":
-              return (
-                <Ionicons
-                  name="bookmarks-outline"
-                  size={size}
-                  color={focused ? "#C2262E" : "#AEAEB2"}
-                  style={styles.tobBarIcon}
-                />
-              );
-            case "Profile":
-              return (
-                <FontAwesome
-                  name="user-o"
-                  size={size}
-                  color={focused ? "#C2262E" : "#AEAEB2"}
-                  style={styles.tobBarIcon}
-                />
-              );
-            default:
-              return null;
-          }
-        },
-        tabBarActiveTintColor: "#C2262E",
-        tabBarInactiveTintColor: "#AEAEB2",
-        tabBarShowLabel: true,
-        tabBarLabelStyle: styles.label,
-        headerStyle: {
-          backgroundColor: COLORS.grayNeutral,
-        },
-      })}
-    >
+    <TabStack.Navigator screenOptions={screenOptions}>
       <TabStack.Screen
         name="News"
         component={NewsScreen}

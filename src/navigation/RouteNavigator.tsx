@@ -34,7 +34,13 @@ export default function RouteNavigator() {
   }, []);
 
   if (!isOnboardingCheckComplete)
-    return <ActivityIndicator color={COLORS.primaryColor} size="large" />;
+    return (
+      <ActivityIndicator
+        color={COLORS.primaryColor}
+        size="large"
+        className="pt-20"
+      />
+    );
 
   return (
     <RootStack.Navigator

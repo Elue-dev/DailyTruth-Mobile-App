@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { newsData } from "../../screens/news/data";
 import {
   MaterialIcons,
@@ -6,18 +6,28 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
+import { useEffect } from "react";
 
-export default function NewsCard() {
+export default function NewsCard({ dataToUse, setDataToUse }: any) {
+  useEffect(() => {
+    setDataToUse(newsData);
+  }, []);
+
   return (
-    <View className="mx-2 pt-1">
+    <View className="mx-2">
       <FlatList
-        keyExtractor={(newsData) => newsData.id}
-        data={newsData}
-        renderItem={({ item: news }) => (
-          <View className="border-b-2 border-gray100 ">
+        keyExtractor={(dataToUse) => dataToUse.id}
+        data={dataToUse}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item: news, index }) => (
+          <View
+            className={`border-b-2 border-gray100  ${
+              index === dataToUse.length - 1 ? "pb-14" : null
+            }`}
+          >
             <View
-              className="border border-gray100 mb-5 shadow-lg px-2 py-4 mt-3 rounded-lg"
-              style={{ elevation: 3, backgroundColor: "#FFF" }}
+              className="border border-gray100 mb-5 shadow-sm px-2 py-4 mt-3 rounded-lg"
+              style={{ elevation: 1, backgroundColor: "#FFF" }}
             >
               {/* Header */}
               <View className="flex-row justify-between items-center pb-3">
@@ -28,13 +38,13 @@ export default function NewsCard() {
                   {news.isVerified ? (
                     <MaterialIcons
                       name="verified"
-                      size={17}
+                      size={15}
                       color={COLORS.customGreen}
                     />
                   ) : (
                     <Ionicons
                       name="ios-warning-outline"
-                      size={17}
+                      size={15}
                       color={COLORS.primaryColor}
                     />
                   )}
@@ -50,9 +60,16 @@ export default function NewsCard() {
               <Text className="text-[16px] text-extraLightGray font-bold">
                 {news.title}
               </Text>
-              <Text className="text-extraLightGray font-light leading-6 pt-2">
-                {news.content}
-              </Text>
+              <View className="">
+                <Text className="text-extraLightGray font-light leading-6 pt-2">
+                  {news.content}...
+                </Text>
+                <TouchableOpacity>
+                  <Text className="text-primaryColor py-1 font-semibold">
+                    Read More
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
               {/* Footer */}
               <View className="flex-row justify-between items-center">
