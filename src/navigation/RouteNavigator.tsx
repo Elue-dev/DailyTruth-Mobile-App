@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { COLORS } from "../common/colors";
 import AuthSequence from "../screens/auth_sequence";
+import NewsDetails from "../screens/news/NewsDetails";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -72,6 +73,14 @@ export default function RouteNavigator() {
         component={AuthSequence}
         options={{
           headerShown: false,
+        }}
+      />
+      <RootStack.Screen
+        name="NewsDetails"
+        component={NewsDetails}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: COLORS.grayNeutral },
         }}
       />
     </RootStack.Navigator>

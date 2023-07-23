@@ -7,9 +7,13 @@ import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { styles } from "./style";
 import { COLORS } from "../../common/colors";
 import { newsData } from "../../screens/news/data";
+import { BottomSheetProps } from "../../types/bottom_sheet";
 
-export default function BottomSheetComponent({ setDataToUse }: any) {
-  const { selectedOption, setSelectedOption } = useSheet();
+export default function BottomSheetComponent({
+  setDataToUse,
+  selectedOption,
+  setSelectedOption,
+}: BottomSheetProps) {
   const { toggleBottomSheet, toggleOverlay } = useSheet();
   const navigation = useNavigation<NavigationProp<any>>();
   const SheetRef = useRef(null);

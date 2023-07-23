@@ -7,8 +7,12 @@ import {
 } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
 import { useEffect } from "react";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../types/navigation";
 
 export default function NewsCard({ dataToUse, setDataToUse }: any) {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   useEffect(() => {
     setDataToUse(newsData);
   }, []);
@@ -62,10 +66,12 @@ export default function NewsCard({ dataToUse, setDataToUse }: any) {
               </Text>
               <View className="">
                 <Text className="text-extraLightGray font-light leading-6 pt-2">
-                  {news.content}...
+                  {news.content.slice(0, 175)}...
                 </Text>
-                <TouchableOpacity>
-                  <Text className="text-primaryColor py-1 font-semibold">
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("NewsDetails", { news })}
+                >
+                  <Text className="text-primaryColor pt-1 pb-2 font-semibold">
                     Read More
                   </Text>
                 </TouchableOpacity>
@@ -82,8 +88,8 @@ export default function NewsCard({ dataToUse, setDataToUse }: any) {
                   </Text>
                 </View>
                 <MaterialCommunityIcons
-                  name="bookmark-plus-outline"
-                  size={25}
+                  name="bookmark-multiple-outline"
+                  size={18}
                   color={COLORS.grayText}
                 />
               </View>

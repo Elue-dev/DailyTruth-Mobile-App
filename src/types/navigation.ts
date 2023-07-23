@@ -11,6 +11,9 @@ export type RootStackParamList = {
   AuthSequence: {
     state?: string;
   };
+  NewsDetails: {
+    news: string;
+  };
 };
 
 export type TabStackParamList = {

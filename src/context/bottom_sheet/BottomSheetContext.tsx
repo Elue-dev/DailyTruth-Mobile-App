@@ -1,26 +1,9 @@
-import {
-  createContext,
-  useContext,
-  useReducer,
-  Dispatch,
-  useState,
-  SetStateAction,
-} from "react";
+import { createContext, useContext, useReducer } from "react";
 import { BottomSheetReducer } from "./BottomSheetReducer";
 import {
+  BottomSheetContextType,
   BottomSheetProviderProps,
-  SheetAction,
-  SheetState,
 } from "../../types/bottom_sheet";
-
-interface BottomSheetContextType {
-  state: SheetState;
-  dispatch: Dispatch<SheetAction>;
-  selectedOption: string;
-  setSelectedOption: Dispatch<SetStateAction<string>>;
-  toggleBottomSheet: () => void;
-  toggleOverlay: () => void;
-}
 
 const BottomSheetContext = createContext<BottomSheetContextType>(
   {} as BottomSheetContextType
@@ -31,7 +14,6 @@ export function useSheet() {
 }
 
 export function BottomSheetProvider({ children }: BottomSheetProviderProps) {
-  const [selectedOption, setSelectedOption] = useState("VerfiedAndUnverified");
   const [state, dispatch] = useReducer(BottomSheetReducer, {
     bottomSheetOpen: false,
     isOverlayVisible: false,
@@ -41,16 +23,19 @@ export function BottomSheetProvider({ children }: BottomSheetProviderProps) {
     dispatch({ type: "TOGGLE_BOTTOM_SHEET" });
   }
 
+  function closeBottomSheet() {
+    dispatch({ type: "CLOSE_BOTTOM_SHEET" });
+  }
+
   function toggleOverlay() {
     dispatch({ type: "TOGGLE_OVERLAY" });
   }
 
   const values: BottomSheetContextType = {
     state,
-    selectedOption,
-    setSelectedOption,
     dispatch,
     toggleBottomSheet,
+    closeBottomSheet,
     toggleOverlay,
   };
 

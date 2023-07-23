@@ -15,10 +15,12 @@ import NewsCard from "../../components/news/NewsCard";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import BottomSheetComponent from "../../components/bottom_sheet";
 import { SharedElement } from "react-native-shared-element";
+import { News } from "../../types/news";
 
 export default function NewsScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [dataToUse, setDataToUse] = useState([]);
+  const [dataToUse, setDataToUse] = useState<News[]>([]);
+  const [selectedOption, setSelectedOption] = useState("VerfiedAndUnverified");
   const modifiedInterests = ["All", ...interests];
   const [selectedInterest, setSelectedInterest] = useState("All");
   const {
@@ -112,7 +114,13 @@ export default function NewsScreen() {
         <NewsCard dataToUse={dataToUse} setDataToUse={setDataToUse} />
       </View>
 
-      {bottomSheetOpen && <BottomSheetComponent setDataToUse={setDataToUse} />}
+      {bottomSheetOpen && (
+        <BottomSheetComponent
+          setDataToUse={setDataToUse}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+        />
+      )}
     </SafeAreaView>
   );
 }
