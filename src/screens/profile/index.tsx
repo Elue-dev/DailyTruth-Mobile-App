@@ -50,7 +50,7 @@ export default function ProfileScreen() {
             }`}
           >
             <View>
-              <Text className="text-primaryColorSec text-[17px] mt-4">
+              <Text className="text-primaryColorSec text-[17px] mt-4 font-semibold">
                 {data.title}
               </Text>
               <Text className="pt-1 text-gray200 font-normal">

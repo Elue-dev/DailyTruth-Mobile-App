@@ -1,14 +1,15 @@
 import { View, Text, TextInput } from "react-native";
-import React, { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { COLORS } from "../../common/colors";
 import { Ionicons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Search({ location }: { location?: string }) {
   const inputRef = useRef<TextInput>(null);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     inputRef.current?.focus();
-  }, []);
+  });
 
   return (
     <View
@@ -20,6 +21,7 @@ export default function Search({ location }: { location?: string }) {
         className="text-base h-full mt-2 text-darkNeutral"
         placeholder="Search news, keywords"
         placeholderTextColor={COLORS.grayText}
+        selectionColor={COLORS.primaryColor}
       />
       <Ionicons
         name="search-outline"
