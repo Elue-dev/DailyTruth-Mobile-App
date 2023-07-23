@@ -18,9 +18,9 @@ import SearchScreen from "../screens/search";
 import ProfileScreen from "../screens/profile";
 import { COLORS } from "../common/colors";
 import { useSheet } from "../context/bottom_sheet/BottomSheetContext";
-import AddPost from "../screens/add_post";
 import { useAuth } from "../context/auth/AuthContext";
 import AuthSequence from "../screens/auth_sequence";
+import AddNews from "../screens/add_news";
 
 const TabStack = createBottomTabNavigator<TabStackParamList>();
 
@@ -61,7 +61,7 @@ export default function TabsNavigator() {
                 style={styles.tabBarIcon}
               />
             );
-          case "AddPost":
+          case "AddNews":
             return (
               <MaterialIcons
                 name="post-add"
@@ -115,8 +115,8 @@ export default function TabsNavigator() {
         }}
       />
       <TabStack.Screen
-        name="AddPost"
-        component={user ? AddPost : AuthSequence}
+        name="AddNews"
+        component={user ? AddNews : AuthSequence}
         options={{
           headerShown: user ? true : false,
           tabBarLabel: "Add Post",

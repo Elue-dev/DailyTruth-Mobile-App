@@ -22,6 +22,7 @@ export type SheetAction =
   | { type: "TOGGLE_OVERLAY" };
 
 export interface BottomSheetProps {
+  selectedInterest: string;
   setDataToUse: Dispatch<SetStateAction<News[]>>;
   selectedOption: string;
   setSelectedOption: Dispatch<SetStateAction<string>>;

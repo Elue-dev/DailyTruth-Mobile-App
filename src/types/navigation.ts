@@ -26,7 +26,7 @@ export type TabStackParamList = {
   News: undefined;
   Verify: undefined;
   Search: undefined;
-  AddPost: undefined;
+  AddNews: undefined;
   Profile: undefined;
 };
 

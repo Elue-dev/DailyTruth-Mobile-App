@@ -1,5 +1,5 @@
 export const interests = [
-  "Technology",
+  "Tech",
   "Politics",
   "Climate",
   "Gadgets",

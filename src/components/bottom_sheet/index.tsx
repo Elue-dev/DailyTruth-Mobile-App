@@ -10,6 +10,7 @@ import { newsData } from "../../screens/news/data";
 import { BottomSheetProps } from "../../types/bottom_sheet";
 
 export default function BottomSheetComponent({
+  selectedInterest,
   setDataToUse,
   selectedOption,
   setSelectedOption,
@@ -29,14 +30,27 @@ export default function BottomSheetComponent({
     let filteredNews;
     switch (selectedOption) {
       case "VerfiedOnly":
-        filteredNews = newsData.filter((news) => news.isVerified === true);
-
+        filteredNews = newsData.filter(
+          (news) =>
+            news.isVerified === true &&
+            news.category.toLowerCase().includes(selectedInterest.toLowerCase())
+        );
         break;
       case "VerfiedAndUnverified":
-        filteredNews = newsData;
+        if (selectedInterest === "All") {
+          filteredNews = newsData;
+        } else {
+          filteredNews = newsData.filter((news) =>
+            news.category.toLowerCase().includes(selectedInterest.toLowerCase())
+          );
+        }
         break;
       case "UnVerfiedOnly":
-        filteredNews = newsData.filter((news) => news.isVerified === false);
+        filteredNews = newsData.filter(
+          (news) =>
+            news.isVerified === false &&
+            news.category.toLowerCase().includes(selectedInterest.toLowerCase())
+        );
         break;
       default:
         filteredNews = newsData;

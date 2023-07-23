@@ -103,7 +103,7 @@ export default function ProfileScreen() {
             >
               <View>
                 <Text className="text-primaryColorSec text-[17px] mt-4 font-semibold">
-                  Logout
+                  Log Out
                 </Text>
                 <Text className="pt-1 text-gray200 font-normal">
                   Log out of your account
@@ -129,7 +129,7 @@ export default function ProfileScreen() {
                   Sign In / Sign Up
                 </Text>
                 <Text className="pt-1 text-gray200 font-normal">
-                  Signn up or Sign in to your account
+                  Sign up or Sign in to your account
                 </Text>
               </View>
               <View>

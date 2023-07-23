@@ -147,7 +147,7 @@ export default function NewsDetails() {
               marginTop: 20,
               zIndex: -1,
               resizeMode: "cover",
-              backgroundColor: COLORS.grayNeutral,
+              backgroundColor: COLORS.primaryColorLighter,
             }}
           />
         )}

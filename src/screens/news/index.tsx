@@ -32,7 +32,9 @@ export default function NewsScreen() {
 
   useEffect(() => {
     const filteredNews: News[] = newsData.filter(
-      (news) => news.category === selectedInterest
+      (news) =>
+        news.category === selectedInterest ||
+        news.category.toLowerCase().includes(selectedInterest.toLowerCase())
     );
     const newsToUse = selectedInterest === "All" ? newsData : filteredNews;
     setDataToUse(newsToUse);
@@ -132,12 +134,20 @@ export default function NewsScreen() {
       {dataToUse.length === 0 ? (
         <View className="mx-4">
           <Text className="pt-8 text-base text-extraLightGray">
-            No news found with category {selectedInterest}.
+            No news found with category {selectedInterest}{" "}
+            {selectedOption !== "VerfiedAndUnverified" &&
+            selectedOption === "UnVerfiedOnly"
+              ? "that is unverified"
+              : selectedOption === "UnVerfiedOnly"
+              ? "that is Verified"
+              : null}
           </Text>
-          <Text className="pt-2 text-base text-extraLightGray">
-            Either there are no news on {selectedInterest} or {selectedInterest}{" "}
-            is not among your interests.
-          </Text>
+          {selectedOption === "VerfiedAndUnverified" && (
+            <Text className="pt-2 text-base text-extraLightGray">
+              Either there are no news on {selectedInterest} or{" "}
+              {selectedInterest} is not among your interests.
+            </Text>
+          )}
         </View>
       ) : (
         <View className="pt-3" style={{ zIndex: -1 }}>
@@ -147,6 +157,7 @@ export default function NewsScreen() {
 
       {bottomSheetOpen && (
         <BottomSheetComponent
+          selectedInterest={selectedInterest}
           setDataToUse={setDataToUse}
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}

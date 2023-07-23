@@ -114,6 +114,7 @@ export default function UserInterests({
             <TouchableOpacity
               key={interest}
               className="w-20"
+              // style={{maxWidth: 20}}
               onPress={() => setUserInterests(interest)}
             >
               <View
@@ -124,7 +125,7 @@ export default function UserInterests({
                 }  rounded-md h-20`}
               >
                 <Text
-                  className={`text-center pt-7 text-grayText text-base ${
+                  className={`text-center pt-7 text-grayText text-base whitespace-nowrap ${
                     selectedCategories.includes(interest) &&
                     "text-grayText font-bold"
                   } `}
