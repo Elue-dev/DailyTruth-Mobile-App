@@ -7,15 +7,23 @@ import {
 } from "react-native";
 import React, { useLayoutEffect } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { MaterialIcons } from "@expo/vector-icons";
+import {
+  SimpleLineIcons,
+  FontAwesome,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
 import { profileData } from "./data";
 import { signOut } from "firebase/auth";
 import { auth } from "../../lib/firebase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "../../context/auth/AuthContext";
 
 export default function ProfileScreen() {
   const navigation = useNavigation<NavigationProp<any>>();
+  const {
+    state: { user },
+    logOutUser,
+  } = useAuth();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -49,10 +57,10 @@ export default function ProfileScreen() {
     }
   }
 
-  async function logoutUser() {
+  async function logout() {
     try {
       await signOut(auth);
-      AsyncStorage.removeItem("user");
+      logOutUser();
       navigation.navigate("News");
     } catch (error: any) {
       console.log(error);
@@ -87,28 +95,53 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         ))}
 
-        <View>
-          <TouchableOpacity
-            onPress={logoutUser}
-            className={`flex-row justify-between items-center pb-5 border-grayNeutral`}
-          >
-            <View>
-              <Text className="text-primaryColorSec text-[17px] mt-4 font-semibold">
-                Logout
-              </Text>
-              <Text className="pt-1 text-gray200 font-normal">
-                Log out of your account
-              </Text>
-            </View>
-            <View>
-              <MaterialIcons
-                name="logout"
-                size={25}
-                color={COLORS.primaryColorSec}
-              />
-            </View>
-          </TouchableOpacity>
-        </View>
+        {user ? (
+          <View>
+            <TouchableOpacity
+              onPress={logout}
+              className={`flex-row justify-between items-center pb-5 border-grayNeutral`}
+            >
+              <View>
+                <Text className="text-primaryColorSec text-[17px] mt-4 font-semibold">
+                  Logout
+                </Text>
+                <Text className="pt-1 text-gray200 font-normal">
+                  Log out of your account
+                </Text>
+              </View>
+              <View>
+                <SimpleLineIcons
+                  name="logout"
+                  size={25}
+                  color={COLORS.primaryColorSec}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("AuthSequence")}
+              className={`flex-row justify-between items-center pb-5 border-grayNeutral`}
+            >
+              <View>
+                <Text className="text-primaryColorSec text-[17px] mt-4 font-semibold">
+                  Sign In / Sign Up
+                </Text>
+                <Text className="pt-1 text-gray200 font-normal">
+                  Signn up or Sign in to your account
+                </Text>
+              </View>
+              <View>
+                <FontAwesome
+                  name="sign-in"
+                  size={30}
+                  color={COLORS.primaryColorSec}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
