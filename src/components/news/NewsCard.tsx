@@ -13,9 +13,9 @@ import { RootStackParamList } from "../../types/navigation";
 export default function NewsCard({ dataToUse, setDataToUse }: any) {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  useEffect(() => {
-    setDataToUse(newsData);
-  }, []);
+  // useEffect(() => {
+  //   setDataToUse && setDataToUse(newsData);
+  // }, []);
 
   return (
     <View className="mx-2">
@@ -25,8 +25,8 @@ export default function NewsCard({ dataToUse, setDataToUse }: any) {
         showsVerticalScrollIndicator={false}
         renderItem={({ item: news, index }) => (
           <View
-            className={`border-b-2 border-gray100  ${
-              index === dataToUse.length - 1 ? "pb-14" : null
+            className={` border-gray100  ${
+              index === dataToUse.length - 1 ? "pb-14" : "border-b-2"
             }`}
           >
             <View
@@ -61,17 +61,17 @@ export default function NewsCard({ dataToUse, setDataToUse }: any) {
               </View>
 
               {/* Body */}
-              <Text className="text-[16px] text-extraLightGray font-bold">
+              <Text className="text-[18px] text-extraLightGray font-bold">
                 {news.title}
               </Text>
               <View className="">
-                <Text className="text-extraLightGray font-light leading-6 pt-2">
+                <Text className="text-extraLightGray font-light leading-6 pt-2 text-base">
                   {news.content.slice(0, 175)}...
                 </Text>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("NewsDetails", { news })}
                 >
-                  <Text className="text-primaryColor pt-1 pb-2 font-semibold">
+                  <Text className="text-primaryColor pt-1 pb-2 font-semibold text-base">
                     Read More
                   </Text>
                 </TouchableOpacity>
@@ -80,16 +80,16 @@ export default function NewsCard({ dataToUse, setDataToUse }: any) {
               {/* Footer */}
               <View className="flex-row justify-between items-center">
                 <View className="flex-row gap-1">
-                  <Text className="text-gray50">{news.category}</Text>
-                  <Text className="text-gray50">|</Text>
-                  <Text className="text-gray50">
+                  <Text className="text-gray50 text-base">{news.category}</Text>
+                  <Text className="text-gray50 text-base">|</Text>
+                  <Text className="text-gray50 text-base">
                     {news.readTime}{" "}
                     {news.readTime === 1 ? "min read" : "mins read"}
                   </Text>
                 </View>
                 <MaterialCommunityIcons
                   name="bookmark-multiple-outline"
-                  size={18}
+                  size={20}
                   color={COLORS.grayText}
                 />
               </View>

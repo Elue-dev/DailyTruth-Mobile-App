@@ -9,6 +9,11 @@ import { ActivityIndicator } from "react-native";
 import { COLORS } from "../common/colors";
 import AuthSequence from "../screens/auth_sequence";
 import NewsDetails from "../screens/news/NewsDetails";
+import SearchScreen from "../screens/search";
+import CompleteRegistration from "../screens/profile/pages/CompleteRegistration";
+import ManageInterests from "../screens/profile/pages/ManageInterests";
+import ContactSupport from "../screens/profile/pages/ContactSupport";
+import TermsAndPrivacy from "../screens/profile/pages/TermsAndPrivacy";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -78,6 +83,46 @@ export default function RouteNavigator() {
       <RootStack.Screen
         name="NewsDetails"
         component={NewsDetails}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: COLORS.grayNeutral },
+        }}
+      />
+      <RootStack.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: COLORS.grayNeutral },
+        }}
+      />
+      <RootStack.Screen
+        name="CompleteReg"
+        component={CompleteRegistration}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: COLORS.grayNeutral },
+        }}
+      />
+      <RootStack.Screen
+        name="ManageInterests"
+        component={ManageInterests}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: COLORS.grayNeutral },
+        }}
+      />
+      <RootStack.Screen
+        name="ContactSupport"
+        component={ContactSupport}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: COLORS.grayNeutral },
+        }}
+      />
+      <RootStack.Screen
+        name="Terms"
+        component={TermsAndPrivacy}
         options={{
           headerShown: true,
           headerStyle: { backgroundColor: COLORS.grayNeutral },

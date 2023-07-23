@@ -69,7 +69,12 @@ export default function BottomSheetComponent({
           </Text>
 
           <View className="flex-row justify-between items-center pb-4 border-b-[1px] border-grayNeutral">
-            <Text style={styles.sheetText}>Verfied News Only</Text>
+            <Text
+              style={styles.sheetText}
+              className="text-extraLightGray font-normal"
+            >
+              Verfied News Only
+            </Text>
             <TouchableOpacity onPress={() => setSelectedOption("VerfiedOnly")}>
               {selectedOption === "VerfiedOnly" ? (
                 <Ionicons
@@ -78,13 +83,22 @@ export default function BottomSheetComponent({
                   color={COLORS.primaryColor}
                 />
               ) : (
-                <Ionicons name="radio-button-off" size={24} color="black" />
+                <Ionicons
+                  name="radio-button-off"
+                  size={24}
+                  color={COLORS.extraLightGray}
+                />
               )}
             </TouchableOpacity>
           </View>
 
           <View className="flex-row justify-between items-center pb-4 border-b-[1px] border-grayNeutral mt-3">
-            <Text style={styles.sheetText}>Verified and Unverified</Text>
+            <Text
+              style={styles.sheetText}
+              className="text-extraLightGray font-normal"
+            >
+              Verified and Unverified
+            </Text>
             <TouchableOpacity
               onPress={() => setSelectedOption("VerfiedAndUnverified")}
             >
@@ -95,13 +109,22 @@ export default function BottomSheetComponent({
                   color={COLORS.primaryColor}
                 />
               ) : (
-                <Ionicons name="radio-button-off" size={24} color="black" />
+                <Ionicons
+                  name="radio-button-off"
+                  size={24}
+                  color={COLORS.extraLightGray}
+                />
               )}
             </TouchableOpacity>
           </View>
 
           <View className="flex-row justify-between items-center pb-4 mt-3">
-            <Text style={styles.sheetText}>Unverified News Only</Text>
+            <Text
+              style={styles.sheetText}
+              className="text-extraLightGray font-normal"
+            >
+              Unverified News Only
+            </Text>
             <TouchableOpacity
               onPress={() => setSelectedOption("UnVerfiedOnly")}
             >
@@ -112,7 +135,11 @@ export default function BottomSheetComponent({
                   color={COLORS.primaryColor}
                 />
               ) : (
-                <Ionicons name="radio-button-off" size={24} color="black" />
+                <Ionicons
+                  name="radio-button-off"
+                  size={24}
+                  color={COLORS.extraLightGray}
+                />
               )}
             </TouchableOpacity>
           </View>

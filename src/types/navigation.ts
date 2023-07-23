@@ -14,6 +14,11 @@ export type RootStackParamList = {
   NewsDetails: {
     news: string;
   };
+  Search: undefined;
+  CompleteReg: undefined;
+  ManageInterests: undefined;
+  ContactSupport: undefined;
+  Terms: undefined;
 };
 
 export type TabStackParamList = {

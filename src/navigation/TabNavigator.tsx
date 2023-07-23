@@ -86,6 +86,8 @@ export default function TabsNavigator() {
       },
       tabBarStyle: {
         display: state.bottomSheetOpen ? "none" : "flex",
+        borderTopWidth: 1,
+        borderColor: "#000",
       },
     };
   }
@@ -138,5 +140,6 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
+    fontWeight: "600",
   },
 });

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import BottomSheetComponent from "../../components/bottom_sheet";
 import { SharedElement } from "react-native-shared-element";
 import { News } from "../../types/news";
+import { newsData } from "./data";
 
 export default function NewsScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -29,6 +30,14 @@ export default function NewsScreen() {
     toggleOverlay,
   } = useSheet();
 
+  useEffect(() => {
+    const filteredNews: News[] = newsData.filter(
+      (news) => news.category === selectedInterest
+    );
+    const newsToUse = selectedInterest === "All" ? newsData : filteredNews;
+    setDataToUse(newsToUse);
+  }, [selectedInterest]);
+
   async function resetOnboarding() {
     await AsyncStorage.removeItem("userHasOnboarded");
     navigation.navigate("Onboarding");
@@ -41,6 +50,11 @@ export default function NewsScreen() {
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerTitle: () => (
+        <Text className="text-primaryColorSec font-semibold text-[18px]">
+          News
+        </Text>
+      ),
       headerLeft: () => (
         <TouchableOpacity className="ml-2" onPress={resetOnboarding}>
           <FontAwesome name="tachometer" size={24} color="#666" />
@@ -110,9 +124,21 @@ export default function NewsScreen() {
         </>
       )}
 
-      <View className="pt-3" style={{ zIndex: -1 }}>
-        <NewsCard dataToUse={dataToUse} setDataToUse={setDataToUse} />
-      </View>
+      {dataToUse.length === 0 ? (
+        <View className="mx-4">
+          <Text className="pt-8 text-base text-extraLightGray">
+            No news found with category {selectedInterest}.
+          </Text>
+          <Text className="pt-2 text-base text-extraLightGray">
+            Either there are no news on {selectedInterest} or {selectedInterest}{" "}
+            is not among your interests.
+          </Text>
+        </View>
+      ) : (
+        <View className="pt-3" style={{ zIndex: -1 }}>
+          <NewsCard dataToUse={dataToUse} setDataToUse={setDataToUse} />
+        </View>
+      )}
 
       {bottomSheetOpen && (
         <BottomSheetComponent

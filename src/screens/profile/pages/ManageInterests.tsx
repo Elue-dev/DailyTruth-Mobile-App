@@ -1,17 +1,16 @@
 import { View, Text, SafeAreaView } from "react-native";
-import React, { useLayoutEffect } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../types/navigation";
-import Search from "../../components/search";
+import { RootStackParamList } from "../../../types/navigation";
+import { useLayoutEffect } from "react";
 
-export default function SearchScreen() {
+export default function ManageInterests() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
         <Text className="text-primaryColorSec font-semibold text-[18px]">
-          Search
+          Manage Interests
         </Text>
       ),
     });
@@ -19,7 +18,9 @@ export default function SearchScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <Search />
+      <View className="pt-6 mx-3">
+        <Text>Manage Interests</Text>
+      </View>
     </SafeAreaView>
   );
 }

@@ -23,7 +23,6 @@ import {
 } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
 import { News } from "../../types/news";
-import BottomSheetComponent from "../../components/bottom_sheet";
 import { SharedElement } from "react-native-shared-element";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import BottomSheetTwo from "../../components/bottom_sheet/BottomSheetTwo";
@@ -33,7 +32,7 @@ interface NewsParams {
 }
 
 export default function NewsDetails() {
-  const { height, width } = Dimensions.get("window");
+  const { width } = Dimensions.get("window");
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { news } = useRoute().params as NewsParams;
   const {
@@ -79,30 +78,9 @@ export default function NewsDetails() {
   return (
     <SafeAreaView>
       <ScrollView
-        className={`pb-44 ${!bottomSheetOpen && "px-3"}`}
+        className={`pb-44 ${!bottomSheetOpen && "mx-3"}`}
         showsVerticalScrollIndicator={false}
       >
-        {bottomSheetOpen && (
-          <>
-            <TouchableOpacity onPress={handleBottomSheetActions}>
-              <SharedElement id="overlay" onNode={toggleOverlay}>
-                <View />
-              </SharedElement>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-              }}
-              onPress={handleBottomSheetActions}
-            />
-          </>
-        )}
-
         {/* Header */}
         <View className="flex-row justify-between items-center">
           <View className="pt-6">
@@ -119,13 +97,13 @@ export default function NewsDetails() {
                 {news.isVerified ? (
                   <MaterialIcons
                     name="verified"
-                    size={18}
+                    size={16}
                     color={COLORS.customGreen}
                   />
                 ) : (
                   <Ionicons
                     name="ios-warning-outline"
-                    size={18}
+                    size={16}
                     color={COLORS.primaryColor}
                   />
                 )}
@@ -155,6 +133,10 @@ export default function NewsDetails() {
         </View>
 
         {/* Cotent */}
+        <Text className="text-[20px] leading-6 text-extraLightGray font-bold mt-6">
+          {news.title}
+        </Text>
+
         {news.image && (
           <Image
             source={{ uri: news.image }}
@@ -162,16 +144,14 @@ export default function NewsDetails() {
               height: 300,
               width: width - 25,
               borderRadius: 10,
-              marginTop: 30,
+              marginTop: 20,
               zIndex: -1,
+              resizeMode: "cover",
             }}
           />
         )}
-        <View className="pt-6">
-          <Text className="text-[20px] leading-6 text-extraLightGray font-bold">
-            {news.title}
-          </Text>
-          <Text className="pt-3 leading-5 font-light text-grayText">
+        <View className="pt-3">
+          <Text className="pt-2 leading-5 font-light text-grayText text-base">
             {news.content}
           </Text>
           <View className="pt-5">
@@ -179,16 +159,13 @@ export default function NewsDetails() {
               News Sources
             </Text>
             {news.sources?.map((source, index) => (
-              <View className="flex-row items-start">
+              <View className="flex-row items-start" key={index}>
                 <Entypo
                   name="dot-single"
                   size={24}
                   color={COLORS.primaryColorTet}
                 />
-                <Text
-                  key={index}
-                  className="mb-2 text-primaryColorTet underline"
-                >
+                <Text className="mb-2 text-primaryColorTet underline">
                   {source}
                 </Text>
               </View>
@@ -196,6 +173,27 @@ export default function NewsDetails() {
           </View>
         </View>
       </ScrollView>
+
+      {bottomSheetOpen && (
+        <>
+          <TouchableOpacity onPress={handleBottomSheetActions}>
+            <SharedElement id="overlay" onNode={toggleOverlay}>
+              <View />
+            </SharedElement>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+            }}
+            onPress={handleBottomSheetActions}
+          />
+        </>
+      )}
 
       {bottomSheetOpen && <BottomSheetTwo />}
     </SafeAreaView>
