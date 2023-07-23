@@ -14,6 +14,7 @@ import CompleteRegistration from "../screens/profile/pages/CompleteRegistration"
 import ManageInterests from "../screens/profile/pages/ManageInterests";
 import ContactSupport from "../screens/profile/pages/ContactSupport";
 import TermsAndPrivacy from "../screens/profile/pages/TermsAndPrivacy";
+import SavedScreen from "../screens/saved";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -123,6 +124,14 @@ export default function RouteNavigator() {
       <RootStack.Screen
         name="Terms"
         component={TermsAndPrivacy}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: COLORS.grayNeutral },
+        }}
+      />
+      <RootStack.Screen
+        name="Saved"
+        component={SavedScreen}
         options={{
           headerShown: true,
           headerStyle: { backgroundColor: COLORS.grayNeutral },

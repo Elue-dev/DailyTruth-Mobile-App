@@ -8,21 +8,27 @@ import {
   AntDesign,
   FontAwesome,
   Ionicons,
+  MaterialIcons,
 } from "@expo/vector-icons";
 
 import { StyleSheet } from "react-native";
 import NewsScreen from "../screens/news";
 import VerifyScreen from "../screens/verify";
 import SearchScreen from "../screens/search";
-import SavedScreen from "../screens/saved";
 import ProfileScreen from "../screens/profile";
 import { COLORS } from "../common/colors";
 import { useSheet } from "../context/bottom_sheet/BottomSheetContext";
+import AddPost from "../screens/add_post";
+import { useAuth } from "../context/auth/AuthContext";
+import AuthSequence from "../screens/auth_sequence";
 
 const TabStack = createBottomTabNavigator<TabStackParamList>();
 
 export default function TabsNavigator() {
   const { state } = useSheet();
+  const {
+    state: { user },
+  } = useAuth();
 
   function screenOptions({ route }: RoutePropArg): BottomTabNavigationOptions {
     return {
@@ -34,16 +40,16 @@ export default function TabsNavigator() {
                 name="newspaper-outline"
                 size={size}
                 color={focused ? "#C2262E" : "#AEAEB2"}
-                style={styles.tobBarIcon}
+                style={styles.tabBarIcon}
               />
             );
           case "Verify":
             return (
               <MaterialCommunityIcons
                 name="newspaper-check"
-                size={size}
+                size={size + 5}
                 color={focused ? "#C2262E" : "#AEAEB2"}
-                style={styles.tobBarIcon}
+                style={styles.tabBarIconSec}
               />
             );
           case "Search":
@@ -52,16 +58,16 @@ export default function TabsNavigator() {
                 name="search1"
                 size={size}
                 color={focused ? "#C2262E" : "#AEAEB2"}
-                style={styles.tobBarIcon}
+                style={styles.tabBarIcon}
               />
             );
-          case "Saved":
+          case "AddPost":
             return (
-              <Ionicons
-                name="bookmarks-outline"
-                size={size}
+              <MaterialIcons
+                name="post-add"
+                size={size + 8}
                 color={focused ? "#C2262E" : "#AEAEB2"}
-                style={styles.tobBarIcon}
+                style={styles.tabBarIconSec}
               />
             );
           case "Profile":
@@ -70,7 +76,7 @@ export default function TabsNavigator() {
                 name="user-o"
                 size={size}
                 color={focused ? "#C2262E" : "#AEAEB2"}
-                style={styles.tobBarIcon}
+                style={styles.tabBarIcon}
               />
             );
           default:
@@ -109,19 +115,21 @@ export default function TabsNavigator() {
         }}
       />
       <TabStack.Screen
+        name="AddPost"
+        component={user ? AddPost : AuthSequence}
+        options={{
+          headerShown: user ? true : false,
+          tabBarLabel: "Add Post",
+        }}
+      />
+      <TabStack.Screen
         name="Search"
         component={SearchScreen}
         options={{
           headerShown: true,
         }}
       />
-      <TabStack.Screen
-        name="Saved"
-        component={SavedScreen}
-        options={{
-          headerShown: true,
-        }}
-      />
+
       <TabStack.Screen
         name="Profile"
         component={ProfileScreen}
@@ -134,9 +142,12 @@ export default function TabsNavigator() {
 }
 
 const styles = StyleSheet.create({
-  tobBarIcon: {
+  tabBarIcon: {
     fontSize: 26,
     paddingTop: 5,
+  },
+  tabBarIconSec: {
+    paddingTop: 2,
   },
   label: {
     fontSize: 14,

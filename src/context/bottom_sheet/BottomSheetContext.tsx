@@ -23,10 +23,6 @@ export function BottomSheetProvider({ children }: BottomSheetProviderProps) {
     dispatch({ type: "TOGGLE_BOTTOM_SHEET" });
   }
 
-  function closeBottomSheet() {
-    dispatch({ type: "CLOSE_BOTTOM_SHEET" });
-  }
-
   function toggleOverlay() {
     dispatch({ type: "TOGGLE_OVERLAY" });
   }
@@ -35,7 +31,6 @@ export function BottomSheetProvider({ children }: BottomSheetProviderProps) {
     state,
     dispatch,
     toggleBottomSheet,
-    closeBottomSheet,
     toggleOverlay,
   };
 

@@ -45,7 +45,7 @@ export const newsData: News[] = [
     id: "4",
     category: "Technology",
     image:
-      "https://images.pexels.com/photos/46924/pexels-photo-46924.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "http://res.cloudinary.com/dwdsjbetu/image/upload/v1686537640/jxc0bhm3ekfts7nyiwth.jpg",
     title: "New AI Algorithm Can Detect Emotions in Photos",
     content: `A group of researchers has developed an advanced AI algorithm capable of recognizing emotions in images with high accuracy. This breakthrough has significant implications for various industries, from advertising to healthcare.
     The AI model uses deep learning techniques to analyze facial expressions and identify emotions such as happiness, sadness, anger, and surprise. It can also detect subtle nuances in emotions, making it a powerful tool for understanding human behavior and sentiment.

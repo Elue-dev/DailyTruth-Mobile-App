@@ -1,13 +1,21 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import React, { useLayoutEffect } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../types/navigation";
 import { MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
 import { profileData } from "./data";
+import { signOut } from "firebase/auth";
+import { auth } from "../../lib/firebase";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ProfileScreen() {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NavigationProp<any>>();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,8 +41,22 @@ export default function ProfileScreen() {
       case "Terms and Privacy Policy":
         navigation.navigate("Terms");
         break;
+      case "Saved News":
+        navigation.navigate("Saved");
+        break;
       default:
         return null;
+    }
+  }
+
+  async function logoutUser() {
+    try {
+      await signOut(auth);
+      AsyncStorage.removeItem("user");
+      navigation.navigate("News");
+    } catch (error: any) {
+      console.log(error);
+      Alert.alert("Logout error", error.message);
     }
   }
 
@@ -45,9 +67,7 @@ export default function ProfileScreen() {
           <TouchableOpacity
             key={data.title}
             onPress={() => handleProfileNavigation(data.title)}
-            className={`flex-row justify-between items-center pb-5 border-grayNeutral ${
-              index !== profileData.length - 1 && "border-b-2"
-            }`}
+            className={`flex-row justify-between items-center pb-5 border-grayNeutral border-b-2`}
           >
             <View>
               <Text className="text-primaryColorSec text-[17px] mt-4 font-semibold">
@@ -66,6 +86,29 @@ export default function ProfileScreen() {
             </View>
           </TouchableOpacity>
         ))}
+
+        <View>
+          <TouchableOpacity
+            onPress={logoutUser}
+            className={`flex-row justify-between items-center pb-5 border-grayNeutral`}
+          >
+            <View>
+              <Text className="text-primaryColorSec text-[17px] mt-4 font-semibold">
+                Logout
+              </Text>
+              <Text className="pt-1 text-gray200 font-normal">
+                Log out of your account
+              </Text>
+            </View>
+            <View>
+              <MaterialIcons
+                name="logout"
+                size={25}
+                color={COLORS.primaryColorSec}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );

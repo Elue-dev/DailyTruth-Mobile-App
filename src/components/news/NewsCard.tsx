@@ -6,11 +6,17 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
+import { News } from "../../types/news";
 
-export default function NewsCard({ dataToUse, setDataToUse }: any) {
+export default function NewsCard({
+  dataToUse,
+}: {
+  dataToUse: any;
+  setDataToUse?: Dispatch<SetStateAction<News[]>>;
+}) {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   // useEffect(() => {
@@ -20,7 +26,7 @@ export default function NewsCard({ dataToUse, setDataToUse }: any) {
   return (
     <View className="mx-2">
       <FlatList
-        keyExtractor={(dataToUse) => dataToUse.id}
+        keyExtractor={(dataToUse) => dataToUse.id.toString()}
         data={dataToUse}
         showsVerticalScrollIndicator={false}
         renderItem={({ item: news, index }) => (
@@ -87,11 +93,13 @@ export default function NewsCard({ dataToUse, setDataToUse }: any) {
                     {news.readTime === 1 ? "min read" : "mins read"}
                   </Text>
                 </View>
-                <MaterialCommunityIcons
-                  name="bookmark-multiple-outline"
-                  size={20}
-                  color={COLORS.grayText}
-                />
+                <TouchableOpacity>
+                  <MaterialCommunityIcons
+                    name="bookmark-multiple-outline"
+                    size={20}
+                    color={COLORS.grayText}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           </View>

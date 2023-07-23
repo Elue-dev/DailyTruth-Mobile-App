@@ -81,7 +81,12 @@ export default function NewsScreen() {
           showsHorizontalScrollIndicator={false}
           data={modifiedInterests}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => setSelectedInterest(item)}>
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedInterest(item);
+                setSelectedOption("VerfiedAndUnverified");
+              }}
+            >
               <View
                 className={`mt-4  border-b-4 py-1 px-2 ${
                   selectedInterest === item

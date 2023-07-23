@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface News {
   id: string;
   title: string;
@@ -9,4 +11,14 @@ export interface News {
   isVerified: boolean;
   upvotes: number;
   sources: string[];
+}
+
+export interface SearchNews {
+  location?: string;
+  newsFromComponent?: News[];
+  setNewsData: Dispatch<SetStateAction<News[] | undefined>>;
+  searchQuery: string;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
+  searchInitiated: boolean;
+  setSearchIntiated: Dispatch<SetStateAction<boolean>>;
 }

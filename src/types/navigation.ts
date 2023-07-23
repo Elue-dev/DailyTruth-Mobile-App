@@ -15,6 +15,7 @@ export type RootStackParamList = {
     news: string;
   };
   Search: undefined;
+  Saved: undefined;
   CompleteReg: undefined;
   ManageInterests: undefined;
   ContactSupport: undefined;
@@ -25,7 +26,7 @@ export type TabStackParamList = {
   News: undefined;
   Verify: undefined;
   Search: undefined;
-  Saved: undefined;
+  AddPost: undefined;
   Profile: undefined;
 };
 

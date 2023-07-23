@@ -15,4 +15,8 @@ export const profileData = [
     title: "Terms and Privacy Policy",
     description: "Guidelines guiding this platform and activities here",
   },
+  {
+    title: "Saved News",
+    description: "View news you saved for future reference",
+  },
 ];
