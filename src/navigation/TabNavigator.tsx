@@ -10,7 +10,6 @@ import {
   Ionicons,
   MaterialIcons,
 } from "@expo/vector-icons";
-
 import { StyleSheet } from "react-native";
 import NewsScreen from "../screens/news";
 import VerifyScreen from "../screens/verify";
@@ -25,12 +24,14 @@ import AddNews from "../screens/add_news";
 const TabStack = createBottomTabNavigator<TabStackParamList>();
 
 export default function TabsNavigator() {
-  const { state } = useSheet();
+  const { state, isDarkMode } = useSheet();
   const {
     state: { user },
   } = useAuth();
 
   function screenOptions({ route }: RoutePropArg): BottomTabNavigationOptions {
+    const colorToUse = isDarkMode ? "#CE5158" : "#C2262E";
+
     return {
       tabBarIcon: ({ focused, size }) => {
         switch (route.name) {
@@ -39,7 +40,7 @@ export default function TabsNavigator() {
               <Ionicons
                 name="newspaper-outline"
                 size={size}
-                color={focused ? "#C2262E" : "#AEAEB2"}
+                color={focused ? colorToUse : "#AEAEB2"}
                 style={styles.tabBarIcon}
               />
             );
@@ -48,7 +49,7 @@ export default function TabsNavigator() {
               <MaterialCommunityIcons
                 name="newspaper-check"
                 size={size + 5}
-                color={focused ? "#C2262E" : "#AEAEB2"}
+                color={focused ? colorToUse : "#AEAEB2"}
                 style={styles.tabBarIconSec}
               />
             );
@@ -57,7 +58,7 @@ export default function TabsNavigator() {
               <AntDesign
                 name="search1"
                 size={size}
-                color={focused ? "#C2262E" : "#AEAEB2"}
+                color={focused ? colorToUse : "#AEAEB2"}
                 style={styles.tabBarIcon}
               />
             );
@@ -66,7 +67,7 @@ export default function TabsNavigator() {
               <MaterialIcons
                 name="post-add"
                 size={size + 8}
-                color={focused ? "#C2262E" : "#AEAEB2"}
+                color={focused ? colorToUse : "#AEAEB2"}
                 style={styles.tabBarIconSec}
               />
             );
@@ -75,7 +76,7 @@ export default function TabsNavigator() {
               <FontAwesome
                 name="user-o"
                 size={size}
-                color={focused ? "#C2262E" : "#AEAEB2"}
+                color={focused ? colorToUse : "#AEAEB2"}
                 style={styles.tabBarIcon}
               />
             );
@@ -83,17 +84,20 @@ export default function TabsNavigator() {
             return null;
         }
       },
-      tabBarActiveTintColor: "#C2262E",
+      tabBarActiveTintColor: colorToUse,
       tabBarInactiveTintColor: "#AEAEB2",
       tabBarShowLabel: true,
       tabBarLabelStyle: styles.label,
       headerStyle: {
-        backgroundColor: COLORS.grayNeutral,
+        backgroundColor: isDarkMode
+          ? COLORS.grayNeutralTheme
+          : COLORS.grayNeutral,
       },
       tabBarStyle: {
         display: state.bottomSheetOpen ? "none" : "flex",
-        borderTopWidth: 1,
+        borderTopWidth: isDarkMode ? 0.19 : 1,
         borderColor: "#000",
+        backgroundColor: isDarkMode ? "#1F1F1F" : "#fff",
       },
     };
   }
@@ -119,7 +123,7 @@ export default function TabsNavigator() {
         component={user ? AddNews : AuthSequence}
         options={{
           headerShown: user ? true : false,
-          tabBarLabel: "Add Post",
+          tabBarLabel: "Add News",
         }}
       />
       <TabStack.Screen

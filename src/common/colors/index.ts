@@ -1,5 +1,6 @@
 export const COLORS = {
   primaryColor: "#C2262E",
+  primaryColorTheme: "#CE5158",
   primaryColorLighter: "#cd6267",
   primaryColorSec: "#270809",
   primaryColorTet: "#74171C",
@@ -8,6 +9,7 @@ export const COLORS = {
   extraLightGray: "#48484A",
   darkNeutral: "#1C1C1E",
   grayNeutral: "#E5E5EA",
+  grayNeutralTheme: "#48484A",
   gray50: "#AEAEB2",
   gray100: "#F2F2F7",
   gray200: "#8E8E93",

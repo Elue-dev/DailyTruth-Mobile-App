@@ -10,15 +10,27 @@ import {
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { styles } from "./style";
 import { COLORS } from "../../common/colors";
+import { useModal } from "../../context/modal/ModalCotext";
 
 export default function BottomSheetTwo() {
-  const { toggleBottomSheet, toggleOverlay } = useSheet();
+  const { isDarkMode, toggleBottomSheet, toggleOverlay } = useSheet();
+  const { showModalAndContent } = useModal();
   const SheetRef = useRef(null);
   const snapPoints = useMemo(() => ["45"], []);
+  const borderTouse = isDarkMode ? " border-b-[0.4px]" : " border-b-[1px]";
 
   function handleBottomSheetActions() {
     toggleBottomSheet();
     toggleOverlay();
+  }
+
+  function flagNews() {
+    showModalAndContent({
+      title: "You are about to flag this News",
+      message:
+        "This will put this news up for further verification and might be removed from this platform if proven false",
+      actionBtnText: "Flag News",
+    });
   }
 
   return (
@@ -30,8 +42,13 @@ export default function BottomSheetTwo() {
       onClose={handleBottomSheetActions}
       backgroundStyle={{ borderRadius: 20 }}
     >
-      <BottomSheetView>
-        <View style={styles.bottomSheetWrap}>
+      <BottomSheetView style={{ paddingBottom: 0 }}>
+        <View
+          style={[
+            styles.bottomSheetWrap,
+            isDarkMode && { backgroundColor: COLORS.darkNeutral },
+          ]}
+        >
           <TouchableOpacity
             onPress={handleBottomSheetActions}
             className="flex-row items-end justify-end mb-6"
@@ -39,46 +56,71 @@ export default function BottomSheetTwo() {
             <AntDesign name="closecircle" size={24} color={COLORS.gray50} />
           </TouchableOpacity>
 
-          <TouchableOpacity className="flex-row justify-start items-center border-b-[1px] pb-4 border-grayNeutral mt-3 gap-3">
+          <TouchableOpacity
+            className={`flex-row justify-start items-center pb-4 border-grayNeutral mt-3 gap-3 ${borderTouse}`}
+          >
             <SimpleLineIcons
               name="like"
               size={20}
-              color={COLORS.extraLightGray}
+              color={isDarkMode ? COLORS.gray300 : COLORS.extraLightGray}
             />
-            <Text className="text-[19px] text-extraLightGray font-normal">
+            <Text
+              className={`${
+                isDarkMode ? "text-gray300" : "text-extraLightGray"
+              }  text-[19px]  font-normal`}
+            >
               Upvote
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity className="flex-row justify-start items-center border-b-[1px] pb-4 border-grayNeutral pt-4 gap-3">
+          <TouchableOpacity
+            className={`flex-row justify-start items-center pb-4 border-grayNeutral pt-4 gap-3 ${borderTouse}`}
+          >
             <SimpleLineIcons
               name="dislike"
               size={20}
-              color={COLORS.extraLightGray}
+              color={isDarkMode ? COLORS.gray300 : COLORS.extraLightGray}
             />
-            <Text className="text-[19px] text-extraLightGray font-normal">
+            <Text
+              className={`${
+                isDarkMode ? "text-gray300" : "text-extraLightGray"
+              }  text-[19px]  font-normal`}
+            >
               Down Vote
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity className="flex-row justify-start items-center border-b-[1px] pb-4 border-grayNeutral pt-4 gap-3">
+          <TouchableOpacity
+            className={`flex-row justify-start items-center pb-4 border-grayNeutral pt-4 gap-3 ${borderTouse}`}
+          >
             <MaterialCommunityIcons
               name="bookmark-multiple-outline"
               size={25}
-              color={COLORS.extraLightGray}
+              color={isDarkMode ? COLORS.gray300 : COLORS.extraLightGray}
             />
-            <Text className="text-[19px] text-extraLightGray font-normal">
+            <Text
+              className={`${
+                isDarkMode ? "text-gray300" : "text-extraLightGray"
+              }  text-[19px]  font-normal`}
+            >
               Save
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity className="flex-row justify-start items-center border-b-[1px] pb-4 border-grayNeutral pt-4 gap-3">
+          <TouchableOpacity
+            onPress={flagNews}
+            className={`flex-row justify-start items-center pb-4 border-grayNeutral pt-4 gap-3 ${borderTouse}`}
+          >
             <Ionicons
               name="md-flag-outline"
               size={25}
-              color={COLORS.extraLightGray}
+              color={isDarkMode ? COLORS.gray300 : COLORS.extraLightGray}
             />
-            <Text className="text-[19px] text-extraLightGray font-normal">
+            <Text
+              className={`${
+                isDarkMode ? "text-gray300" : "text-extraLightGray"
+              }  text-[19px]  font-normal`}
+            >
               Flag News
             </Text>
           </TouchableOpacity>

@@ -37,6 +37,7 @@ export default function NewsDetails() {
   const { news } = useRoute().params as NewsParams;
   const {
     state: { bottomSheetOpen },
+    isDarkMode,
     toggleBottomSheet,
     toggleOverlay,
   } = useSheet();
@@ -53,30 +54,42 @@ export default function NewsDetails() {
           navigation.goBack();
         }}
       >
-        <AntDesign name="arrowleft" size={24} color={COLORS.primaryColorSec} />
+        <AntDesign
+          name="arrowleft"
+          size={24}
+          color={isDarkMode ? COLORS.gray300 : COLORS.primaryColorSec}
+        />
       </TouchableOpacity>
     );
   }
 
   function backArrowDisabled() {
     return (
-      <AntDesign name="arrowleft" size={24} color={COLORS.primaryColorSec} />
+      <AntDesign
+        name="arrowleft"
+        size={24}
+        color={isDarkMode ? COLORS.gray300 : COLORS.primaryColorSec}
+      />
     );
   }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text className="text-primaryColorSec font-semibold text-[18px]">
+        <Text
+          className={`${
+            isDarkMode ? "text-gray300" : "text-primaryColorSec"
+          }  font-semibold text-[18px]`}
+        >
           News
         </Text>
       ),
       headerLeft: bottomSheetOpen ? backArrowDisabled : backArrow,
     });
-  }, [bottomSheetOpen]);
+  }, [bottomSheetOpen, isDarkMode]);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className={`${isDarkMode ? "bg-darkNeutral" : ""} `}>
       <ScrollView
         className={`pb-44 ${!bottomSheetOpen && "mx-3"}`}
         showsVerticalScrollIndicator={false}
@@ -85,7 +98,13 @@ export default function NewsDetails() {
         <View className="flex-row justify-between items-center">
           <View className="pt-6">
             <View className="flex-row items-center gap-1 pb-2">
-              <Text className="text-grayText text-[14px]">News Status:</Text>
+              <Text
+                className={`${
+                  isDarkMode ? "text-gray100" : "text-grayText"
+                }  text-[14px]`}
+              >
+                News Status:
+              </Text>
               <View className="flex-row items-center">
                 <Text
                   className={`text-[14px] font-semibold ${
@@ -111,11 +130,19 @@ export default function NewsDetails() {
             </View>
 
             <View className="flex-row items-center gap-1">
-              <Text className="text-grayText text-[14px] font-normal">
+              <Text
+                className={`${
+                  isDarkMode ? "text-gray100" : "text-grayText"
+                } text-[14px] font-normal`}
+              >
                 Time Posted:
               </Text>
               <View className="flex-row">
-                <Text className="text-grayText text-[14px] font-medium">
+                <Text
+                  className={`${
+                    isDarkMode ? "text-gray100" : "text-grayText"
+                  } text-[14px] font-medium`}
+                >
                   {news.date}
                 </Text>
               </View>
@@ -124,16 +151,28 @@ export default function NewsDetails() {
 
           <View className="flex-row items-center gap-4">
             <TouchableOpacity>
-              <SimpleLineIcons name="like" size={18} color="black" />
+              <SimpleLineIcons
+                name="like"
+                size={18}
+                color={isDarkMode ? "white" : "black"}
+              />
             </TouchableOpacity>
             <TouchableOpacity onPress={toggleBottomSheet}>
-              <Entypo name="dots-three-vertical" size={18} color="black" />
+              <Entypo
+                name="dots-three-vertical"
+                size={18}
+                color={isDarkMode ? "white" : "black"}
+              />
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Cotent */}
-        <Text className="text-[20px] leading-6 text-extraLightGray font-bold mt-6">
+        <Text
+          className={`${
+            isDarkMode ? "text-grayNeutral" : "text-extraLightGray"
+          }  text-[20px] leading-6  font-bold mt-6`}
+        >
           {news.title}
         </Text>
 
@@ -152,11 +191,19 @@ export default function NewsDetails() {
           />
         )}
         <View className="pt-3">
-          <Text className="pt-2 leading-5 font-light text-grayText text-base">
+          <Text
+            className={`${
+              isDarkMode ? "text-gray100" : "text-grayText"
+            } pt-2 leading-5 font-light  text-base`}
+          >
             {news.content}
           </Text>
           <View className="pt-5">
-            <Text className="uppercase pb-3 text-[17px] text-grayText font-bold">
+            <Text
+              className={`${
+                isDarkMode ? "text-gray100" : "text-grayText"
+              } uppercase pb-3 text-[17px] font-bold`}
+            >
               News Sources
             </Text>
             {news.sources?.map((source, index) => (
@@ -164,9 +211,19 @@ export default function NewsDetails() {
                 <Entypo
                   name="dot-single"
                   size={24}
-                  color={COLORS.primaryColorTet}
+                  color={
+                    isDarkMode
+                      ? COLORS.primaryColorTheme
+                      : COLORS.primaryColorTet
+                  }
                 />
-                <Text className="mb-2 text-primaryColorTet underline">
+                <Text
+                  className={`${
+                    isDarkMode
+                      ? "text-primaryColorTheme"
+                      : "text-primaryColorTet"
+                  } mb-2  underline`}
+                >
                   {source}
                 </Text>
               </View>

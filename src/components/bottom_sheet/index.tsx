@@ -8,6 +8,7 @@ import { styles } from "./style";
 import { COLORS } from "../../common/colors";
 import { newsData } from "../../screens/news/data";
 import { BottomSheetProps } from "../../types/bottom_sheet";
+import { applyNewsFilter } from "../../helpers/newsFilter";
 
 export default function BottomSheetComponent({
   selectedInterest,
@@ -15,7 +16,7 @@ export default function BottomSheetComponent({
   selectedOption,
   setSelectedOption,
 }: BottomSheetProps) {
-  const { toggleBottomSheet, toggleOverlay } = useSheet();
+  const { toggleBottomSheet, toggleOverlay, isDarkMode } = useSheet();
   const navigation = useNavigation<NavigationProp<any>>();
   const SheetRef = useRef(null);
   const snapPoints = useMemo(() => ["50"], []);
@@ -26,38 +27,15 @@ export default function BottomSheetComponent({
     if (route) navigation.navigate(route);
   }
 
-  function applyNewsFilter() {
-    let filteredNews;
-    switch (selectedOption) {
-      case "VerfiedOnly":
-        filteredNews = newsData.filter(
-          (news) =>
-            news.isVerified === true &&
-            news.category.toLowerCase().includes(selectedInterest.toLowerCase())
-        );
-        break;
-      case "VerfiedAndUnverified":
-        if (selectedInterest === "All") {
-          filteredNews = newsData;
-        } else {
-          filteredNews = newsData.filter((news) =>
-            news.category.toLowerCase().includes(selectedInterest.toLowerCase())
-          );
-        }
-        break;
-      case "UnVerfiedOnly":
-        filteredNews = newsData.filter(
-          (news) =>
-            news.isVerified === false &&
-            news.category.toLowerCase().includes(selectedInterest.toLowerCase())
-        );
-        break;
-      default:
-        filteredNews = newsData;
-    }
-    setDataToUse(filteredNews);
-    toggleBottomSheet();
-    toggleOverlay();
+  function handleNewsFilter() {
+    applyNewsFilter({
+      selectedOption,
+      selectedInterest,
+      newsData,
+      setDataToUse,
+      toggleBottomSheet,
+      toggleOverlay,
+    });
   }
 
   return (
@@ -70,7 +48,12 @@ export default function BottomSheetComponent({
       backgroundStyle={{ borderRadius: 20 }}
     >
       <BottomSheetView>
-        <View style={styles.bottomSheetWrap}>
+        <View
+          style={[
+            styles.bottomSheetWrap,
+            isDarkMode && { backgroundColor: COLORS.darkNeutral },
+          ]}
+        >
           <TouchableOpacity
             onPress={() => handleBottomSheetActions(null)}
             className="flex-row items-end justify-end"
@@ -78,14 +61,20 @@ export default function BottomSheetComponent({
             <AntDesign name="closecircle" size={24} color={COLORS.gray50} />
           </TouchableOpacity>
 
-          <Text className="text-xl text-center text-darkNeutral font-medium pb-5">
+          <Text
+            className={`${
+              isDarkMode ? "text-gray100" : "text-darkNeutral"
+            } text-xl text-center  font-medium pb-5`}
+          >
             News Filter
           </Text>
 
           <View className="flex-row justify-between items-center pb-4 border-b-[1px] border-grayNeutral">
             <Text
               style={styles.sheetText}
-              className="text-extraLightGray font-normal"
+              className={`${
+                isDarkMode ? "text-gray100" : "text-extraLightGray"
+              } font-normal`}
             >
               Verfied News Only
             </Text>
@@ -94,7 +83,9 @@ export default function BottomSheetComponent({
                 <Ionicons
                   name="ios-radio-button-on-sharp"
                   size={24}
-                  color={COLORS.primaryColor}
+                  color={
+                    isDarkMode ? COLORS.primaryColorTheme : COLORS.primaryColor
+                  }
                 />
               ) : (
                 <Ionicons
@@ -109,7 +100,9 @@ export default function BottomSheetComponent({
           <View className="flex-row justify-between items-center pb-4 border-b-[1px] border-grayNeutral mt-3">
             <Text
               style={styles.sheetText}
-              className="text-extraLightGray font-normal"
+              className={`${
+                isDarkMode ? "text-gray100" : "text-extraLightGray"
+              } font-normal`}
             >
               Verified and Unverified
             </Text>
@@ -120,7 +113,9 @@ export default function BottomSheetComponent({
                 <Ionicons
                   name="ios-radio-button-on-sharp"
                   size={24}
-                  color={COLORS.primaryColor}
+                  color={
+                    isDarkMode ? COLORS.primaryColorTheme : COLORS.primaryColor
+                  }
                 />
               ) : (
                 <Ionicons
@@ -135,7 +130,9 @@ export default function BottomSheetComponent({
           <View className="flex-row justify-between items-center pb-4 mt-3">
             <Text
               style={styles.sheetText}
-              className="text-extraLightGray font-normal"
+              className={`${
+                isDarkMode ? "text-gray100" : "text-extraLightGray"
+              } font-normal`}
             >
               Unverified News Only
             </Text>
@@ -146,7 +143,9 @@ export default function BottomSheetComponent({
                 <Ionicons
                   name="ios-radio-button-on-sharp"
                   size={24}
-                  color={COLORS.primaryColor}
+                  color={
+                    isDarkMode ? COLORS.primaryColorTheme : COLORS.primaryColor
+                  }
                 />
               ) : (
                 <Ionicons
@@ -159,8 +158,10 @@ export default function BottomSheetComponent({
           </View>
 
           <TouchableOpacity
-            onPress={applyNewsFilter}
-            className="bg-primaryColor py-3 rounded-md mt-5"
+            onPress={handleNewsFilter}
+            className={`${
+              isDarkMode ? "bg-primaryColorTheme" : "bg-primaryColor"
+            }  py-3 rounded-md mt-5`}
           >
             <Text className="text-white font-semibold text-center text-xl">
               Save

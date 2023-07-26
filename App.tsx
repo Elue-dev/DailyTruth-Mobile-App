@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import {
   DefaultTheme,
   NavigationContainer,
@@ -11,6 +10,11 @@ import { ActivityIndicator, View } from "react-native";
 import { AuthProvider } from "./src/context/auth/AuthContext";
 import { BottomSheetProvider } from "./src/context/bottom_sheet/BottomSheetContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import CustomStatusBar from "./src/components/status_bar";
+import Modal from "./src/components/modal/Modal";
+import { ModalProvider } from "./src/context/modal/ModalCotext";
+import { AlertProvider } from "./src/context/alert/AlertContext";
+import Alert from "./src/components/alert/Alert";
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -45,10 +49,16 @@ export default function App() {
       {fontLoaded ? (
         <AuthProvider>
           <BottomSheetProvider>
-            <NavigationContainer theme={theme}>
-              <RouteNavigator />
-              <StatusBar style="dark" />
-            </NavigationContainer>
+            <ModalProvider>
+              <AlertProvider>
+                <NavigationContainer theme={theme}>
+                  <RouteNavigator />
+                  <CustomStatusBar />
+                  <Modal />
+                  <Alert />
+                </NavigationContainer>
+              </AlertProvider>
+            </ModalProvider>
           </BottomSheetProvider>
         </AuthProvider>
       ) : (

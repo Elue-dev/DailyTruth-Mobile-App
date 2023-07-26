@@ -18,7 +18,7 @@ interface AuthContextType {
   state: AuthState;
   dispatch: Dispatch<AuthAction>;
   setActiveUser: (user: User) => Promise<void>;
-  logOutUser: () => void;
+  removeActiveUser: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -56,7 +56,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  function logOutUser() {
+  function removeActiveUser() {
     dispatch({ type: "REMOVE_ACTIVE_USER" });
     AsyncStorage.removeItem("user");
   }
@@ -65,7 +65,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     state,
     dispatch,
     setActiveUser,
-    logOutUser,
+    removeActiveUser,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

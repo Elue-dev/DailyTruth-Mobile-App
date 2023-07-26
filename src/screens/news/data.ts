@@ -34,7 +34,7 @@ export const newsData: News[] = [
     title: "Microsoft Debuts a New 'Velocity Green' Xbox Controller",
     content:
       "There are certain colors you see and have an immediate association. For gamers, one of the most iconic might be that warm medium green seen on Yoshi and, most This is the first beta to mention the Newsletter feature, so it may not be ready to test for a while. There's also no guarantee WhatsApp will release newsletters as a finished product. If this does go ahead, it won't be surprising. WhatsApp is as much a source of information as it is a messaging service, with users frequently forwarding messages and receiving news through group discussions. Newsletters would effectively streamline some of that info delivery. Meta has also spent years pivoting toward privacy-oriented services, including communities that can link multiple group chats. The addition could expand WhatsApp's functionality without turning it into a Facebook-style social network.x",
-    category: "Technology.",
+    category: "Technology",
     readTime: 4,
     upvotes: 30,
     isVerified: true,

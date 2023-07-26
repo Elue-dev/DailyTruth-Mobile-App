@@ -7,14 +7,19 @@ export interface BottomSheetProviderProps {
 
 export interface BottomSheetContextType {
   state: SheetState;
+  isDarkMode: boolean;
+  setIsDarkMode: Dispatch<SetStateAction<boolean>>;
   dispatch: Dispatch<SheetAction>;
   toggleBottomSheet: () => void;
   toggleOverlay: () => void;
+  toggleColorScheme: () => void;
+  toggleTheme: () => void;
 }
 
 export interface SheetState {
   bottomSheetOpen: boolean;
   isOverlayVisible: boolean;
+  // isDarkMode: boolean;
 }
 
 export type SheetAction =

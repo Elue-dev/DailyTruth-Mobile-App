@@ -9,6 +9,7 @@ export function BottomSheetReducer(
       return { ...state, bottomSheetOpen: !state.bottomSheetOpen };
     case "TOGGLE_OVERLAY":
       return { ...state, isOverlayVisible: !state.isOverlayVisible };
+
     default:
       return state;
   }

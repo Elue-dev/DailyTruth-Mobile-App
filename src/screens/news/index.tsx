@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  useColorScheme,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
@@ -17,6 +18,7 @@ import BottomSheetComponent from "../../components/bottom_sheet";
 import { SharedElement } from "react-native-shared-element";
 import { News } from "../../types/news";
 import { newsData } from "./data";
+import { COLORS } from "../../common/colors";
 
 export default function NewsScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -26,9 +28,14 @@ export default function NewsScreen() {
   const [selectedInterest, setSelectedInterest] = useState("All");
   const {
     state: { bottomSheetOpen },
+    isDarkMode,
     toggleBottomSheet,
     toggleOverlay,
   } = useSheet();
+
+  const primaryColorToUse = isDarkMode
+    ? "border-b-primaryColorTheme"
+    : "border-b-primaryColor";
 
   useEffect(() => {
     const filteredNews: News[] = newsData.filter(
@@ -53,13 +60,21 @@ export default function NewsScreen() {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text className="text-primaryColorSec font-semibold text-[18px]">
+        <Text
+          className={`${
+            isDarkMode ? "text-gray300" : "text-primaryColorSec"
+          }  font-semibold text-[18px]`}
+        >
           News
         </Text>
       ),
       headerLeft: () => (
         <TouchableOpacity className="ml-2" onPress={resetOnboarding}>
-          <FontAwesome name="tachometer" size={24} color="#666" />
+          <FontAwesome
+            name="tachometer"
+            size={24}
+            color={`${isDarkMode ? COLORS.gray300 : "#666"}`}
+          />
         </TouchableOpacity>
       ),
       headerRight: () => (
@@ -67,15 +82,17 @@ export default function NewsScreen() {
           <MaterialCommunityIcons
             name="menu-swap-outline"
             size={28}
-            color="#666"
+            color={`${isDarkMode ? COLORS.gray300 : "#666"}`}
           />
         </TouchableOpacity>
       ),
     });
-  }, []);
+  }, [isDarkMode]);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView
+      className={`flex-1 ${isDarkMode ? "bg-darkNeutral" : "bg-white"} `}
+    >
       <View className="ml-3">
         <FlatList
           keyExtractor={(modifiedInterests) => modifiedInterests}
@@ -90,16 +107,22 @@ export default function NewsScreen() {
               }}
             >
               <View
-                className={`mt-4  border-b-4 py-1 px-2 ${
+                className={`mt-4  ${
+                  isDarkMode ? "border-b-2" : "border-b-4"
+                } py-1 px-2 ${
                   selectedInterest === item
-                    ? "border-b-primaryColor"
+                    ? primaryColorToUse
                     : "border-b-grayNeutral"
                 }`}
               >
                 <Text
                   className={`text-base text-gray200 ${
                     selectedInterest === item &&
-                    "text-primaryColor font-semibold"
+                    `${
+                      isDarkMode
+                        ? "text-primaryColorTheme"
+                        : "text-primaryColor"
+                    } font-semibold`
                   }`}
                 >
                   {item}
@@ -133,7 +156,11 @@ export default function NewsScreen() {
 
       {dataToUse.length === 0 ? (
         <View className="mx-4">
-          <Text className="pt-8 text-base text-extraLightGray">
+          <Text
+            className={`pt-8 text-base ${
+              isDarkMode ? "text-grayNeutral" : "text-extraLightGray"
+            } `}
+          >
             No news found with category {selectedInterest}{" "}
             {selectedOption !== "VerfiedAndUnverified" &&
             selectedOption === "UnVerfiedOnly"
@@ -143,7 +170,11 @@ export default function NewsScreen() {
               : null}
           </Text>
           {selectedOption === "VerfiedAndUnverified" && (
-            <Text className="pt-2 text-base text-extraLightGray">
+            <Text
+              className={`${
+                isDarkMode ? "text-grayNeutral" : "text-extraLightGray"
+              } pt-2 text-base`}
+            >
               Either there are no news on {selectedInterest} or{" "}
               {selectedInterest} is not among your interests.
             </Text>

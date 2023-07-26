@@ -20,6 +20,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, database } from "../../lib/firebase";
 import { useAuth } from "../../context/auth/AuthContext";
 import { doc, getDoc } from "firebase/firestore";
+import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
+import { useAlert } from "../../context/alert/AlertContext";
+import {
+  handleAuthErrors,
+  validateEmail,
+} from "../../helpers/HandleAuthErrors";
 
 export default function UserCredentials({
   initiaCredentials,
@@ -39,9 +45,13 @@ export default function UserCredentials({
   const navigation = useNavigation<NavigationProp<any>>();
   const { email, password, username } = credentials;
   const { setActiveUser } = useAuth();
+  const { isDarkMode } = useSheet();
+  const { showAlertAndContent } = useAlert();
+  const text = isDarkMode ? "text-lightText" : "text-darkNeutral";
+  const btn = isDarkMode ? "bg-primaryColorTheme" : "bg-primaryColorTheme";
 
   async function loginUser() {
-    if (email !== "" && password !== "") {
+    if (email || password) {
       setLoading(true);
       try {
         const user: any = await signInWithEmailAndPassword(
@@ -74,22 +84,56 @@ export default function UserCredentials({
         setLoading(false);
       } catch (error: any) {
         setLoading(false);
-        console.log(error);
+        const errorMessage = handleAuthErrors(error.message);
 
-        Alert.alert("Login error", error.message);
+        showAlertAndContent({
+          type: "error",
+          message: errorMessage || "Something went wrong. Please try again",
+        });
       }
+    } else {
+      showAlertAndContent({
+        type: "error",
+        message: "Both email and password are required",
+      });
     }
   }
 
+  function handleNextStep() {
+    if (!username || !email || !password)
+      return showAlertAndContent({
+        type: "error",
+        message: "Username, Email and Password are all required",
+      });
+
+    if (!validateEmail(email))
+      return showAlertAndContent({
+        type: "error",
+        message: "Please enter a valid email format",
+      });
+
+    nextStep();
+  }
+
   return (
-    <SafeAreaView className="bg-white flex-1">
+    <SafeAreaView
+      className={`${isDarkMode ? "bg-darkNeutral" : "bg-white"}  flex-1`}
+    >
       <ScrollView showsVerticalScrollIndicator={false} className="px-4 mt-8">
         <TouchableOpacity
           onPress={() => navigation.navigate("CreateAccountStart")}
         >
-          <Ionicons name="arrow-back-outline" size={24} color="#1C1C1E" />
+          <Ionicons
+            name="arrow-back-outline"
+            size={24}
+            color={isDarkMode ? "white" : "#1C1C1E"}
+          />
         </TouchableOpacity>
-        <View className="bg-grayNeutral flex-row p-[5px] justify-between items-center rounded-lg mt-5">
+        <View
+          className={`${
+            isDarkMode ? "bg-dark" : "bg-grayNeutral"
+          }  flex-row p-[5px] justify-between items-center rounded-lg mt-5`}
+        >
           {["Sign Up", "Sign In"].map((currentAction, index) => (
             <TouchableOpacity
               onPress={() => {
@@ -97,31 +141,49 @@ export default function UserCredentials({
                 setCredentials(initiaCredentials);
               }}
               key={index}
-              className={`py-1 px-16 rounded-lg ${
-                currentAction === authAction ? "bg-white" : "bg-transparent"
+              className={`py-1 px-16  rounded-lg ${
+                currentAction === authAction && isDarkMode
+                  ? "bg-authDark"
+                  : currentAction === authAction && !isDarkMode
+                  ? "bg-white"
+                  : ""
               }`}
             >
-              <Text className="text-center text-base">{currentAction}</Text>
+              <Text
+                className={`text-center text-base dark:text-white ${
+                  currentAction === authAction ? "font-bold" : "font-semibold"
+                } `}
+              >
+                {currentAction}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
 
         {authAction === "Sign Up" ? (
           <View>
-            <Text className="text-2xl font-bold text-darkNeutral mt-12">
+            <Text className={`${text} text-2xl font-bold  mt-12`}>
               Welcome to DailyTruth
             </Text>
-            <Text className="text-grayText text-[18px] mt-3 tracking-wide leading-6">
+            <Text
+              className={`${text} ${
+                isDarkMode ? "font-light" : "font-normal"
+              } text-[18px] mt-3 tracking-wide leading-6`}
+            >
               We are committed to delivering accurate and trustworthy news from
               around the world.
             </Text>
           </View>
         ) : (
           <View>
-            <Text className="text-2xl font-bold text-darkNeutral mt-12">
+            <Text className={`${text} text-2xl font-bold  mt-12`}>
               Welcome back to DailyTruth
             </Text>
-            <Text className="text-grayText text-[18px] mt-3 tracking-wide leading-6">
+            <Text
+              className={`${text} ${
+                isDarkMode ? "font-light" : " font-normal"
+              } text-[18px] mt-3 tracking-wide leading-6`}
+            >
               As always, we are committed to delivering accurate and trustworthy
               news from around the world.
             </Text>
@@ -129,13 +191,17 @@ export default function UserCredentials({
         )}
 
         <View>
-          {authAction === "Sign Up" ? (
+          {authAction === "Sign Up" && (
             <View className="mt-14">
               <Text
                 className={`absolute ${
                   currentInput === "Username" || username
-                    ? "bottom-5 text-[12px] text-grayText mb-2"
-                    : "bottom-2 text-[16px]"
+                    ? `bottom-5 text-[12px]  mb-2 ${
+                        isDarkMode ? "text-lightText" : "text-grayText"
+                      }`
+                    : `bottom-2 text-[16px] ${
+                        isDarkMode ? "text-lightText" : "text-grayText"
+                      }`
                 }`}
               >
                 Username
@@ -143,21 +209,26 @@ export default function UserCredentials({
               <TextInput
                 value={username}
                 onChangeText={(text) => handleTextChange("username", text)}
-                className="border-b-2 border-lightGray relative text-[16px]"
+                className={`${
+                  isDarkMode ? "border-lightBorder" : "border-lightGray"
+                } border-b-2  relative text-[16px]`}
                 onFocus={() => setCurrentInput("Username")}
                 onBlur={() => setCurrentInput("")}
+                style={{ color: isDarkMode ? "#E5E5EA" : "#000" }}
               />
             </View>
-          ) : (
-            <View />
           )}
 
           <View className={`${authAction === "Sign Up" ? "mt-10" : "mt-12"}`}>
             <Text
               className={`absolute ${
                 currentInput === "Email Address" || email
-                  ? "bottom-5 text-[12px] text-grayText mb-2"
-                  : "bottom-2 text-[16px]"
+                  ? `bottom-5 text-[12px]  mb-2 ${
+                      isDarkMode ? "text-lightText" : "text-grayText"
+                    }`
+                  : `bottom-2 text-[16px] ${
+                      isDarkMode ? "text-lightText" : "text-grayText"
+                    }`
               }`}
             >
               Email Address
@@ -165,9 +236,12 @@ export default function UserCredentials({
             <TextInput
               value={email}
               onChangeText={(text) => handleTextChange("email", text)}
-              className="border-b-2 border-lightGray relative text-[16px]"
+              className={`${
+                isDarkMode ? "border-lightBorder" : "border-lightGray"
+              } border-b-2  relative text-[16px]`}
               onFocus={() => setCurrentInput("Email Address")}
               onBlur={() => setCurrentInput("")}
+              style={{ color: isDarkMode ? "#E5E5EA" : "#000" }}
             />
           </View>
 
@@ -175,8 +249,12 @@ export default function UserCredentials({
             <Text
               className={`absolute ${
                 currentInput === "Password" || password
-                  ? "bottom-5 text-[12px] text-grayText mb-2"
-                  : "bottom-2 text-[16px]"
+                  ? `bottom-5 text-[12px]  mb-2 ${
+                      isDarkMode ? "text-lightText" : "text-grayText"
+                    }`
+                  : `bottom-2 text-[16px] ${
+                      isDarkMode ? "text-lightText" : "text-grayText"
+                    }`
               }`}
             >
               Password
@@ -185,13 +263,15 @@ export default function UserCredentials({
               value={password}
               secureTextEntry
               onChangeText={(text) => handleTextChange("password", text)}
-              className="border-b-2 border-lightGray relative text-[16px]"
+              className={`${
+                isDarkMode ? "border-lightBorder" : "border-lightGray"
+              } border-b-2  relative text-[16px]`}
               onFocus={() => setCurrentInput("Password")}
               onBlur={() => setCurrentInput("")}
+              style={{ color: isDarkMode ? "#E5E5EA" : "#000" }}
             />
           </View>
         </View>
-
         <View className="mt-14">
           {loading ? (
             <TouchableOpacity className="bg-primaryColorLighter py-3 rounded-md">
@@ -199,8 +279,8 @@ export default function UserCredentials({
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
-              onPress={authAction === "Sign In" ? loginUser : nextStep}
-              className="bg-primaryColor py-3 rounded-md"
+              onPress={authAction === "Sign In" ? loginUser : handleNextStep}
+              className={`${btn} py-3 rounded-md`}
             >
               <Text className="text-white font-semibold text-center text-xl">
                 {authAction === "Sign In" ? "Sign In" : "Continue"}

@@ -10,6 +10,7 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
 import { News } from "../../types/news";
+import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 
 export default function NewsCard({
   dataToUse,
@@ -18,6 +19,7 @@ export default function NewsCard({
   setDataToUse?: Dispatch<SetStateAction<News[]>>;
 }) {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const { isDarkMode } = useSheet();
 
   // useEffect(() => {
   //   setDataToUse && setDataToUse(newsData);
@@ -31,17 +33,26 @@ export default function NewsCard({
         showsVerticalScrollIndicator={false}
         renderItem={({ item: news, index }) => (
           <View
-            className={` border-gray100  ${
-              index === dataToUse.length - 1 ? "pb-14" : "border-b-2"
-            }`}
+            className={`${
+              isDarkMode ? "border-gray200" : "border-gray100 border-b-2"
+            }   ${index === dataToUse.length - 1 ? "pb-14" : ""}`}
           >
             <View
-              className="border border-gray100 mb-5 shadow-sm px-2 py-4 mt-3 rounded-lg"
-              style={{ elevation: 1, backgroundColor: "#FFF" }}
+              className={`border ${
+                isDarkMode ? "border-extraLightGray" : "border-gray100"
+              }  mb-5 shadow-sm px-2 py-4 mt-3 rounded-lg`}
+              style={{
+                elevation: 1,
+                backgroundColor: isDarkMode ? COLORS.darkNeutral : "#FFF",
+              }}
             >
               {/* Header */}
               <View className="flex-row justify-between items-center pb-3">
-                <Text className="text-extraLightGray font-light">
+                <Text
+                  className={`${
+                    isDarkMode ? "text-lightText" : "text-extraLightGray"
+                  } font-light`}
+                >
                   {news.date}
                 </Text>
                 <View className="flex-row gap-1">
@@ -55,11 +66,23 @@ export default function NewsCard({
                     <Ionicons
                       name="ios-warning-outline"
                       size={15}
-                      color={COLORS.primaryColor}
+                      color={
+                        isDarkMode
+                          ? COLORS.primaryColorTheme
+                          : COLORS.primaryColor
+                      }
                     />
                   )}
 
-                  <Text className="text-lightGray font-bold">|</Text>
+                  <Text
+                    className={`${
+                      isDarkMode
+                        ? "text-lightText font-normal"
+                        : "text-lightGray font-bold"
+                    }  `}
+                  >
+                    |
+                  </Text>
                   <Text className="text-gray200 font-light">
                     {news.upvotes} {news.upvotes === 1 ? "upvote" : "upvotes"}
                   </Text>
@@ -67,17 +90,31 @@ export default function NewsCard({
               </View>
 
               {/* Body */}
-              <Text className="text-[18px] text-extraLightGray font-bold">
+              <Text
+                className={`${
+                  isDarkMode ? "text-grayNeutral" : "text-extraLightGray"
+                } text-[18px]  font-bold`}
+              >
                 {news.title}
               </Text>
               <View className="">
-                <Text className="text-extraLightGray font-light leading-6 pt-2 text-base">
+                <Text
+                  className={`${
+                    isDarkMode ? "text-white" : "text-extraLightGray"
+                  }  font-light leading-6 pt-2 text-base`}
+                >
                   {news.content.slice(0, 175)}...
                 </Text>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("NewsDetails", { news })}
                 >
-                  <Text className="text-primaryColor pt-1 pb-2 font-semibold text-base">
+                  <Text
+                    className={`${
+                      isDarkMode
+                        ? "text-primaryColorTheme"
+                        : "text-primaryColor"
+                    } pt-1 pb-2 font-semibold text-base`}
+                  >
                     Read More
                   </Text>
                 </TouchableOpacity>
@@ -97,7 +134,7 @@ export default function NewsCard({
                   <MaterialCommunityIcons
                     name="bookmark-multiple-outline"
                     size={20}
-                    color={COLORS.grayText}
+                    color={isDarkMode ? COLORS.gray100 : COLORS.grayText}
                   />
                 </TouchableOpacity>
               </View>

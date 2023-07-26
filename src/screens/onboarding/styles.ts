@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     textAlign: "center",
-    color: COLORS.primaryColorSec,
   },
   subTitle: {
     marginTop: 10,
@@ -41,10 +40,8 @@ export const styles = StyleSheet.create({
     marginHorizontal: 3,
     borderRadius: 50,
     borderWidth: 1.5,
-    borderColor: COLORS.primaryColor,
   },
   btn: {
-    backgroundColor: COLORS.primaryColor,
     paddingVertical: 10,
     paddingHorizontal: 50,
     borderRadius: 5,

@@ -22,3 +22,12 @@ export interface SearchNews {
   searchInitiated: boolean;
   setSearchIntiated: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface NewsFilter {
+  selectedOption: string;
+  selectedInterest: string;
+  newsData: News[];
+  setDataToUse: Dispatch<SetStateAction<News[]>>;
+  toggleBottomSheet: () => void;
+  toggleOverlay: () => void;
+}

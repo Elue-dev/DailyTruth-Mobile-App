@@ -6,7 +6,6 @@ import {
   ScrollView,
   Alert,
   ActivityIndicator,
-  TouchableWithoutFeedback,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { interests } from "../../data/interests";
@@ -21,6 +20,8 @@ import { auth, database } from "../../lib/firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
+import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
+import { useAlert } from "../../context/alert/AlertContext";
 
 export default function UserInterests({
   initiaCredentials,
@@ -33,6 +34,9 @@ export default function UserInterests({
   const navigation = useNavigation<NavigationProp<any>>();
   const { email, password, username } = credentials;
   const { setActiveUser } = useAuth();
+  const { isDarkMode } = useSheet();
+  const { showAlertAndContent } = useAlert();
+  const btn = isDarkMode ? "bg-primaryColorTheme" : "bg-primaryColorTheme";
 
   function setUserInterests(interest: string) {
     if (selectedCategories.includes(interest)) {
@@ -45,7 +49,7 @@ export default function UserInterests({
   }
 
   async function createUserAccount() {
-    if (email !== "" && password !== "") {
+    if (selectedCategories.length > 4) {
       setLoading(true);
       try {
         const userCredential = await createUserWithEmailAndPassword(
@@ -83,27 +87,48 @@ export default function UserInterests({
           setLoading(false);
         } else {
           setLoading(false);
-          throw new Error("User not found");
+          showAlertAndContent({
+            type: "error",
+            message: "Something went wrong. Please try again",
+          });
         }
       } catch (error: any) {
         setLoading(false);
-        Alert.alert("Signup error", error.message);
+        showAlertAndContent({
+          type: "error",
+          message: error.message,
+        });
       }
+    } else {
+      showAlertAndContent({
+        type: "error",
+        message: "Interests should be at least 4",
+      });
     }
   }
 
   return (
-    <SafeAreaView className="bg-white flex-1">
+    <SafeAreaView
+      className={`${isDarkMode ? "bg-darkNeutral" : "bg-white"}  flex-1`}
+    >
       <ScrollView showsVerticalScrollIndicator={false} className="px-4 mt-8">
         <TouchableOpacity onPress={prevStep}>
-          <Ionicons name="arrow-back-outline" size={24} color="#1C1C1E" />
+          <Ionicons
+            name="arrow-back-outline"
+            size={24}
+            color={isDarkMode ? "white" : "#1C1C1E"}
+          />
         </TouchableOpacity>
 
         <View>
-          <Text className="text-2xl font-bold text-darkNeutral mt-7">
+          <Text
+            className={`text-2xl font-bold  mt-7 ${
+              isDarkMode ? "text-white" : "text-darkNeutral"
+            }`}
+          >
             Add your interests
           </Text>
-          <Text className="text-grayText text-[18px] mt-3 tracking-wide leading-6">
+          <Text className="text-[18px] mt-3 tracking-wide leading-6 font-normal text-grayText dark:font-light  dark:text-lightText">
             Choose the sections you would like to receive news on. The interests
             can be changed anytime under your profile settings.
           </Text>
@@ -121,11 +146,13 @@ export default function UserInterests({
                 className={`${
                   selectedCategories.includes(interest)
                     ? "bg-lightGray"
-                    : "bg-transparent border-2 border-grayNeutral"
+                    : "bg-transparent border-2 border-grayNeutral dark:border-lightBorder"
                 }  rounded-md h-20`}
               >
                 <Text
-                  className={`text-center pt-7 text-grayText text-base whitespace-nowrap ${
+                  className={`text-center pt-7 ${
+                    isDarkMode ? "text-lightText" : "text-grayText"
+                  } text-base whitespace-nowrap ${
                     selectedCategories.includes(interest) &&
                     "text-grayText font-bold"
                   } `}
@@ -140,12 +167,12 @@ export default function UserInterests({
         <View className="mt-14 mb-24">
           {loading ? (
             <TouchableOpacity className="bg-primaryColorLighter py-3 rounded-md">
-              <ActivityIndicator color={"#fff"} size="small" />
+              <ActivityIndicator color={"#FFF"} size="small" />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               onPress={createUserAccount}
-              className="bg-primaryColor py-3 rounded-md"
+              className={`${btn} py-3 rounded-md`}
             >
               <Text className="text-white font-semibold text-center text-xl">
                 Create Account

@@ -8,25 +8,43 @@ import Search from "../../components/search";
 import { News } from "../../types/news";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
+import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
+import CustomLeftHeader from "../../helpers/CustomLeftHeader";
 
 export default function SavedScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [savedNews, setSavedNews] = useState<News[] | undefined>(newsData);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchInitiated, setSearchIntiated] = useState(false);
+  const { isDarkMode } = useSheet();
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text className="text-primaryColorSec font-semibold text-[18px]">
+        <Text
+          className={`${
+            isDarkMode ? "text-gray300" : "text-primaryColorSec"
+          }  font-semibold text-[18px]`}
+        >
           Saved News
         </Text>
       ),
+
+      headerLeft: () => (isDarkMode ? <CustomLeftHeader /> : null),
     });
-  }, []);
+  }, [isDarkMode]);
+
+  useEffect(() => {
+    if (searchQuery === "") {
+      setSavedNews(newsData);
+      setSearchIntiated(false);
+    }
+  }, [searchQuery]);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView
+      className={`flex-1 ${isDarkMode ? "bg-darkNeutral" : "bg-white"}`}
+    >
       <Search
         location="saved"
         newsFromComponent={savedNews}
@@ -37,25 +55,23 @@ export default function SavedScreen() {
         setSearchIntiated={setSearchIntiated}
       />
       <View className="pt-3" style={{ zIndex: -1 }}>
-        {searchInitiated && newsData?.length === 0 ? (
+        {searchInitiated && savedNews?.length === 0 ? (
           <View className="justify-center items-center pt-20">
             <View className="flex-row items-center gap-1 pb-2">
-              <Text className="text-xl font-semibold text-grayText">
+              <Text className="text-xl font-semibold text-grayText dark:text-lightText">
                 No News found for
               </Text>
-              <Text className="text-xl font-semibold text-primaryColor">
+              <Text className="text-xl font-semibold text-primaryColor dark:text-primaryColorTheme">
                 '{searchQuery}'
               </Text>
             </View>
-            <Text className="text-xl font-bold text-grayText">
+            <Text className="text-xl font-bold text-grayText dark:text-lightText">
               Try searching something else.
             </Text>
           </View>
         ) : (
           <NewsCard dataToUse={savedNews} />
         )}
-
-        {/* <NewsCard dataToUse={savedNews} /> */}
       </View>
     </SafeAreaView>
   );

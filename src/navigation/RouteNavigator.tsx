@@ -15,6 +15,7 @@ import ManageInterests from "../screens/profile/pages/ManageInterests";
 import ContactSupport from "../screens/profile/pages/ContactSupport";
 import TermsAndPrivacy from "../screens/profile/pages/TermsAndPrivacy";
 import SavedScreen from "../screens/saved";
+import { useSheet } from "../context/bottom_sheet/BottomSheetContext";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -29,6 +30,7 @@ export default function RouteNavigator() {
   const [userHasOnboarded, setUserHasOnboarded] = useState(false);
   const [isOnboardingCheckComplete, setIsOnboardingCheckComplete] =
     useState(false);
+  const { isDarkMode } = useSheet();
 
   useEffect(() => {
     async function getOnboardingCheckResults() {
@@ -86,7 +88,11 @@ export default function RouteNavigator() {
         component={NewsDetails}
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: COLORS.grayNeutral },
+          headerStyle: {
+            backgroundColor: isDarkMode
+              ? COLORS.grayNeutralTheme
+              : COLORS.grayNeutral,
+          },
         }}
       />
       <RootStack.Screen
@@ -94,7 +100,11 @@ export default function RouteNavigator() {
         component={SearchScreen}
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: COLORS.grayNeutral },
+          headerStyle: {
+            backgroundColor: isDarkMode
+              ? COLORS.grayNeutralTheme
+              : COLORS.grayNeutral,
+          },
         }}
       />
       <RootStack.Screen
@@ -102,7 +112,11 @@ export default function RouteNavigator() {
         component={CompleteRegistration}
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: COLORS.grayNeutral },
+          headerStyle: {
+            backgroundColor: isDarkMode
+              ? COLORS.grayNeutralTheme
+              : COLORS.grayNeutral,
+          },
         }}
       />
       <RootStack.Screen
@@ -110,7 +124,11 @@ export default function RouteNavigator() {
         component={ManageInterests}
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: COLORS.grayNeutral },
+          headerStyle: {
+            backgroundColor: isDarkMode
+              ? COLORS.grayNeutralTheme
+              : COLORS.grayNeutral,
+          },
         }}
       />
       <RootStack.Screen
@@ -118,7 +136,11 @@ export default function RouteNavigator() {
         component={ContactSupport}
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: COLORS.grayNeutral },
+          headerStyle: {
+            backgroundColor: isDarkMode
+              ? COLORS.grayNeutralTheme
+              : COLORS.grayNeutral,
+          },
         }}
       />
       <RootStack.Screen
@@ -126,7 +148,11 @@ export default function RouteNavigator() {
         component={TermsAndPrivacy}
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: COLORS.grayNeutral },
+          headerStyle: {
+            backgroundColor: isDarkMode
+              ? COLORS.grayNeutralTheme
+              : COLORS.grayNeutral,
+          },
         }}
       />
       <RootStack.Screen
@@ -134,7 +160,11 @@ export default function RouteNavigator() {
         component={SavedScreen}
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: COLORS.grayNeutral },
+          headerStyle: {
+            backgroundColor: isDarkMode
+              ? COLORS.grayNeutralTheme
+              : COLORS.grayNeutral,
+          },
         }}
       />
     </RootStack.Navigator>
