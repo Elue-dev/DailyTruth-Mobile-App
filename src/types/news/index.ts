@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { AlertArgs } from "../alert";
 
 export interface News {
   id: string;
@@ -30,4 +31,5 @@ export interface NewsFilter {
   setDataToUse: Dispatch<SetStateAction<News[]>>;
   toggleBottomSheet: () => void;
   toggleOverlay: () => void;
+  showAlertAndContent: ({ type, message }: AlertArgs) => void;
 }

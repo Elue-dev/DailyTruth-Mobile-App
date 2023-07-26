@@ -8,7 +8,8 @@ import { styles } from "./style";
 import { COLORS } from "../../common/colors";
 import { newsData } from "../../screens/news/data";
 import { BottomSheetProps } from "../../types/bottom_sheet";
-import { applyNewsFilter } from "../../helpers/newsFilter";
+import { applyNewsFilter } from "../../helpers/NewsFilter";
+import { useAlert } from "../../context/alert/AlertContext";
 
 export default function BottomSheetComponent({
   selectedInterest,
@@ -20,6 +21,7 @@ export default function BottomSheetComponent({
   const navigation = useNavigation<NavigationProp<any>>();
   const SheetRef = useRef(null);
   const snapPoints = useMemo(() => ["50"], []);
+  const { showAlertAndContent } = useAlert();
 
   function handleBottomSheetActions(route: string | null) {
     toggleBottomSheet();
@@ -35,6 +37,7 @@ export default function BottomSheetComponent({
       setDataToUse,
       toggleBottomSheet,
       toggleOverlay,
+      showAlertAndContent,
     });
   }
 

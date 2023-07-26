@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, TouchableOpacity } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { useAlert } from "../../context/alert/AlertContext";
 import { AntDesign, MaterialIcons, Feather } from "@expo/vector-icons";
 
@@ -38,7 +38,7 @@ export default function Alert() {
           style={[
             {
               position: "absolute",
-              bottom: 100,
+              bottom: showAlert ? 100 : -90,
               left: 16,
               right: 16,
               borderRadius: 8,

@@ -1,3 +1,5 @@
+import { useAlert } from "../context/alert/AlertContext";
+import { useAuth } from "../context/auth/AuthContext";
 import { NewsFilter } from "../types/news";
 
 export function applyNewsFilter({
@@ -7,6 +9,7 @@ export function applyNewsFilter({
   setDataToUse,
   toggleBottomSheet,
   toggleOverlay,
+  showAlertAndContent,
 }: NewsFilter) {
   let filteredNews;
   switch (selectedOption) {
@@ -33,7 +36,7 @@ export function applyNewsFilter({
         ? (filteredNews = newsData.filter((news) => news.isVerified === false))
         : (filteredNews = newsData.filter(
             (news) =>
-              news.isVerified === true &&
+              news.isVerified === false &&
               news.category
                 .toLowerCase()
                 .includes(selectedInterest.toLowerCase())
@@ -46,4 +49,11 @@ export function applyNewsFilter({
   setDataToUse(filteredNews);
   toggleBottomSheet();
   toggleOverlay();
+  const resultsFound = filteredNews.length > 0;
+  showAlertAndContent({
+    type: resultsFound ? "success" : "info",
+    message: resultsFound
+      ? `${filteredNews.length} news found`
+      : "No news were found",
+  });
 }

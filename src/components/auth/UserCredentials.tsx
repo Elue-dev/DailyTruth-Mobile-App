@@ -132,7 +132,7 @@ export default function UserCredentials({
         <View
           className={`${
             isDarkMode ? "bg-dark" : "bg-grayNeutral"
-          }  flex-row p-[5px] justify-between items-center rounded-lg mt-5`}
+          }  flex-row p-[5px] justify-between items-center rounded-lg mt-5 overflow-hidden`}
         >
           {["Sign Up", "Sign In"].map((currentAction, index) => (
             <TouchableOpacity

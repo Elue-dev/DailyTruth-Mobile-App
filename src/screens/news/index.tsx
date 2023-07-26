@@ -163,11 +163,11 @@ export default function NewsScreen() {
           >
             No news found with category {selectedInterest}{" "}
             {selectedOption !== "VerfiedAndUnverified" &&
-            selectedOption === "UnVerfiedOnly"
-              ? "that is unverified"
-              : selectedOption === "UnVerfiedOnly"
-              ? "that is Verified"
-              : null}
+              (selectedOption === "UnVerfiedOnly"
+                ? "that is unverified"
+                : selectedOption === "VerfiedOnly"
+                ? "that is verified"
+                : null)}
           </Text>
           {selectedOption === "VerfiedAndUnverified" && (
             <Text

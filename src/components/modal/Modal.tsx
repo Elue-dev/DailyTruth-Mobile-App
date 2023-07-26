@@ -8,11 +8,21 @@ import {
 } from "react-native";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { useModal } from "../../context/modal/ModalCotext";
+import { useAlert } from "../../context/alert/AlertContext";
 
 export default function Modal() {
   const { width } = Dimensions.get("window");
   const { isDarkMode } = useSheet();
   const { showModal, closeModal, title, message, actionBtnText } = useModal();
+  const { showAlertAndContent } = useAlert();
+
+  function flagNews() {
+    closeModal();
+    showAlertAndContent({
+      type: "success",
+      message: "Your response has been noted and will be looked into",
+    });
+  }
 
   return (
     <>
@@ -23,9 +33,17 @@ export default function Modal() {
             activeOpacity={1}
             onPress={closeModal}
           />
-          <View style={[styles.alertBox, { maxWidth: width - 50 }]}>
-            <Text style={styles.title}>{title}</Text>
-            <Text className="text-grayText text-base font-normal mb-4 text-center leading-6">
+          <View
+            style={[styles.alertBox, { maxWidth: width - 50 }]}
+            className="bg-white dark:bg-darkNeutral"
+          >
+            <Text
+              style={styles.title}
+              className="text-darkNeutral dark:text-lightText"
+            >
+              {title}
+            </Text>
+            <Text className="text-grayText dark:text-lightGray text-base font-normal mb-4 text-center leading-6">
               {message}
             </Text>
             <View className="flex-row justify-center items-center pt-3">
@@ -43,7 +61,7 @@ export default function Modal() {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={flagNews}
                 className="border border-1 border-primaryColor dark:border-primaryColorTheme mr-3 rounded-md bg-grayNeutral"
               >
                 <Text
@@ -77,13 +95,11 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   alertBox: {
-    backgroundColor: "#fff",
     borderRadius: 8,
     paddingVertical: 30,
     paddingHorizontal: 16,
   },
   title: {
-    color: "#1C1C1E",
     fontWeight: "bold",
     fontSize: 20,
     marginBottom: 8,
