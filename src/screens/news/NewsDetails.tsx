@@ -84,7 +84,7 @@ export default function NewsDetails() {
           News
         </Text>
       ),
-      headerLeft: bottomSheetOpen ? backArrowDisabled : backArrow,
+      // headerLeft: bottomSheetOpen ? backArrowDisabled : backArrow,
     });
   }, [bottomSheetOpen, isDarkMode]);
 

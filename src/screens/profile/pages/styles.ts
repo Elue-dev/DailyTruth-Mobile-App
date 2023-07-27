@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   bottomSheetItem: {
@@ -16,6 +16,6 @@ export const styles = StyleSheet.create({
     paddingTop: 10,
   },
   switch: {
-    transform: [{ scale: 0.9 }],
+    transform: Platform.OS === "ios" ? [{ scale: 0.9 }] : [{ scale: 1.2 }],
   },
 });

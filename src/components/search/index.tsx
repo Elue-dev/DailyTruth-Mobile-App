@@ -1,4 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import { useEffect, useRef } from "react";
 import { COLORS } from "../../common/colors";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
@@ -48,8 +54,8 @@ export default function Search({
 
   return (
     <View
-      className={`mt-8 border px-3 pb-4 mx-4 shadow-sm  rounded-lg flex-row justify-between items-center ${
-        isDarkMode ? "border-gray200" : "border-gray100"
+      className={`mt-8  px-3 pb-4 mx-4 shadow-sm rounded-lg flex-row justify-between items-center border-gray100 dark:border-gray200 ${
+        Platform.OS === "android" ? "border-4 dark:border" : "border"
       }`}
       style={{
         elevation: 1,
@@ -60,9 +66,7 @@ export default function Search({
         ref={location === "saved" ? null : inputRef}
         value={searchQuery}
         onChangeText={(value) => setSearchQuery(value)}
-        className={`${
-          isDarkMode ? "text-grayNeutral" : "text-darkNeutral"
-        } text-base h-full mt-2 `}
+        className="text-base h-full mt-2 text-darkNeutral dark:text-grayNeutral"
         placeholder="Search news, keywords"
         placeholderTextColor={isDarkMode ? "white" : COLORS.grayText}
         selectionColor={

@@ -128,60 +128,39 @@ export default function CreateAccountStart() {
             </Text>
           </TouchableOpacity>
 
-          <Text
-            className={`text-right mr-3 mt-4 text-base ${
-              isDarkMode ? "text-lightGray" : "text-grayText"
-            } `}
-          >
+          <Text className="text-right mr-3 mt-4 text-base  flex-col justify-center items-center text-grayText dark:text-lightGray">
             Already have an account?{" "}
-            <TouchableOpacity
+            <Text
               onPress={() =>
                 navigation.navigate("AuthSequence", {
                   state: "Sign In",
                 })
               }
             >
-              <Text
-                className={`${
-                  isDarkMode ? "text-primaryColorTheme" : "text-primaryColor"
-                } font-semibold underline text-base`}
-              >
+              <Text className=" text-primaryColor dark:text-primaryColorTheme font-semibold underline text-base">
                 Sign In
               </Text>
-            </TouchableOpacity>
+            </Text>
           </Text>
         </View>
 
-        <View className="mt-36">
-          <Text
-            className={`leading-6 ${
-              isDarkMode ? "text-lightGray" : "text-grayText"
-            } `}
-          >
+        <View className="mt-32">
+          <Text className="leading-6 text-grayText dark:text-lightGray">
             By signing up, you agree with our{" "}
-            <TouchableOpacity onPress={() => {}}>
-              <Text
-                className={`font-bold uppercase ${
-                  isDarkMode ? "text-lightGray" : "text-grayText"
-                } text-grayText`}
-              >
+            <Text onPress={() => console.warn("terms")}>
+              <Text className="font-bold uppercase text-grayText dark:text-lightGray">
                 Terms of Service
               </Text>
-            </TouchableOpacity>{" "}
+            </Text>{" "}
             and{" "}
-            <TouchableOpacity onPress={() => {}}>
-              <Text
-                className={`font-bold uppercase ${
-                  isDarkMode ? "text-lightGray" : "text-grayText"
-                } text-grayText`}
-              >
+            <Text onPress={() => console.warn("policy")}>
+              <Text className="font-bold uppercase text-grayText dark:text-lightGray">
                 Privacy Policy
               </Text>
-            </TouchableOpacity>
+            </Text>
           </Text>
         </View>
       </View>
-      {/* <Button title="Tabs" onPress={resetOnboarding} /> */}
     </SafeAreaView>
   );
 }

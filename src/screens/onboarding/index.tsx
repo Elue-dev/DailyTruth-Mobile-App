@@ -49,6 +49,7 @@ export default function OnboardingScreen() {
     const lastSlideIndex = screensData.length - 1;
     const offset = lastSlideIndex * width;
     flatListRef?.current?.scrollToOffset({ offset });
+
     setCurrentSlideIndex(lastSlideIndex);
   }
 

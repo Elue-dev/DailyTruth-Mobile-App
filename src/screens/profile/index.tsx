@@ -141,7 +141,7 @@ export default function ProfileScreen() {
                 isDarkMode ? "text-gray100" : "text-primaryColorSec"
               }  text-[17px] mt-4 font-semibold`}
             >
-              Light/Dark Mode
+              Theme
             </Text>
             <Text
               className={`${
@@ -150,7 +150,7 @@ export default function ProfileScreen() {
                   : "text-gray200 font-normal"
               } pt-1 `}
             >
-              Switch between Light and Dark Mode
+              Switch between Light and Dark Theme
             </Text>
           </View>
 

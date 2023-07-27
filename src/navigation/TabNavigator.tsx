@@ -10,7 +10,7 @@ import {
   Ionicons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import NewsScreen from "../screens/news";
 import VerifyScreen from "../screens/verify";
 import SearchScreen from "../screens/search";
@@ -96,8 +96,8 @@ export default function TabsNavigator() {
       tabBarStyle: {
         display: state.bottomSheetOpen ? "none" : "flex",
         borderTopWidth: isDarkMode ? 0.19 : 1,
-        borderColor: "#000",
-        backgroundColor: isDarkMode ? "#1F1F1F" : "#fff",
+        borderColor: "#d8d8d8",
+        backgroundColor: isDarkMode ? "#1F1F1F" : "#FFF",
       },
     };
   }
@@ -109,6 +109,7 @@ export default function TabsNavigator() {
         component={NewsScreen}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
         }}
       />
       <TabStack.Screen
@@ -116,6 +117,7 @@ export default function TabsNavigator() {
         component={VerifyScreen}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
         }}
       />
       <TabStack.Screen
@@ -124,6 +126,7 @@ export default function TabsNavigator() {
         options={{
           headerShown: user ? true : false,
           tabBarLabel: "Add News",
+          headerTitleAlign: "center",
         }}
       />
       <TabStack.Screen
@@ -131,6 +134,7 @@ export default function TabsNavigator() {
         component={SearchScreen}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
         }}
       />
 
@@ -139,6 +143,7 @@ export default function TabsNavigator() {
         component={ProfileScreen}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
         }}
       />
     </TabStack.Navigator>
@@ -148,10 +153,10 @@ export default function TabsNavigator() {
 const styles = StyleSheet.create({
   tabBarIcon: {
     fontSize: 26,
-    paddingTop: 5,
+    paddingTop: Platform.OS === "ios" ? 5 : 3,
   },
   tabBarIconSec: {
-    paddingTop: 2,
+    paddingTop: Platform.OS === "ios" ? 2 : 3,
   },
   label: {
     fontSize: 14,

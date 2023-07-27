@@ -7,6 +7,7 @@ import {
   ScrollView,
   Alert,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
@@ -42,6 +43,7 @@ export default function UserCredentials({
     paramsPassed ? "Sign In" : "Sign Up"
   );
   const changedActionState = authAction === "Sign Up" ? "Sign In" : "Sign Up";
+  const isAndroid = Platform.OS === "android";
   const navigation = useNavigation<NavigationProp<any>>();
   const { email, password, username } = credentials;
   const { setActiveUser } = useAuth();
@@ -103,7 +105,7 @@ export default function UserCredentials({
     if (!username || !email || !password)
       return showAlertAndContent({
         type: "error",
-        message: "Username, Email and Password are all required",
+        message: "Username, Email and Password are required",
       });
 
     if (!validateEmail(email))
@@ -119,7 +121,11 @@ export default function UserCredentials({
     <SafeAreaView
       className={`${isDarkMode ? "bg-darkNeutral" : "bg-white"}  flex-1`}
     >
-      <ScrollView showsVerticalScrollIndicator={false} className="px-4 mt-8">
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        className="px-4 mt-8"
+        style={{ paddingTop: isAndroid ? 60 : null }}
+      >
         <TouchableOpacity
           onPress={() => navigation.navigate("CreateAccountStart")}
         >

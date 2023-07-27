@@ -67,6 +67,7 @@ export default function RouteNavigator() {
         component={OnboardingScreen}
         options={{
           headerShown: false,
+          headerTitleAlign: "center",
         }}
       />
       <RootStack.Screen
@@ -74,6 +75,7 @@ export default function RouteNavigator() {
         component={CreateAccountStart}
         options={{
           headerShown: false,
+          headerTitleAlign: "center",
         }}
       />
       <RootStack.Screen
@@ -81,6 +83,7 @@ export default function RouteNavigator() {
         component={AuthSequence}
         options={{
           headerShown: false,
+          headerTitleAlign: "center",
         }}
       />
       <RootStack.Screen
@@ -88,6 +91,8 @@ export default function RouteNavigator() {
         component={NewsDetails}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
+          headerTintColor: isDarkMode ? "#C7C7CC" : "#270809",
           headerStyle: {
             backgroundColor: isDarkMode
               ? COLORS.grayNeutralTheme
@@ -100,6 +105,8 @@ export default function RouteNavigator() {
         component={SearchScreen}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
+          headerTintColor: isDarkMode ? "#C7C7CC" : "#270809",
           headerStyle: {
             backgroundColor: isDarkMode
               ? COLORS.grayNeutralTheme
@@ -112,6 +119,8 @@ export default function RouteNavigator() {
         component={CompleteRegistration}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
+          headerTintColor: isDarkMode ? "#C7C7CC" : "#270809",
           headerStyle: {
             backgroundColor: isDarkMode
               ? COLORS.grayNeutralTheme
@@ -124,6 +133,8 @@ export default function RouteNavigator() {
         component={ManageInterests}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
+          headerTintColor: isDarkMode ? "#C7C7CC" : "#270809",
           headerStyle: {
             backgroundColor: isDarkMode
               ? COLORS.grayNeutralTheme
@@ -136,6 +147,8 @@ export default function RouteNavigator() {
         component={ContactSupport}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
+          headerTintColor: isDarkMode ? "#C7C7CC" : "#270809",
           headerStyle: {
             backgroundColor: isDarkMode
               ? COLORS.grayNeutralTheme
@@ -148,6 +161,8 @@ export default function RouteNavigator() {
         component={TermsAndPrivacy}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
+          headerTintColor: isDarkMode ? "#C7C7CC" : "#270809",
           headerStyle: {
             backgroundColor: isDarkMode
               ? COLORS.grayNeutralTheme
@@ -160,6 +175,8 @@ export default function RouteNavigator() {
         component={SavedScreen}
         options={{
           headerShown: true,
+          headerTitleAlign: "center",
+          headerTintColor: isDarkMode ? "#C7C7CC" : "#270809",
           headerStyle: {
             backgroundColor: isDarkMode
               ? COLORS.grayNeutralTheme

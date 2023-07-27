@@ -1,30 +1,39 @@
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Platform } from "react-native";
 import { useAlert } from "../../context/alert/AlertContext";
 import { AntDesign, MaterialIcons, Feather } from "@expo/vector-icons";
 
 export default function Alert() {
-  const { type, message, showAlert } = useAlert();
-  const { width } = Dimensions.get("window");
+  const { alertType, message, showAlert } = useAlert();
 
   let backgroundStyle;
+  let textStyle;
   let iconType;
+  let borderColor;
 
-  switch (type) {
+  switch (alertType) {
     case "success":
-      backgroundStyle = "bg-green-600";
-      iconType = <AntDesign name="checkcircleo" size={22} color="white" />;
+      backgroundStyle = "bg-successAlert";
+      textStyle = "#0e610e";
+      iconType = <AntDesign name="checkcircleo" size={22} color={textStyle} />;
       break;
     case "error":
-      backgroundStyle = "bg-red-500";
-      iconType = <MaterialIcons name="error-outline" size={22} color="white" />;
+      backgroundStyle = "bg-[#f76b6b]";
+      textStyle = "#fff";
+      borderColor = "transparent";
+      iconType = (
+        <MaterialIcons name="error-outline" size={22} color={textStyle} />
+      );
       break;
     case "warning":
-      backgroundStyle = "bg-yellow-500";
-      iconType = <AntDesign name="warning" size={22} color="white" />;
+      backgroundStyle = "bg-warningAlert";
+      textStyle = "#4b4b12";
+      iconType = <AntDesign name="warning" size={22} color={textStyle} />;
       break;
     case "info":
-      backgroundStyle = "bg-blue-500";
-      iconType = <Feather name="info" size={22} color="white" />;
+      backgroundStyle = "bg-infoAlert";
+      textStyle = "#0e0e44";
+      borderColor = "#0c0c46";
+      iconType = <Feather name="info" size={22} color={textStyle} />;
       break;
     default:
       return null;
@@ -38,10 +47,12 @@ export default function Alert() {
           style={[
             {
               position: "absolute",
-              bottom: showAlert ? 100 : -90,
+              bottom: Platform.OS === "ios" ? 100 : 70,
               left: 16,
               right: 16,
               borderRadius: 8,
+              borderWidth: 0.2,
+              borderColor: textStyle,
             },
           ]}
         >
@@ -50,10 +61,11 @@ export default function Alert() {
           >
             {iconType}
             <Text
+              className="font-bold"
               style={{
-                color: "white",
+                color: textStyle,
                 fontWeight: "bold",
-                fontSize: 15,
+                fontSize: 16,
                 marginLeft: 8,
               }}
             >

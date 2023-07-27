@@ -1,19 +1,19 @@
 import { createContext, useContext, useState } from "react";
 import { AlertArgs, AlertProviderProps, AlertState } from "../../types/alert";
 
-const ModalContext = createContext<AlertState>({} as AlertState);
+const AlertContext = createContext<AlertState>({} as AlertState);
 
 export function useAlert() {
-  return useContext(ModalContext);
+  return useContext(AlertContext);
 }
 
 export function AlertProvider({ children }: AlertProviderProps) {
   const [showAlert, setShowAlert] = useState(false);
-  const [type, setType] = useState("");
+  const [alertType, setAlertType] = useState("");
   const [message, setMessage] = useState("");
 
   function showAlertAndContent({ type, message, timeout }: AlertArgs) {
-    setType(type);
+    setAlertType(type);
     setShowAlert(true);
     setMessage(message);
     setTimeout(() => setShowAlert(false), timeout || 4000);
@@ -25,7 +25,7 @@ export function AlertProvider({ children }: AlertProviderProps) {
 
   const values: AlertState = {
     showAlert,
-    type,
+    alertType,
     message,
     setShowAlert,
     showAlertAndContent,
@@ -33,6 +33,6 @@ export function AlertProvider({ children }: AlertProviderProps) {
   };
 
   return (
-    <ModalContext.Provider value={values}>{children}</ModalContext.Provider>
+    <AlertContext.Provider value={values}>{children}</AlertContext.Provider>
   );
 }

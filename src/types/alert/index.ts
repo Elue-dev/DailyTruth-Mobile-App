@@ -12,7 +12,7 @@ export interface AlertArgs {
 
 export interface AlertState {
   showAlert: boolean;
-  type: string;
+  alertType: string;
   message: string;
   setShowAlert: Dispatch<SetStateAction<boolean>>;
   showAlertAndContent: ({ type, message }: AlertArgs) => void;
