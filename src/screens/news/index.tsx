@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator,
+  Button,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
@@ -20,6 +20,8 @@ import { News } from "../../types/news";
 import { COLORS } from "../../common/colors";
 import useFetchCollection from "../../hooks/useFetchCollection";
 import Loader from "../../components/loader";
+import { Image } from "react-native";
+import { useAuth } from "../../context/auth/AuthContext";
 
 export default function NewsScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -28,6 +30,9 @@ export default function NewsScreen() {
   const [selectedOption, setSelectedOption] = useState("VerfiedAndUnverified");
   const modifiedInterests = ["All", ...interests];
   const [selectedInterest, setSelectedInterest] = useState("All");
+  const {
+    state: { user },
+  } = useAuth();
   const {
     state: { bottomSheetOpen },
     isDarkMode,
@@ -38,6 +43,7 @@ export default function NewsScreen() {
 
   useEffect(() => {
     setNewsData(data);
+    setDataToUse(data);
   }, [loading, data]);
 
   const primaryColorToUse = isDarkMode
@@ -164,12 +170,13 @@ export default function NewsScreen() {
       )}
 
       {selectedInterest !== "All" && dataToUse.length === 0 ? (
-        <View className="mx-4">
-          <Text
-            className={`pt-8 text-base ${
-              isDarkMode ? "text-grayNeutral" : "text-extraLightGray"
-            } `}
-          >
+        <View className="mx-4 mt-20">
+          <Image
+            source={require("../../assets/cuate.png")}
+            className="h-80 w-full"
+            style={{ resizeMode: "contain" }}
+          />
+          <Text className="pt-8 text-xl text-center text-extraLightGray dark:text-grayNeutral">
             No news found with category {selectedInterest}{" "}
             {selectedOption !== "VerfiedAndUnverified" &&
               (selectedOption === "UnVerfiedOnly"
@@ -178,26 +185,35 @@ export default function NewsScreen() {
                 ? "that is verified"
                 : null)}
           </Text>
-          {selectedOption === "VerfiedAndUnverified" && (
-            <Text
-              className={`${
-                isDarkMode ? "text-grayNeutral" : "text-extraLightGray"
-              } pt-2 text-base`}
-            >
-              Either there are no news on {selectedInterest} or{" "}
-              {selectedInterest} is not among your interests.
-            </Text>
-          )}
+          {selectedOption === "VerfiedAndUnverified" && user ? (
+            <View>
+              <Text className="pt-2 text-base text-center text-extraLightGray dark:text-grayNeutral">
+                Either there are no news on {selectedInterest} or{" "}
+                {selectedInterest} is not among your interests.
+              </Text>
+
+              <View className="mt-4">
+                <Button
+                  title="Manage interests"
+                  onPress={() => navigation.navigate("ManageInterests")}
+                  color={
+                    isDarkMode ? COLORS.primaryColorTheme : COLORS.primaryColor
+                  }
+                />
+              </View>
+            </View>
+          ) : null}
         </View>
       ) : (
         <View className="pt-3" style={{ zIndex: -1 }}>
-          <NewsCard dataToUse={newsData} setDataToUse={setNewsData} />
+          <NewsCard dataToUse={dataToUse} setDataToUse={setDataToUse} />
         </View>
       )}
 
       {bottomSheetOpen && (
         <BottomSheetComponent
           selectedInterest={selectedInterest}
+          dataToUse={newsData}
           setDataToUse={setDataToUse}
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}

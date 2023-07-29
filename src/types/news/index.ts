@@ -41,9 +41,8 @@ export interface SearchNews {
 export interface NewsFilter {
   selectedOption: string;
   selectedInterest: string;
-  newsData: News[];
+  dataToUse: News[];
   setDataToUse: Dispatch<SetStateAction<News[]>>;
   toggleBottomSheet: () => void;
   toggleOverlay: () => void;
-  showAlertAndContent: ({ type, message }: AlertArgs) => void;
 }

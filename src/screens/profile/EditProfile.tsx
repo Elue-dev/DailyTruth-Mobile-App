@@ -17,12 +17,13 @@ import CustomLeftHeader from "../../helpers/CustomLeftHeader";
 import { ScrollView } from "react-native-gesture-handler";
 import { DEFAULT_AVATAR } from "../../utils";
 import * as ImagePicker from "expo-image-picker";
-import { styles } from "./styles";
 import { useAlert } from "../../context/alert/AlertContext";
 import { database, storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { Timestamp, doc, updateDoc } from "firebase/firestore";
 import { COLORS } from "../../common/colors";
+import { Ionicons } from "@expo/vector-icons";
+import { styles } from "./styles";
 
 export default function EditProfile() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -49,7 +50,15 @@ export default function EditProfile() {
       ),
 
       headerLeft: () =>
-        isDarkMode && Platform.OS === "ios" ? <CustomLeftHeader /> : null,
+        Platform.OS === "ios" ? (
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons
+              name="arrow-back-circle"
+              size={29}
+              color={COLORS.gray200}
+            />
+          </TouchableOpacity>
+        ) : null,
     });
   }, [isDarkMode]);
 
@@ -65,7 +74,7 @@ export default function EditProfile() {
     }
   }
 
-  async function uploadImageToFirebase(): Promise<string> {
+  async function uploadImageToStorage(): Promise<string> {
     try {
       const response = await fetch(image!);
       const blob = await response.blob();
@@ -122,7 +131,7 @@ export default function EditProfile() {
     let imageUrl: string | undefined;
     try {
       if (imageHasChanged) {
-        imageUrl = await uploadImageToFirebase();
+        imageUrl = await uploadImageToStorage();
       }
       const docRef = doc(database, "users", user?.id!);
       await updateDoc(docRef, {

@@ -28,6 +28,7 @@ export type SheetAction =
 
 export interface BottomSheetProps {
   selectedInterest: string;
+  dataToUse: News[];
   setDataToUse: Dispatch<SetStateAction<News[]>>;
   selectedOption: string;
   setSelectedOption: Dispatch<SetStateAction<string>>;

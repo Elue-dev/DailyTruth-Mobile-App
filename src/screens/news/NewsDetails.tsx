@@ -48,7 +48,7 @@ export default function NewsDetails() {
     toggleOverlay();
   }
 
-  console.log({ news });
+  console.log({ newsDate: news.date });
 
   function backArrow() {
     return (

@@ -1,5 +1,5 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import { newsData } from "../../screens/news/data";
+// import { newsData } from "../../screens/news/data";
 import {
   MaterialIcons,
   Ionicons,
@@ -29,7 +29,7 @@ export default function NewsCard({
   const { showAlertAndContent } = useAlert();
   const { state } = useAuth();
 
-  async function saveNews(news: News) {
+  async function saveNews(news: News[]) {
     setLoading(true);
     try {
       const newsWithUserID = {

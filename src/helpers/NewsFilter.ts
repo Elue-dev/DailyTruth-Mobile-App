@@ -1,59 +1,39 @@
-import { useAlert } from "../context/alert/AlertContext";
-import { useAuth } from "../context/auth/AuthContext";
+import { Timestamp } from "firebase/firestore";
 import { NewsFilter } from "../types/news";
 
 export function applyNewsFilter({
   selectedOption,
   selectedInterest,
-  newsData,
+  dataToUse,
   setDataToUse,
   toggleBottomSheet,
   toggleOverlay,
-  showAlertAndContent,
 }: NewsFilter) {
   let filteredNews;
+
   switch (selectedOption) {
     case "VerfiedOnly":
-      selectedInterest === "All"
-        ? (filteredNews = newsData.filter((news) => news.isVerified === true))
-        : (filteredNews = newsData.filter(
-            (news) =>
-              news.isVerified === true &&
-              news.category
-                .toLowerCase()
-                .includes(selectedInterest.toLowerCase())
-          ));
+      filteredNews = dataToUse.filter((news) => news.isVerified === true);
       break;
     case "VerfiedAndUnverified":
-      selectedInterest === "All"
-        ? (filteredNews = newsData)
-        : (filteredNews = newsData.filter((news) =>
-            news.category.toLowerCase().includes(selectedInterest.toLowerCase())
-          ));
+      filteredNews = dataToUse;
       break;
     case "UnVerfiedOnly":
-      selectedInterest === "All"
-        ? (filteredNews = newsData.filter((news) => news.isVerified === false))
-        : (filteredNews = newsData.filter(
-            (news) =>
-              news.isVerified === false &&
-              news.category
-                .toLowerCase()
-                .includes(selectedInterest.toLowerCase())
-          ));
-
+      filteredNews = dataToUse.filter((news) => news.isVerified === false);
       break;
     default:
-      filteredNews = newsData;
+      filteredNews = dataToUse;
   }
+
+  if (selectedInterest !== "All") {
+    filteredNews = filteredNews.filter((news) =>
+      news.category.toLowerCase().includes(selectedInterest.toLowerCase())
+    );
+  }
+
+  console.log(filteredNews.length);
+
   setDataToUse(filteredNews);
   toggleBottomSheet();
   toggleOverlay();
-  const resultsFound = filteredNews.length > 0;
-  showAlertAndContent({
-    type: resultsFound ? "success" : "info",
-    message: resultsFound
-      ? `${filteredNews.length} news found`
-      : "No news were found",
-  });
 }

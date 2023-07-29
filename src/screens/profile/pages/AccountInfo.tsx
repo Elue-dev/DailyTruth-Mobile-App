@@ -31,16 +31,6 @@ export default function AccountInfo() {
     });
   }, [isDarkMode]);
 
-  function setUserInterests(interest: string) {
-    if (selectedCategories.includes(interest)) {
-      setSelectedCategories(
-        selectedCategories.filter((cat) => cat !== interest)
-      );
-    } else {
-      setSelectedCategories([...selectedCategories, interest]);
-    }
-  }
-
   return (
     <ScrollView
       className="flex-1 bg-white dark:bg-darkNeutral"

@@ -12,7 +12,7 @@ export default function CustomLeftHeader() {
 
   return isDarkMode ? (
     <TouchableOpacity onPress={() => navigation.goBack()}>
-      <Ionicons name="chevron-back-outline" size={29} color={COLORS.gray300} />
+      <Ionicons name="arrow-back-circle" size={29} color={COLORS.gray200} />
     </TouchableOpacity>
   ) : null;
 }

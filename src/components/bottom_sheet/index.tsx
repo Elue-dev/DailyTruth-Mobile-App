@@ -6,13 +6,12 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { styles } from "./style";
 import { COLORS } from "../../common/colors";
-import { newsData } from "../../screens/news/data";
 import { BottomSheetProps } from "../../types/bottom_sheet";
 import { applyNewsFilter } from "../../helpers/NewsFilter";
-import { useAlert } from "../../context/alert/AlertContext";
 
 export default function BottomSheetComponent({
   selectedInterest,
+  dataToUse,
   setDataToUse,
   selectedOption,
   setSelectedOption,
@@ -21,7 +20,6 @@ export default function BottomSheetComponent({
   const navigation = useNavigation<NavigationProp<any>>();
   const SheetRef = useRef(null);
   const snapPoints = useMemo(() => ["50"], []);
-  const { showAlertAndContent } = useAlert();
 
   function handleBottomSheetActions(route: string | null) {
     toggleBottomSheet();
@@ -33,11 +31,10 @@ export default function BottomSheetComponent({
     applyNewsFilter({
       selectedOption,
       selectedInterest,
-      newsData,
+      dataToUse,
       setDataToUse,
       toggleBottomSheet,
       toggleOverlay,
-      showAlertAndContent,
     });
   }
 
