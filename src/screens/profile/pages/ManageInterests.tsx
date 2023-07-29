@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../types/navigation";
@@ -13,6 +14,8 @@ import CustomLeftHeader from "../../../helpers/CustomLeftHeader";
 import { interests } from "../../../data/interests";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { useAlert } from "../../../context/alert/AlertContext";
+import { Timestamp, doc, updateDoc } from "firebase/firestore";
+import { database } from "../../../lib/firebase";
 
 export default function ManageInterests() {
   const [uInterests, setUInterests] = useState<string[] | undefined>([]);
@@ -20,9 +23,10 @@ export default function ManageInterests() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const {
     state: { user },
+    setActiveUser,
   } = useAuth();
   const { isDarkMode } = useSheet();
-  const { showAlertAndContent } = useAlert();
+  const { showAlertAndContent, closeAlert } = useAlert();
   const btn = isDarkMode ? "bg-primaryColorTheme" : "bg-primaryColorTheme";
 
   useLayoutEffect(() => {
@@ -33,7 +37,8 @@ export default function ManageInterests() {
         </Text>
       ),
 
-      headerLeft: () => (isDarkMode ? <CustomLeftHeader /> : null),
+      headerLeft: () =>
+        isDarkMode && Platform.OS === "ios" ? <CustomLeftHeader /> : null,
     });
   }, [isDarkMode]);
 
@@ -45,6 +50,7 @@ export default function ManageInterests() {
   }, [interests]);
 
   function manageUserInterests(interest: string) {
+    closeAlert();
     if (uInterests?.includes(interest)) {
       setUInterests(uInterests.filter((int) => int !== interest));
     } else {
@@ -52,12 +58,42 @@ export default function ManageInterests() {
     }
   }
 
-  function updateUserInterests() {
-    navigation.goBack();
-    showAlertAndContent({
-      type: "success",
-      message: "Interests successfully updated",
-    });
+  async function updateUserInterests() {
+    if (uInterests?.length! < 4) {
+      return showAlertAndContent({
+        type: "error",
+        message: "Interests must be 4 and above",
+      });
+    }
+
+    setLoading(true);
+    try {
+      const docRef = doc(database, "users", user?.id!);
+      await updateDoc(docRef, {
+        interests: uInterests,
+        updatedAt: Timestamp.now().toDate(),
+      });
+      setLoading(false);
+      const userInfo = {
+        id: user?.id!,
+        username: user?.username!,
+        email: user?.email!,
+        interests: uInterests!,
+        avatar: user?.avatar!,
+      };
+      setActiveUser(userInfo);
+      navigation.goBack();
+      showAlertAndContent({
+        type: "success",
+        message: "Interests successfully updated",
+      });
+    } catch (error) {
+      setLoading(false);
+      showAlertAndContent({
+        type: "error",
+        message: "Something went wrong. Please try again",
+      });
+    }
   }
 
   return (
@@ -102,7 +138,7 @@ export default function ManageInterests() {
       <View className="mt-14 mb-24 mx-4">
         {loading ? (
           <TouchableOpacity className="bg-primaryColorLighter py-3 rounded-md">
-            <ActivityIndicator color={"#FFF"} size="small" />
+            <ActivityIndicator color={"#fff"} size="small" />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity

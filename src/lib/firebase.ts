@@ -5,6 +5,7 @@ import { getStorage } from "firebase/storage";
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCRVDwYThmulK-_ohxgGWHGEpzN7LLctgw",
+  databaseUrl: "gs://dailytruthapp.appspot.com",
   authDomain: "dailytruthapp.firebaseapp.com",
   projectId: "dailytruthapp",
   storageBucket: "dailytruthapp.appspot.com",

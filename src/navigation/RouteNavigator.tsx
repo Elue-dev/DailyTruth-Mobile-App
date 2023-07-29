@@ -16,6 +16,7 @@ import TermsAndPrivacy from "../screens/profile/pages/TermsAndPrivacy";
 import SavedScreen from "../screens/saved";
 import { useSheet } from "../context/bottom_sheet/BottomSheetContext";
 import AccountInfo from "../screens/profile/pages/AccountInfo";
+import EditProfile from "../screens/profile/EditProfile";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -176,6 +177,21 @@ export default function RouteNavigator() {
         options={{
           headerShown: true,
           headerTitleAlign: "center",
+          headerTintColor: isDarkMode ? "#C7C7CC" : "#270809",
+          headerStyle: {
+            backgroundColor: isDarkMode
+              ? COLORS.grayNeutralTheme
+              : COLORS.grayNeutral,
+          },
+        }}
+      />
+      <RootStack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{
+          headerShown: true,
+          headerTitleAlign: "center",
+          presentation: "modal",
           headerTintColor: isDarkMode ? "#C7C7CC" : "#270809",
           headerStyle: {
             backgroundColor: isDarkMode

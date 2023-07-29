@@ -9,6 +9,7 @@ import {
   FontAwesome,
   Ionicons,
   MaterialIcons,
+  Entypo,
 } from "@expo/vector-icons";
 import { Platform, StyleSheet } from "react-native";
 import NewsScreen from "../screens/news";
@@ -80,6 +81,15 @@ export default function TabsNavigator() {
                 style={styles.tabBarIcon}
               />
             );
+          case "More":
+            return (
+              <Entypo
+                name="dots-three-vertical"
+                size={size}
+                color={focused ? colorToUse : "#AEAEB2"}
+                style={styles.tabBarIcon}
+              />
+            );
           default:
             return null;
         }
@@ -139,7 +149,7 @@ export default function TabsNavigator() {
       />
 
       <TabStack.Screen
-        name="Profile"
+        name={user ? "Profile" : "More"}
         component={ProfileScreen}
         options={{
           headerShown: true,

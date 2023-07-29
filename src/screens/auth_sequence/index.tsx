@@ -1,13 +1,8 @@
-import { View, Text } from "react-native";
 import React, { useState } from "react";
 import UserCredentials from "../../components/auth/UserCredentials";
 import UserInterests from "../../components/auth/UserInterests";
 import { Credentials } from "../../types/auth";
-import {
-  NavigationProp,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
 const initiaCredentials: Credentials = {
   username: "",
@@ -15,13 +10,15 @@ const initiaCredentials: Credentials = {
   password: "",
 };
 
+interface PageParams {
+  state: string;
+}
+
 export default function AuthSequence() {
-  const navigation = useNavigation<NavigationProp<any>>();
-  const params: any = useRoute().params;
+  const { state } = useRoute().params as PageParams;
   const [authStep, setAuthStep] = useState("credentials");
   const [credentials, setCredentials] = useState(initiaCredentials);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [paramsPassed] = useState<string | boolean>(params?.state || false);
 
   function nextStep() {
     setAuthStep("interests");
@@ -41,7 +38,7 @@ export default function AuthSequence() {
         <UserCredentials
           nextStep={nextStep}
           prevStep={prevStep}
-          paramsPassed={paramsPassed}
+          paramsPassed={state}
           initiaCredentials={initiaCredentials}
           credentials={credentials}
           setCredentials={setCredentials}

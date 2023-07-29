@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from "react";
-import { View, Text, SafeAreaView, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, Platform } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../types/navigation";
 import { useSheet } from "../../../context/bottom_sheet/BottomSheetContext";
@@ -7,9 +7,8 @@ import CustomLeftHeader from "../../../helpers/CustomLeftHeader";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { DEFAULT_AVATAR } from "../../../utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { COLORS } from "../../../common/colors";
-import { interests } from "../../../data/interests";
 
 export default function AccountInfo() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -27,7 +26,8 @@ export default function AccountInfo() {
         </Text>
       ),
 
-      headerLeft: () => (isDarkMode ? <CustomLeftHeader /> : null),
+      headerLeft: () =>
+        isDarkMode && Platform.OS === "ios" ? <CustomLeftHeader /> : null,
     });
   }, [isDarkMode]);
 
@@ -50,7 +50,7 @@ export default function AccountInfo() {
         <View className="pt-6 mx-3 justify-center items-center">
           <Image
             source={{ uri: user?.avatar || DEFAULT_AVATAR }}
-            className="h-28 w-28 rounded-full"
+            className="h-28 w-28 rounded-full bg-primaryColorLighter"
           />
           <Text className="pt-2 text-darkNeutral dark:text-lightText text-xl font-bold">
             {user?.username}
@@ -58,9 +58,32 @@ export default function AccountInfo() {
         </View>
 
         <View className="pt-6">
-          <Text className="text-darkNeutral dark:text-gray-500 text-base font-bold pb-3">
-            INFORMATION
-          </Text>
+          <View className="flex-row items-center justify-between pb-3">
+            <Text className="text-darkNeutral dark:text-gray-500 text-base font-bold pb-3">
+              INFORMATION
+            </Text>
+
+            <View>
+              <TouchableOpacity
+                className="flex-row items-center gap-2"
+                onPress={() => {
+                  navigation.navigate("EditProfile");
+                }}
+              >
+                <Text className="text-primaryColor dark:text-primaryColorTheme text-[15px]">
+                  Edit Profile
+                </Text>
+
+                <AntDesign
+                  name="edit"
+                  size={15}
+                  color={
+                    isDarkMode ? COLORS.primaryColorTheme : COLORS.primaryColor
+                  }
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
 
           <View className="flex-row justify-between items-center pb-2 border-b-[.2px] border-b-lightBorder dark:border-b-slate-200">
             <Text className="text-darkNeutral dark:text-lightGray text-base">
@@ -94,14 +117,16 @@ export default function AccountInfo() {
                   navigation.navigate("ManageInterests");
                 }}
               >
-                <Text className="text-darkNeutral dark:text-lightGray text-[15px]">
+                <Text className="text-primaryColor dark:text-primaryColorTheme text-[15px]">
                   Manage
                 </Text>
 
                 <AntDesign
                   name="edit"
                   size={15}
-                  color={isDarkMode ? COLORS.lightGray : COLORS.gray600}
+                  color={
+                    isDarkMode ? COLORS.primaryColorTheme : COLORS.primaryColor
+                  }
                 />
               </TouchableOpacity>
             </View>
@@ -117,7 +142,7 @@ export default function AccountInfo() {
             }}
           >
             {user?.interests.map((interest) => (
-              <TouchableOpacity key={interest}>
+              <View key={interest}>
                 <Text
                   style={{
                     color: "gray",
@@ -133,7 +158,7 @@ export default function AccountInfo() {
                 >
                   {interest}
                 </Text>
-              </TouchableOpacity>
+              </View>
             ))}
           </View>
         </View>

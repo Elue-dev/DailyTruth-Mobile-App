@@ -10,7 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserCredentialsProps } from "../../types/auth";
 import {
   CommonActions,
@@ -39,9 +39,7 @@ export default function UserCredentials({
 }: UserCredentialsProps) {
   const [currentInput, setCurrentInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [authAction, setAuthAction] = useState(
-    paramsPassed ? "Sign In" : "Sign Up"
-  );
+  const [authAction, setAuthAction] = useState("Sign Up");
   const changedActionState = authAction === "Sign Up" ? "Sign In" : "Sign Up";
   const isAndroid = Platform.OS === "android";
   const navigation = useNavigation<NavigationProp<any>>();
@@ -51,6 +49,11 @@ export default function UserCredentials({
   const { showAlertAndContent } = useAlert();
   const text = isDarkMode ? "text-lightText" : "text-darkNeutral";
   const btn = isDarkMode ? "bg-primaryColorTheme" : "bg-primaryColorTheme";
+
+  useEffect(() => {
+    const paramsToUse = paramsPassed === "Sign Up" ? "Sign Up" : "Sign In";
+    setAuthAction(paramsToUse);
+  }, [paramsPassed]);
 
   async function loginUser() {
     if (email || password) {

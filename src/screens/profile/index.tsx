@@ -43,7 +43,7 @@ export default function ProfileScreen() {
             isDarkMode ? "text-gray300" : "text-primaryColorSec"
           }  font-semibold text-[18px]`}
         >
-          Profile
+          {user ? " Profile" : "More"}
         </Text>
       ),
     });
@@ -72,7 +72,7 @@ export default function ProfileScreen() {
         navigation.navigate("ContactSupport");
         break;
       case "Terms and Privacy Policy":
-        navigation.navigate("Terms");
+        navigation.navigate("Terms", { defaultTitle: "Terms Of Use" });
         break;
       case "Saved News":
         navigation.navigate("Saved");
@@ -208,7 +208,9 @@ export default function ProfileScreen() {
         ) : (
           <View>
             <TouchableOpacity
-              onPress={() => navigation.navigate("AuthSequence")}
+              onPress={() =>
+                navigation.navigate("AuthSequence", { state: "Sign Up" })
+              }
               className="flex-row justify-between items-center pb-5"
             >
               <View>

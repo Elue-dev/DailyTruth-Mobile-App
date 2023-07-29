@@ -115,7 +115,9 @@ export default function CreateAccountStart() {
 
         <View className="pt-14">
           <TouchableOpacity
-            onPress={() => navigation.navigate("AuthSequence")}
+            onPress={() =>
+              navigation.navigate("AuthSequence", { state: "Sign Up" })
+            }
             className="border border-1 border-lightGray mr-3 rounded-md mt-4 bg-grayNeutral"
           >
             <Text
@@ -147,13 +149,21 @@ export default function CreateAccountStart() {
         <View className="mt-32">
           <Text className="leading-6 text-grayText dark:text-lightGray">
             By signing up, you agree with our{" "}
-            <Text onPress={() => console.warn("terms")}>
+            <Text
+              onPress={() =>
+                navigation.navigate("Terms", { defaultTitle: "Terms Of Use" })
+              }
+            >
               <Text className="font-bold uppercase text-grayText dark:text-lightGray">
                 Terms of Service
               </Text>
             </Text>{" "}
             and{" "}
-            <Text onPress={() => console.warn("policy")}>
+            <Text
+              onPress={() =>
+                navigation.navigate("Terms", { defaultTitle: "Privacy Policy" })
+              }
+            >
               <Text className="font-bold uppercase text-grayText dark:text-lightGray">
                 Privacy Policy
               </Text>

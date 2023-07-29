@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView, Platform } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
@@ -30,7 +30,8 @@ export default function SavedScreen() {
         </Text>
       ),
 
-      headerLeft: () => (isDarkMode ? <CustomLeftHeader /> : null),
+      headerLeft: () =>
+        isDarkMode && Platform.OS === "ios" ? <CustomLeftHeader /> : null,
     });
   }, [isDarkMode]);
 

@@ -3,7 +3,6 @@ import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { CompositeScreenProps } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { User } from "./auth";
 
 export type RootStackParamList = {
   TabStack: NavigatorScreenParams<TabStackParamList>;
@@ -20,7 +19,10 @@ export type RootStackParamList = {
   AccountInfo: undefined;
   ManageInterests: undefined;
   ContactSupport: undefined;
-  Terms: undefined;
+  Terms: {
+    defaultTitle: "string";
+  };
+  EditProfile: undefined;
 };
 
 export type TabStackParamList = {
@@ -29,6 +31,7 @@ export type TabStackParamList = {
   Search: undefined;
   AddNews: undefined;
   Profile: undefined;
+  More: undefined;
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

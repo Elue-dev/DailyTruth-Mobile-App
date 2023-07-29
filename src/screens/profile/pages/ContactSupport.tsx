@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView, Platform } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../types/navigation";
 import { useLayoutEffect } from "react";
@@ -21,7 +21,8 @@ export default function ContactSupport() {
         </Text>
       ),
 
-      headerLeft: () => (isDarkMode ? <CustomLeftHeader /> : null),
+      headerLeft: () =>
+        isDarkMode && Platform.OS === "ios" ? <CustomLeftHeader /> : null,
     });
   }, [isDarkMode]);
 

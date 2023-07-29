@@ -9,7 +9,7 @@ export interface Credentials {
 export interface UserCredentialsProps {
   initiaCredentials: Credentials;
   credentials: Credentials;
-  paramsPassed: string | boolean;
+  paramsPassed: string;
   setCredentials: Dispatch<SetStateAction<UserCredentialsProps["credentials"]>>;
   handleTextChange: (name: string, text: string) => void;
   prevStep: () => void;

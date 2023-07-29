@@ -1,5 +1,15 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
+import {
+  NavigationProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { RootStackParamList } from "../../../types/navigation";
 import { useLayoutEffect, useState } from "react";
 import { useSheet } from "../../../context/bottom_sheet/BottomSheetContext";
@@ -8,24 +18,26 @@ import TermsOfUse from "../../../components/terms_and_privacy/TermsOfUse";
 import PrivacyPolicy from "../../../components/terms_and_privacy/PrivacyPolicy";
 import { COLORS } from "../../../common/colors";
 
+interface PageParams {
+  defaultTitle: string;
+}
+
 export default function TermsAndPrivacy() {
-  const [currentTitle, setCurrentTitle] = useState("Terms Of Use");
+  const { defaultTitle } = useRoute().params as PageParams;
+  const [currentTitle, setCurrentTitle] = useState(defaultTitle);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { isDarkMode } = useSheet();
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text
-          className={`${
-            isDarkMode ? "text-gray300" : "text-primaryColorSec"
-          }  font-semibold text-[18px]`}
-        >
-          Terms and Privacy
+        <Text className="text-primaryColorSec dark:text-gray300 font-semibold text-[18px]">
+          Terms and Privacy Policy
         </Text>
       ),
 
-      headerLeft: () => (isDarkMode ? <CustomLeftHeader /> : null),
+      headerLeft: () =>
+        isDarkMode && Platform.OS === "ios" ? <CustomLeftHeader /> : null,
     });
   }, [isDarkMode]);
 
