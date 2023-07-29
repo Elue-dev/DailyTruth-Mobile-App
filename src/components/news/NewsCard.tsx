@@ -6,11 +6,16 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
 import { News } from "../../types/news";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
+import { getTimeDifference } from "../../helpers";
+import { addDoc, collection } from "firebase/firestore";
+import { database } from "../../lib/firebase";
+import { useAlert } from "../../context/alert/AlertContext";
+import { useAuth } from "../../context/auth/AuthContext";
 
 export default function NewsCard({
   dataToUse,
@@ -18,12 +23,35 @@ export default function NewsCard({
   dataToUse: any;
   setDataToUse?: Dispatch<SetStateAction<News[]>>;
 }) {
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { isDarkMode } = useSheet();
+  const { showAlertAndContent } = useAlert();
+  const { state } = useAuth();
 
-  // useEffect(() => {
-  //   setDataToUse && setDataToUse(newsData);
-  // }, []);
+  async function saveNews(news: News) {
+    setLoading(true);
+    try {
+      const newsWithUserID = {
+        ...news,
+        userID: state.user?.id,
+      };
+      const collectionRef = collection(database, "saved");
+      await addDoc(collectionRef, newsWithUserID);
+      setLoading(false);
+      showAlertAndContent({
+        type: "success",
+        message: "News saved",
+      });
+    } catch (error) {
+      setLoading(false);
+      console.log({ error });
+      showAlertAndContent({
+        type: "error",
+        message: "Something went wrong. Please try again",
+      });
+    }
+  }
 
   return (
     <View className="mx-2">
@@ -53,7 +81,7 @@ export default function NewsCard({
                     isDarkMode ? "text-lightText" : "text-extraLightGray"
                   } font-light`}
                 >
-                  {news.date}
+                  {getTimeDifference(news.date)}
                 </Text>
                 <View className="flex-row gap-1">
                   {news.isVerified ? (
@@ -130,13 +158,19 @@ export default function NewsCard({
                     {news.readTime === 1 ? "min read" : "mins read"}
                   </Text>
                 </View>
-                <TouchableOpacity>
-                  <MaterialCommunityIcons
-                    name="bookmark-multiple-outline"
-                    size={20}
-                    color={isDarkMode ? COLORS.gray100 : COLORS.grayText}
-                  />
-                </TouchableOpacity>
+                {loading ? (
+                  <Text className="text-darkNeutral dark:text-gray100">
+                    ...
+                  </Text>
+                ) : (
+                  <TouchableOpacity onPress={() => saveNews(news)}>
+                    <MaterialCommunityIcons
+                      name="bookmark-multiple-outline"
+                      size={20}
+                      color={isDarkMode ? COLORS.gray100 : COLORS.grayText}
+                    />
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
           </View>

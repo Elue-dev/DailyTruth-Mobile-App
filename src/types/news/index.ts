@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { AlertArgs } from "../alert";
+import { Timestamp } from "firebase/firestore";
 
 export interface News {
   id: string;
@@ -8,10 +9,23 @@ export interface News {
   content: string;
   category: string;
   readTime: number;
-  date: string;
+  date: Timestamp;
   isVerified: boolean;
   upvotes: number;
   sources: string[];
+}
+export interface SavedNews {
+  id: string;
+  title: string;
+  image?: string;
+  content: string;
+  category: string;
+  readTime: number;
+  date: Timestamp;
+  isVerified: boolean;
+  upvotes: number;
+  sources: string[];
+  userID: string;
 }
 
 export interface SearchNews {

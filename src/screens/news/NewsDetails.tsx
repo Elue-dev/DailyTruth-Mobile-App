@@ -26,6 +26,7 @@ import { News } from "../../types/news";
 import { SharedElement } from "react-native-shared-element";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import BottomSheetTwo from "../../components/bottom_sheet/BottomSheetTwo";
+import { getTimeDifference } from "../../helpers";
 
 interface NewsParams {
   news: News;
@@ -46,6 +47,8 @@ export default function NewsDetails() {
     toggleBottomSheet();
     toggleOverlay();
   }
+
+  console.log({ news });
 
   function backArrow() {
     return (
@@ -143,7 +146,7 @@ export default function NewsDetails() {
                     isDarkMode ? "text-gray100" : "text-grayText"
                   } text-[14px] font-medium`}
                 >
-                  {news.date}
+                  {getTimeDifference(news.date)}
                 </Text>
               </View>
             </View>

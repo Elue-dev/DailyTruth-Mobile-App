@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  useColorScheme,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
@@ -17,11 +17,13 @@ import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import BottomSheetComponent from "../../components/bottom_sheet";
 import { SharedElement } from "react-native-shared-element";
 import { News } from "../../types/news";
-import { newsData } from "./data";
 import { COLORS } from "../../common/colors";
+import useFetchCollection from "../../hooks/useFetchCollection";
+import Loader from "../../components/loader";
 
 export default function NewsScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [newsData, setNewsData] = useState<any[]>([]);
   const [dataToUse, setDataToUse] = useState<News[]>([]);
   const [selectedOption, setSelectedOption] = useState("VerfiedAndUnverified");
   const modifiedInterests = ["All", ...interests];
@@ -32,6 +34,11 @@ export default function NewsScreen() {
     toggleBottomSheet,
     toggleOverlay,
   } = useSheet();
+  const { data, loading } = useFetchCollection("news");
+
+  useEffect(() => {
+    setNewsData(data);
+  }, [loading, data]);
 
   const primaryColorToUse = isDarkMode
     ? "border-b-primaryColorTheme"
@@ -88,6 +95,8 @@ export default function NewsScreen() {
       ),
     });
   }, [isDarkMode]);
+
+  if (loading) return <Loader />;
 
   return (
     <SafeAreaView
@@ -154,7 +163,7 @@ export default function NewsScreen() {
         </>
       )}
 
-      {dataToUse.length === 0 ? (
+      {selectedInterest !== "All" && dataToUse.length === 0 ? (
         <View className="mx-4">
           <Text
             className={`pt-8 text-base ${
@@ -182,7 +191,7 @@ export default function NewsScreen() {
         </View>
       ) : (
         <View className="pt-3" style={{ zIndex: -1 }}>
-          <NewsCard dataToUse={dataToUse} setDataToUse={setDataToUse} />
+          <NewsCard dataToUse={newsData} setDataToUse={setNewsData} />
         </View>
       )}
 

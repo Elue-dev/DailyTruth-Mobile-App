@@ -124,7 +124,6 @@ export default function EditProfile() {
       if (imageHasChanged) {
         imageUrl = await uploadImageToFirebase();
       }
-
       const docRef = doc(database, "users", user?.id!);
       await updateDoc(docRef, {
         avatar: imageHasChanged ? imageUrl : user?.avatar,
