@@ -4,6 +4,7 @@ import {
   MaterialIcons,
   Ionicons,
   MaterialCommunityIcons,
+  Octicons,
 } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -12,15 +13,23 @@ import { RootStackParamList } from "../../types/navigation";
 import { News } from "../../types/news";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { getTimeDifference } from "../../helpers";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
 import { database } from "../../lib/firebase";
 import { useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
 
 export default function NewsCard({
   dataToUse,
+  location,
 }: {
   dataToUse: any;
+  location: string;
   setDataToUse?: Dispatch<SetStateAction<News[]>>;
 }) {
   const [loading, setLoading] = useState(false);
@@ -29,13 +38,44 @@ export default function NewsCard({
   const { showAlertAndContent } = useAlert();
   const { state } = useAuth();
 
-  async function saveNews(news: News[]) {
+  async function saveNews(news: News, action: string) {
     setLoading(true);
+    const querySnapshot = await getDocs(collection(database, "saved"));
+    const savedDoc = querySnapshot.docs.find(
+      (doc) => doc.data().id === news.id
+    );
+
+    if (savedDoc?.data()) {
+      setLoading(false);
+      showAlertAndContent({
+        type: "error",
+        message: "You have previously saved this post",
+      });
+      return;
+    }
+
     try {
       const newsWithUserID = {
         ...news,
         userID: state.user?.id,
       };
+
+      const querySnapshot = await getDocs(collection(database, "saved"));
+      const savedDoc = querySnapshot.docs.find(
+        (doc) => doc.data().id === news.id
+      );
+
+      if (action === "unsave" && savedDoc) {
+        await deleteDoc(doc(database, "saved", savedDoc.id));
+        setLoading(false);
+        navigation.goBack();
+        showAlertAndContent({
+          type: "success",
+          message: "News removed from saved",
+        });
+        return;
+      }
+
       const collectionRef = collection(database, "saved");
       await addDoc(collectionRef, newsWithUserID);
       setLoading(false);
@@ -102,18 +142,23 @@ export default function NewsCard({
                     />
                   )}
 
-                  <Text
-                    className={`${
-                      isDarkMode
-                        ? "text-lightText font-normal"
-                        : "text-lightGray font-bold"
-                    }  `}
-                  >
-                    |
-                  </Text>
-                  <Text className="text-gray200 font-light">
-                    {news.upvotes} {news.upvotes === 1 ? "upvote" : "upvotes"}
-                  </Text>
+                  {location !== "saved" && (
+                    <View className="flex-row items-center">
+                      <Text
+                        className={`mr-1 ${
+                          isDarkMode
+                            ? "text-lightText font-normal"
+                            : "text-lightGray font-bold"
+                        }  `}
+                      >
+                        |
+                      </Text>
+                      <Text className="text-gray200 font-light">
+                        {news.upvotes.length}{" "}
+                        {news.upvotes.length === 1 ? "upvote" : "upvotes"}
+                      </Text>
+                    </View>
+                  )}
                 </View>
               </View>
 
@@ -163,13 +208,27 @@ export default function NewsCard({
                     ...
                   </Text>
                 ) : (
-                  <TouchableOpacity onPress={() => saveNews(news)}>
-                    <MaterialCommunityIcons
-                      name="bookmark-multiple-outline"
-                      size={20}
-                      color={isDarkMode ? COLORS.gray100 : COLORS.grayText}
-                    />
-                  </TouchableOpacity>
+                  <>
+                    {location === "saved" ? (
+                      <TouchableOpacity
+                        onPress={() => saveNews(news, "unsave")}
+                      >
+                        <Octicons
+                          name="bookmark-slash"
+                          size={20}
+                          color={isDarkMode ? COLORS.gray100 : COLORS.grayText}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity onPress={() => saveNews(news, "save")}>
+                        <MaterialCommunityIcons
+                          name="bookmark-multiple-outline"
+                          size={20}
+                          color={isDarkMode ? COLORS.gray100 : COLORS.grayText}
+                        />
+                      </TouchableOpacity>
+                    )}
+                  </>
                 )}
               </View>
             </View>

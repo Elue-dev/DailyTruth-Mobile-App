@@ -11,7 +11,7 @@ export interface News {
   readTime: number;
   date: Timestamp;
   isVerified: boolean;
-  upvotes: number;
+  upvotes: string[];
   sources: string[];
 }
 export interface SavedNews {

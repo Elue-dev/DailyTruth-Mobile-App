@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useState } from "react";
 import {
   View,
   Text,
@@ -27,28 +27,41 @@ import { SharedElement } from "react-native-shared-element";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import BottomSheetTwo from "../../components/bottom_sheet/BottomSheetTwo";
 import { getTimeDifference } from "../../helpers";
+import {
+  Timestamp,
+  collection,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import { database } from "../../lib/firebase";
+import { useAlert } from "../../context/alert/AlertContext";
+import { useAuth } from "../../context/auth/AuthContext";
 
 interface NewsParams {
   news: News;
 }
 
 export default function NewsDetails() {
+  const [loading, setLoading] = useState(false);
   const { width } = Dimensions.get("window");
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { news } = useRoute().params as NewsParams;
+  const {
+    state: { user },
+  } = useAuth();
   const {
     state: { bottomSheetOpen },
     isDarkMode,
     toggleBottomSheet,
     toggleOverlay,
   } = useSheet();
+  const { showAlertAndContent } = useAlert();
 
   function handleBottomSheetActions() {
     toggleBottomSheet();
     toggleOverlay();
   }
-
-  console.log({ newsDate: news.date });
 
   function backArrow() {
     return (
@@ -90,6 +103,52 @@ export default function NewsDetails() {
       // headerLeft: bottomSheetOpen ? backArrowDisabled : backArrow,
     });
   }, [bottomSheetOpen, isDarkMode]);
+
+  async function upvoteNews() {
+    setLoading(true);
+
+    try {
+      const querySnapshot = await getDocs(collection(database, "news"));
+      const newsDoc = querySnapshot.docs.find(
+        (doc) => doc.data().id === news.id
+      );
+
+      if (newsDoc) {
+        const docRef = doc(database, "news", newsDoc.id);
+        if (newsDoc.data().upvotes.includes(user?.id)) {
+          setLoading(false);
+          showAlertAndContent({
+            type: "info",
+            message: "News already upvoted by you",
+          });
+          return;
+        }
+        await updateDoc(docRef, {
+          upvotes: [...newsDoc.data().upvotes, user?.id],
+          updatedAt: Timestamp.now().toDate(),
+        });
+        setLoading(false);
+        showAlertAndContent({
+          type: "success",
+          message: "News upvoted",
+        });
+      } else {
+        setLoading(false);
+        showAlertAndContent({
+          type: "error",
+          message: "News document not found",
+        });
+      }
+    } catch (error) {
+      console.log({ error });
+
+      setLoading(false);
+      showAlertAndContent({
+        type: "error",
+        message: "Something went wrong. Please try again",
+      });
+    }
+  }
 
   return (
     <SafeAreaView className={`${isDarkMode ? "bg-darkNeutral" : ""} `}>
@@ -153,13 +212,18 @@ export default function NewsDetails() {
           </View>
 
           <View className="flex-row items-center gap-4">
-            <TouchableOpacity>
-              <SimpleLineIcons
-                name="like"
-                size={18}
-                color={isDarkMode ? "white" : "black"}
-              />
-            </TouchableOpacity>
+            {loading ? (
+              <Text className="text-darkNeutral dark:text-lightText">...</Text>
+            ) : (
+              <TouchableOpacity onPress={upvoteNews}>
+                <SimpleLineIcons
+                  name="like"
+                  size={18}
+                  color={isDarkMode ? "white" : "black"}
+                />
+              </TouchableOpacity>
+            )}
+
             <TouchableOpacity onPress={toggleBottomSheet}>
               <Entypo
                 name="dots-three-vertical"
@@ -256,7 +320,7 @@ export default function NewsDetails() {
         </>
       )}
 
-      {bottomSheetOpen && <BottomSheetTwo />}
+      {bottomSheetOpen && <BottomSheetTwo currentNews={news} />}
     </SafeAreaView>
   );
 }

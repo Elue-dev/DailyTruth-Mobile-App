@@ -16,7 +16,6 @@ export default function SavedScreen() {
   const [savedNews, setSavedNews] = useState<any>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchInitiated, setSearchIntiated] = useState(false);
-  const [showInput, setShowInput] = useState(false);
   const { isDarkMode } = useSheet();
   const { state } = useAuth();
   const { data, loading } = useFetchCollection("saved");
@@ -42,11 +41,12 @@ export default function SavedScreen() {
   }, [isDarkMode]);
 
   useEffect(() => {
-    const userSavedNews = data?.filter(
-      (news: SavedNews) => news.userID === state.user?.id
-    );
-    if (userSavedNews.length === 0) setShowInput(true);
-    setSavedNews(userSavedNews);
+    if (data.length > 0) {
+      const userSavedNews = data?.filter(
+        (news: SavedNews) => news.userID === state.user?.id
+      );
+      setSavedNews(userSavedNews);
+    }
   }, [data, loading]);
 
   useEffect(() => {
@@ -60,20 +60,19 @@ export default function SavedScreen() {
   }, [searchQuery]);
 
   if (loading) return <Loader />;
+  if (userSavedNews.length === 0) return <NoSavedNews />;
 
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-darkNeutral">
-      {showInput ? (
-        <Search
-          location="saved"
-          newsFromComponent={userSavedNews}
-          setNewsData={setSavedNews || undefined}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          searchInitiated={searchInitiated}
-          setSearchIntiated={setSearchIntiated}
-        />
-      ) : null}
+      <Search
+        location="saved"
+        newsFromComponent={userSavedNews}
+        setNewsData={setSavedNews || undefined}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        searchInitiated={searchInitiated}
+        setSearchIntiated={setSearchIntiated}
+      />
 
       <View className="pt-3" style={{ zIndex: -1 }}>
         {searchInitiated && savedNews?.length === 0 ? (
@@ -90,22 +89,26 @@ export default function SavedScreen() {
               Try searching something else.
             </Text>
           </View>
-        ) : savedNews.length === 0 ? (
-          <View className="justify-center items-center pt-24">
-            <Image
-              source={require("../../assets/rafiki.png")}
-              className="h-80 w-80"
-              style={{ resizeMode: "contain" }}
-            />
-
-            <Text className="text-darkNeutral dark:text-lightGray text-xl mt-5">
-              Any news you save will appear here
-            </Text>
-          </View>
         ) : (
-          <NewsCard dataToUse={savedNews} />
+          <NewsCard dataToUse={savedNews} location="saved" />
         )}
       </View>
     </SafeAreaView>
+  );
+}
+
+function NoSavedNews() {
+  return (
+    <View className="flex-1 justify-center items-center bg-white dark:bg-darkNeutral">
+      <Image
+        source={require("../../assets/rafiki.png")}
+        className="h-80 w-80"
+        style={{ resizeMode: "contain" }}
+      />
+
+      <Text className="text-darkNeutral dark:text-lightGray text-xl mt-5">
+        Any news you save will appear here
+      </Text>
+    </View>
   );
 }

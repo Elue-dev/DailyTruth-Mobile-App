@@ -33,3 +33,7 @@ export interface BottomSheetProps {
   selectedOption: string;
   setSelectedOption: Dispatch<SetStateAction<string>>;
 }
+
+export interface BottomSheetTwoProps {
+  currentNews: News;
+}
