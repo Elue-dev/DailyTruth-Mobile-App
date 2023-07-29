@@ -21,6 +21,7 @@ module.exports = {
         gray100: "#F2F2F7",
         gray200: "#8E8E93",
         gray300: "#D1D1D6",
+        gray600: "#636366",
         customGreen: "#228753",
         lightText: "#E5E5EA",
         lightBorder: "#404040",

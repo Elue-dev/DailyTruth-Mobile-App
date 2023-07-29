@@ -33,7 +33,6 @@ export default function ProfileScreen() {
 
   const { isDarkMode, toggleTheme } = useSheet();
   const { showAlertAndContent } = useAlert();
-
   const [isEnabled, setIsEnabled] = useState(isDarkMode);
 
   useLayoutEffect(() => {
@@ -50,6 +49,12 @@ export default function ProfileScreen() {
     });
   }, [isDarkMode]);
 
+  const unprotectedProfileData = profileData.filter(
+    (data) => data.isProtected === false
+  );
+
+  const profileDataToUse = user ? profileData : unprotectedProfileData;
+
   function toggleSwitch() {
     setIsEnabled(!isEnabled);
     toggleTheme();
@@ -57,8 +62,8 @@ export default function ProfileScreen() {
 
   function handleProfileNavigation(title: string) {
     switch (title) {
-      case "Complete Registration":
-        navigation.navigate("CompleteReg");
+      case "Account Information":
+        navigation.navigate("AccountInfo");
         break;
       case "Manage Interests":
         navigation.navigate("ManageInterests");
@@ -96,7 +101,7 @@ export default function ProfileScreen() {
       className={`flex-1 ${isDarkMode ? "bg-darkNeutral" : "bg-white"}`}
     >
       <View className="pt-10 mx-3">
-        {profileData.map((data) => (
+        {profileDataToUse.map((data) => (
           <TouchableOpacity
             key={data.title}
             onPress={() => handleProfileNavigation(data.title)}

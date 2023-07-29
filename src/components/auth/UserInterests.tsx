@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { interests } from "../../data/interests";
@@ -111,7 +112,11 @@ export default function UserInterests({
     <SafeAreaView
       className={`${isDarkMode ? "bg-darkNeutral" : "bg-white"}  flex-1`}
     >
-      <ScrollView showsVerticalScrollIndicator={false} className="px-4 mt-8">
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        className="px-4"
+        style={{ marginTop: Platform.OS === "android" ? 85 : null }}
+      >
         <TouchableOpacity onPress={prevStep}>
           <Ionicons
             name="arrow-back-outline"

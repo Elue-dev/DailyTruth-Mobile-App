@@ -3,6 +3,7 @@ import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { CompositeScreenProps } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { User } from "./auth";
 
 export type RootStackParamList = {
   TabStack: NavigatorScreenParams<TabStackParamList>;
@@ -16,7 +17,7 @@ export type RootStackParamList = {
   };
   Search: undefined;
   Saved: undefined;
-  CompleteReg: undefined;
+  AccountInfo: undefined;
   ManageInterests: undefined;
   ContactSupport: undefined;
   Terms: undefined;

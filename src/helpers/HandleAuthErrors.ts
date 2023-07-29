@@ -14,6 +14,9 @@ export function handleAuthErrors(error: string) {
     case "Firebase: Error (auth/wrong-password).":
       errorMessage = "Invalid credentials provided";
       break;
+    case "Firebase: Error (auth/email-already-in-use).":
+      errorMessage = "Email already in use";
+      break;
     case "Firebase: Error (auth/network-request-failed).":
       errorMessage =
         "Network failure. Please ensure you have a stable internet connection";

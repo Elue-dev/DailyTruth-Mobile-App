@@ -138,7 +138,7 @@ export default function UserCredentials({
         <View
           className={`${
             isDarkMode ? "bg-dark" : "bg-grayNeutral"
-          }  flex-row p-[5px] justify-between items-center rounded-lg mt-5 overflow-hidden`}
+          }  flex-row p-[5px] justify-around items-center rounded-lg mt-5 overflow-hidden`}
         >
           {["Sign Up", "Sign In"].map((currentAction, index) => (
             <TouchableOpacity
@@ -147,7 +147,7 @@ export default function UserCredentials({
                 setCredentials(initiaCredentials);
               }}
               key={index}
-              className={`py-1 px-16  rounded-lg ${
+              className={`py-1 px-16 rounded-lg ${
                 currentAction === authAction && isDarkMode
                   ? "bg-authDark"
                   : currentAction === authAction && !isDarkMode

@@ -10,12 +10,12 @@ import { COLORS } from "../common/colors";
 import AuthSequence from "../screens/auth_sequence";
 import NewsDetails from "../screens/news/NewsDetails";
 import SearchScreen from "../screens/search";
-import CompleteRegistration from "../screens/profile/pages/CompleteRegistration";
 import ManageInterests from "../screens/profile/pages/ManageInterests";
 import ContactSupport from "../screens/profile/pages/ContactSupport";
 import TermsAndPrivacy from "../screens/profile/pages/TermsAndPrivacy";
 import SavedScreen from "../screens/saved";
 import { useSheet } from "../context/bottom_sheet/BottomSheetContext";
+import AccountInfo from "../screens/profile/pages/AccountInfo";
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -115,8 +115,8 @@ export default function RouteNavigator() {
         }}
       />
       <RootStack.Screen
-        name="CompleteReg"
-        component={CompleteRegistration}
+        name="AccountInfo"
+        component={AccountInfo}
         options={{
           headerShown: true,
           headerTitleAlign: "center",
