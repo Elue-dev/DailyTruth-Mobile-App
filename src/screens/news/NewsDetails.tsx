@@ -105,8 +105,13 @@ export default function NewsDetails() {
   }, [bottomSheetOpen, isDarkMode]);
 
   async function upvoteNews() {
-    setLoading(true);
+    if (!user)
+      return showAlertAndContent({
+        type: "error",
+        message: "You must be logged in to upvote",
+      });
 
+    setLoading(true);
     try {
       const querySnapshot = await getDocs(collection(database, "news"));
       const newsDoc = querySnapshot.docs.find(
@@ -141,7 +146,6 @@ export default function NewsDetails() {
       }
     } catch (error) {
       console.log({ error });
-
       setLoading(false);
       showAlertAndContent({
         type: "error",

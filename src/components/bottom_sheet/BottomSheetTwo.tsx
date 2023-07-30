@@ -52,10 +52,16 @@ export default function BottomSheetTwo({ currentNews }: BottomSheetTwoProps) {
   }
 
   async function reactToNews(action: string) {
-    setLoading(true);
-
+    if (!user)
+      return showAlertAndContent({
+        type: "error",
+        message: `You must be logged in ${
+          action === "upvote" ? "upvote" : "down vote"
+        } this news `,
+      });
     closeAlert();
 
+    setLoading(true);
     try {
       const querySnapshot = await getDocs(collection(database, "news"));
       const newsDoc = querySnapshot.docs.find(
@@ -128,6 +134,12 @@ export default function BottomSheetTwo({ currentNews }: BottomSheetTwoProps) {
   }
 
   async function saveNews() {
+    closeAlert();
+    if (!user)
+      return showAlertAndContent({
+        type: "error",
+        message: "You must be logged in to saved this nnews",
+      });
     setSaveLoading(true);
     const querySnapshot = await getDocs(collection(database, "saved"));
     const savedDoc = querySnapshot.docs.find(

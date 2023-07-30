@@ -1,5 +1,11 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  Platform,
+} from "react-native";
+import React, { useLayoutEffect, useState } from "react";
 import { useSheet } from "../../../context/bottom_sheet/BottomSheetContext";
 import { TextInput } from "react-native-gesture-handler";
 import { sendPasswordResetEmail } from "firebase/auth";
@@ -10,6 +16,8 @@ import {
 } from "../../../helpers/HandleAuthErrors";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { auth } from "../../../lib/firebase";
+import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "../../../common/colors";
 
 export default function ForgotPassword() {
   const [loading, setLoading] = useState(false);
@@ -19,6 +27,27 @@ export default function ForgotPassword() {
   const { isDarkMode } = useSheet();
   const { showAlertAndContent, closeAlert } = useAlert();
   const navigation = useNavigation<NavigationProp<any>>();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <Text className="text-primaryColorSec dark:text-gray300 font-semibold text-[18px]">
+          Reset Password
+        </Text>
+      ),
+
+      headerLeft: () =>
+        Platform.OS === "ios" ? (
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons
+              name="arrow-back-circle"
+              size={29}
+              color={COLORS.gray200}
+            />
+          </TouchableOpacity>
+        ) : null,
+    });
+  }, [isDarkMode]);
 
   async function sendResetEmail() {
     closeAlert();
