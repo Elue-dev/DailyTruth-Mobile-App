@@ -4,6 +4,8 @@ import {
   useReducer,
   useEffect,
   Dispatch,
+  useState,
+  SetStateAction,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthReducer } from "./AuthReducer";
@@ -16,6 +18,8 @@ import {
 
 interface AuthContextType {
   state: AuthState;
+  selectedInterest: string;
+  setSelectedInterest: Dispatch<SetStateAction<string>>;
   dispatch: Dispatch<AuthAction>;
   setActiveUser: (user: User) => Promise<void>;
   removeActiveUser: () => void;
@@ -38,6 +42,7 @@ async function loadUserFromStorage(dispatch: Dispatch<AuthAction>) {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
+  const [selectedInterest, setSelectedInterest] = useState("All");
   const [state, dispatch] = useReducer(AuthReducer, {
     user: null,
   });
@@ -63,6 +68,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const values: AuthContextType = {
     state,
+    selectedInterest,
+    setSelectedInterest,
     dispatch,
     setActiveUser,
     removeActiveUser,

@@ -180,7 +180,7 @@ export default function EditProfile() {
       keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
     >
       <ScrollView ref={scrollViewRef} keyboardShouldPersistTaps="handled">
-        <Text className="text-[17px] text-darkNeutral font-bold dark:text-gray-400">
+        <Text className="text-[17px] text-darkNeutral font-bold dark:text-gray-400 mb-3">
           Photo
         </Text>
         <View style={styles.flexTop}>
@@ -204,7 +204,7 @@ export default function EditProfile() {
           </View>
         </View>
 
-        <View className="pt-10">
+        <View className="pt-11">
           <Text className="text-[17px] text-darkNeutral font-bold dark:text-gray-400">
             Username
           </Text>
@@ -258,6 +258,12 @@ export default function EditProfile() {
               )}
             </TouchableOpacity>
           </View>
+
+          {user?.isDeactivated && (
+            <Text className="text-gray-500 dark:text-gray-400 mt-10 text-right italic">
+              Your account is currently deactivated
+            </Text>
+          )}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

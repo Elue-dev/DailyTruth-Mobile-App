@@ -74,7 +74,7 @@ export default function SavedScreen() {
         setSearchIntiated={setSearchIntiated}
       />
 
-      <View className="pt-3" style={{ zIndex: -1 }}>
+      <View className="pt-3 pb-10" style={{ zIndex: -1 }}>
         {searchInitiated && savedNews?.length === 0 ? (
           <View className="justify-center items-center pt-20">
             <View className="flex-row items-center gap-1 pb-2">
@@ -106,8 +106,8 @@ function NoSavedNews() {
         style={{ resizeMode: "contain" }}
       />
 
-      <Text className="text-darkNeutral dark:text-lightGray text-xl mt-5">
-        Any news you save will appear here
+      <Text className="text-darkNeutral dark:text-lightGray text-xl mt-5 mx-3">
+        Nothing here yet. Any news you save will appear here
       </Text>
     </View>
   );

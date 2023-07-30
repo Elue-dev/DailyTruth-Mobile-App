@@ -24,6 +24,7 @@ export default function ManageInterests() {
   const {
     state: { user },
     setActiveUser,
+    setSelectedInterest,
   } = useAuth();
   const { isDarkMode } = useSheet();
   const { showAlertAndContent, closeAlert } = useAlert();
@@ -97,6 +98,7 @@ export default function ManageInterests() {
         type: "success",
         message: "Interests successfully updated",
       });
+      setSelectedInterest("All");
     } catch (error) {
       setLoading(false);
       showAlertAndContent({

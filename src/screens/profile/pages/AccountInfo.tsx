@@ -7,7 +7,12 @@ import CustomLeftHeader from "../../../helpers/CustomLeftHeader";
 import { useAuth } from "../../../context/auth/AuthContext";
 import { DEFAULT_AVATAR } from "../../../utils";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { AntDesign } from "@expo/vector-icons";
+import {
+  AntDesign,
+  MaterialCommunityIcons,
+  Entypo,
+  Ionicons,
+} from "@expo/vector-icons";
 import { COLORS } from "../../../common/colors";
 
 export default function AccountInfo() {
@@ -48,7 +53,7 @@ export default function AccountInfo() {
 
         <View className="pt-6">
           <View className="flex-row items-center justify-between pb-3">
-            <Text className="text-darkNeutral dark:text-gray-500 text-base font-bold pb-3">
+            <Text className="text-darkNeutral dark:text-gray-500 text-base font-bold ">
               INFORMATION
             </Text>
 
@@ -91,11 +96,41 @@ export default function AccountInfo() {
               {user?.email}
             </Text>
           </View>
+
+          <View className="flex-row justify-between items-center pb-2 pt-5 border-b-[.2px] border-b-lightBorder dark:border-b-slate-200">
+            <Text className="text-darkNeutral dark:text-lightGray text-base">
+              Status
+            </Text>
+
+            <View className="flex-row items-center gap-1">
+              {user?.isDeactivated ? (
+                <Ionicons
+                  name="lock-closed"
+                  size={16}
+                  color={isDarkMode ? "#e52828" : "#e81919"}
+                />
+              ) : (
+                <MaterialCommunityIcons
+                  name="lock-open-check"
+                  size={18}
+                  color="#228753"
+                />
+              )}
+
+              <Text
+                className={`${
+                  user?.isDeactivated ? "text-red-500" : "text-customGreen"
+                } text-base`}
+              >
+                {user?.isDeactivated ? "Deactivated" : "Active"}
+              </Text>
+            </View>
+          </View>
         </View>
 
-        <View className="pt-8">
+        <View className="pt-14">
           <View className="flex-row items-center justify-between">
-            <Text className="text-darkNeutral dark:text-gray-500 text-base font-bold pb-3">
+            <Text className="text-darkNeutral dark:text-gray-500 text-base font-bold">
               INTERESTS
             </Text>
 
@@ -134,7 +169,7 @@ export default function AccountInfo() {
               <View key={interest}>
                 <Text
                   style={{
-                    color: COLORS.gray300,
+                    color: isDarkMode ? COLORS.gray300 : COLORS.grayText,
                     borderColor: isDarkMode
                       ? COLORS.lightBorder
                       : COLORS.grayNeutral,

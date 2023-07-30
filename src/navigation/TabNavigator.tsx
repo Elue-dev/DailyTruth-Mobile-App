@@ -105,9 +105,13 @@ export default function TabsNavigator() {
       },
       tabBarStyle: {
         display: state.bottomSheetOpen ? "none" : "flex",
-        borderTopWidth: isDarkMode ? 0.19 : 1,
+        borderTopWidth: isDarkMode ? 0 : 1,
         borderColor: "#d8d8d8",
-        backgroundColor: isDarkMode ? "#1F1F1F" : "#FFF",
+        backgroundColor: isDarkMode ? "rgba(31, 31, 31, 0.96)" : "#FFF",
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
       },
     };
   }

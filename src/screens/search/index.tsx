@@ -67,7 +67,10 @@ export default function SearchScreen() {
             />
 
             <Text className="text-darkNeutral dark:text-lightGray text-[19px] text-center mt-5 mx-3">
-              Start searching some news by Title, Keywords or Categories!
+              Start searching some news by Title, Keywords or Categories!{" "}
+              <Text className="text-gray-500">
+                (news found are according to your interests)
+              </Text>
             </Text>
           </View>
         </>
@@ -83,6 +86,9 @@ export default function SearchScreen() {
           </View>
           <Text className="text-xl font-bold text-grayText dark:text-lightText">
             Try searching something else.
+          </Text>
+          <Text className="text-base font-bold text-gray-500 dark:text-gray-400">
+            (results are based on your interests)
           </Text>
         </View>
       ) : (

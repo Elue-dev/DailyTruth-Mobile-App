@@ -6,6 +6,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { News, SearchNews } from "../../types/news";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import useFetchCollection from "../../hooks/useFetchCollection";
+import { useAuth } from "../../context/auth/AuthContext";
 
 export default function Search({
   location,
@@ -17,6 +18,9 @@ export default function Search({
   setSearchIntiated,
 }: SearchNews) {
   const inputRef = useRef<TextInput>(null);
+  const {
+    state: { user },
+  } = useAuth();
   const { isDarkMode } = useSheet();
   const { data: allNews } = useFetchCollection("news");
 
@@ -25,8 +29,11 @@ export default function Search({
   // });
 
   useEffect(() => {
+    const userSpecificNews = allNews.filter((news: News) =>
+      user?.interests.includes(news.category)
+    );
     function handleNewsSearch() {
-      const searchResults = allNews?.filter(
+      const searchResults = userSpecificNews?.filter(
         (news: News) =>
           news.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           news.category.toLowerCase().includes(searchQuery.toLowerCase()) ||

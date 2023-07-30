@@ -24,6 +24,7 @@ export type RootStackParamList = {
   };
   EditProfile: undefined;
   ForgotPassword: undefined;
+  NewsComments: undefined;
 };
 
 export type TabStackParamList = {

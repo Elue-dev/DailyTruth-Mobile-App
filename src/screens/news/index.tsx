@@ -11,7 +11,6 @@ import {
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { interests } from "../../data/interests";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import NewsCard from "../../components/news/NewsCard";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
@@ -23,6 +22,7 @@ import useFetchCollection from "../../hooks/useFetchCollection";
 import Loader from "../../components/loader";
 import { Image } from "react-native";
 import { useAuth } from "../../context/auth/AuthContext";
+import { interests } from "../../data/interests";
 
 export default function NewsScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -30,10 +30,12 @@ export default function NewsScreen() {
   const [dataToUse, setDataToUse] = useState<News[]>([]);
   const [selectedOption, setSelectedOption] = useState("VerfiedAndUnverified");
   const modifiedInterests = ["All", ...interests];
-  const [selectedInterest, setSelectedInterest] = useState("All");
   const {
     state: { user },
+    selectedInterest,
+    setSelectedInterest,
   } = useAuth();
+
   const {
     state: { bottomSheetOpen },
     isDarkMode,
@@ -43,9 +45,12 @@ export default function NewsScreen() {
   const { data, loading } = useFetchCollection("news");
 
   useEffect(() => {
-    setNewsData(data);
-    setDataToUse(data);
-  }, [loading, data]);
+    const userSpecificNews = data.filter((news: News) =>
+      user?.interests.includes(news.category)
+    );
+    setNewsData(userSpecificNews);
+    setDataToUse(userSpecificNews);
+  }, [loading, data, user?.interests]);
 
   const primaryColorToUse = isDarkMode
     ? "border-b-primaryColorTheme"
@@ -123,9 +128,7 @@ export default function NewsScreen() {
               }}
             >
               <View
-                className={`mt-4  ${
-                  isDarkMode ? "border-b-2" : "border-b-4"
-                } py-1 px-2 ${
+                className={`mt-4 border-b-4 dark:border-b-2 py-1 px-2 ${
                   selectedInterest === item
                     ? primaryColorToUse
                     : "border-b-grayNeutral"
@@ -173,7 +176,7 @@ export default function NewsScreen() {
       {selectedInterest !== "All" && dataToUse.length === 0 ? (
         <View className="mx-4 mt-20">
           <Image
-            source={require("../../assets/cuate.png")}
+            source={require("../../assets/Character.png")}
             className="h-80 w-full"
             style={{ resizeMode: "contain" }}
           />
@@ -219,7 +222,7 @@ export default function NewsScreen() {
           ) : null}
         </View>
       ) : (
-        <View className="pt-3" style={{ zIndex: -1 }}>
+        <View className="pt-3 pb-20" style={{ zIndex: -1 }}>
           <NewsCard
             dataToUse={dataToUse}
             setDataToUse={setDataToUse}

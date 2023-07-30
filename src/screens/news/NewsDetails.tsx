@@ -19,6 +19,8 @@ import {
   Ionicons,
   Entypo,
   SimpleLineIcons,
+  Fontisto,
+  MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
 import { News } from "../../types/news";
@@ -73,7 +75,16 @@ export default function NewsDetails() {
           News
         </Text>
       ),
-      // headerLeft: bottomSheetOpen ? backArrowDisabled : backArrow,
+
+      headerRight: () => (
+        <TouchableOpacity onPress={() => navigation.navigate("NewsComments")}>
+          <MaterialCommunityIcons
+            name="comment-text-multiple-outline"
+            size={22}
+            color={`${isDarkMode ? COLORS.gray300 : "#666"}`}
+          />
+        </TouchableOpacity>
+      ),
     });
   }, [bottomSheetOpen, isDarkMode]);
 
@@ -250,7 +261,7 @@ export default function NewsDetails() {
           >
             {news.content}
           </Text>
-          <View className="pt-5">
+          <View className="pt-5 pb-10">
             <Text
               className={`${
                 isDarkMode ? "text-gray100" : "text-grayText"
