@@ -6,6 +6,8 @@ import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import VerificationStart from "./VerificationStart";
 import VerificationResults from "./VerificationResults";
 import { News } from "../../types/news";
+import useFetchCollection from "../../hooks/useFetchCollection";
+import Loader from "../../components/loader";
 
 export default function VerifyScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -13,6 +15,7 @@ export default function VerifyScreen() {
   const [verificationStep, setVerificationStep] = useState("start");
   const [keyword, setKeyword] = useState("");
   const [verificationResults, setVerificationResults] = useState<News[]>([]);
+  const { data, loading } = useFetchCollection("news");
 
   function nextStep() {
     setVerificationStep("results");
@@ -32,10 +35,13 @@ export default function VerifyScreen() {
     });
   }, [isDarkMode]);
 
+  if (loading) return <Loader />;
+
   switch (verificationStep) {
     case "start":
       return (
         <VerificationStart
+          newsData={data}
           nextStep={nextStep}
           keyword={keyword}
           setKeyword={setKeyword}

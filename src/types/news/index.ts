@@ -48,6 +48,7 @@ export interface NewsFilter {
 }
 
 export interface VerificationStartProps {
+  newsData: News[];
   nextStep: () => void;
   keyword: string;
   setKeyword: Dispatch<SetStateAction<string>>;

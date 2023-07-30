@@ -6,20 +6,43 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { VerificationStartProps } from "../../types/news";
+import { News, VerificationStartProps } from "../../types/news";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { COLORS } from "../../common/colors";
 import { useState } from "react";
+import { useAlert } from "../../context/alert/AlertContext";
 
 export default function VerificationStart({
+  newsData,
+  nextStep,
   keyword,
   setKeyword,
   setVerificationResults,
 }: VerificationStartProps) {
   const { isDarkMode } = useSheet();
   const [loading, setLoading] = useState(false);
+  const { showAlertAndContent } = useAlert();
 
-  async function verifyNews() {}
+  async function verifyNews() {
+    setLoading(true);
+    try {
+      const verificationResults = newsData.filter(
+        (news: News) =>
+          news.title.toLowerCase().includes(keyword.toLowerCase()) ||
+          news.category.toLowerCase().includes(keyword.toLowerCase()) ||
+          news.content.toLowerCase().includes(keyword.toLowerCase())
+      );
+      setVerificationResults(verificationResults);
+      setLoading(false);
+      nextStep();
+    } catch (error) {
+      setLoading(false);
+      showAlertAndContent({
+        type: "error",
+        message: "Something went wrong. Please try again",
+      });
+    }
+  }
 
   return (
     <View className="flex-1 bg-white dark:bg-darkNeutral">
