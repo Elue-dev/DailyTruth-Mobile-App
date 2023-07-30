@@ -39,6 +39,12 @@ export default function NewsCard({
   const { state } = useAuth();
 
   async function saveNews(news: News, action: string) {
+    if (!state.user)
+      return showAlertAndContent({
+        type: "error",
+        message: "You must be logged in to saved this news",
+      });
+
     setLoading(true);
     const querySnapshot = await getDocs(collection(database, "saved"));
     const savedDoc = querySnapshot.docs.find(

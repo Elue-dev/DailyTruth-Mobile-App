@@ -13,7 +13,6 @@ import { useAuth } from "../../context/auth/AuthContext";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
-import CustomLeftHeader from "../../helpers/CustomLeftHeader";
 import { ScrollView } from "react-native-gesture-handler";
 import { DEFAULT_AVATAR } from "../../utils";
 import * as ImagePicker from "expo-image-picker";

@@ -3,7 +3,7 @@ import { View, Text, ScrollView } from "react-native";
 export default function PrivacyPolicy() {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View className="pt-4 pb-28">
+      <View className="pt-4 pb-28 bg-white dark:bg-darkNeutral">
         <Text className="text-primaryColor dark:text-primaryColorTheme font-bold text-[18px] pb-1">
           Data Collection and Usage
         </Text>

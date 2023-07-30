@@ -31,8 +31,6 @@ export function applyNewsFilter({
     );
   }
 
-  console.log(filteredNews.length);
-
   setDataToUse(filteredNews);
   toggleBottomSheet();
   toggleOverlay();

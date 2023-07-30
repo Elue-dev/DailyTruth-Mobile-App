@@ -1,17 +1,11 @@
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Platform,
-} from "react-native";
+import { View, TextInput, TouchableOpacity, Platform } from "react-native";
 import { useEffect, useRef } from "react";
 import { COLORS } from "../../common/colors";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 // import { useFocusEffect } from "@react-navigation/native";
-import { SearchNews } from "../../types/news";
-import { newsData } from "../../screens/news/data";
+import { News, SearchNews } from "../../types/news";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
+import useFetchCollection from "../../hooks/useFetchCollection";
 
 export default function Search({
   location,
@@ -24,6 +18,7 @@ export default function Search({
 }: SearchNews) {
   const inputRef = useRef<TextInput>(null);
   const { isDarkMode } = useSheet();
+  const { data: allNews } = useFetchCollection("news");
 
   // useFocusEffect(() => {
   //   inputRef.current?.focus();
@@ -31,9 +26,8 @@ export default function Search({
 
   useEffect(() => {
     function handleNewsSearch() {
-      const newsToUse = location === "saved" ? newsFromComponent : newsData;
-      const searchResults = newsToUse?.filter(
-        (news) =>
+      const searchResults = allNews?.filter(
+        (news: News) =>
           news.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           news.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
           news.content.toLowerCase().includes(searchQuery.toLowerCase())
@@ -49,7 +43,7 @@ export default function Search({
   function clearSearch() {
     setSearchQuery("");
     setSearchIntiated(false);
-    setNewsData(location === "saved" ? newsFromComponent : newsData);
+    setNewsData(newsFromComponent);
   }
 
   return (
@@ -73,42 +67,7 @@ export default function Search({
           isDarkMode ? COLORS.primaryColorTheme : COLORS.primaryColor
         }
       />
-      {/* {location !== "saved" ? (
-        <>
-          {searchInitiated ? (
-            <TouchableOpacity onPress={handleClearSearch}>
-              <AntDesign
-                name="closecircleo"
-                size={24}
-                color={isDarkMode ? "white" : COLORS.primaryColor}
-                style={{ paddingTop: 10 }}
-              />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={handleNewsSearch}>
-              <Ionicons
-                name="search-outline"
-                size={28}
-                color={isDarkMode ? "white" : COLORS.primaryColor}
-                style={{ paddingTop: 10 }}
-              />
-            </TouchableOpacity>
-          )}
-        </>
-      ) : (
-        <>
-          {searchInitiated && (
-            <TouchableOpacity onPress={handleClearSearch}>
-              <AntDesign
-                name="closecircleo"
-                size={24}
-                color={COLORS.primaryColor}
-                style={{ paddingTop: 10 }}
-              />
-            </TouchableOpacity>
-          )}
-        </>
-      )} */}
+
       {searchQuery && (
         <TouchableOpacity onPress={clearSearch}>
           <MaterialIcons

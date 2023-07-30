@@ -138,7 +138,7 @@ export default function BottomSheetTwo({ currentNews }: BottomSheetTwoProps) {
     if (!user)
       return showAlertAndContent({
         type: "error",
-        message: "You must be logged in to saved this nnews",
+        message: "You must be logged in to saved this news",
       });
     setSaveLoading(true);
     const querySnapshot = await getDocs(collection(database, "saved"));

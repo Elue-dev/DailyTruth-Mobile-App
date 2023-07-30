@@ -46,3 +46,18 @@ export interface NewsFilter {
   toggleBottomSheet: () => void;
   toggleOverlay: () => void;
 }
+
+export interface VerificationStartProps {
+  nextStep: () => void;
+  keyword: string;
+  setKeyword: Dispatch<SetStateAction<string>>;
+  setVerificationResults: Dispatch<SetStateAction<News[]>>;
+}
+
+export interface VerificationResultsProps {
+  prevStep: () => void;
+  keyword: string;
+  setKeyword: Dispatch<SetStateAction<string>>;
+  verificationResults: News[];
+  setVerificationResults: Dispatch<SetStateAction<News[]>>;
+}

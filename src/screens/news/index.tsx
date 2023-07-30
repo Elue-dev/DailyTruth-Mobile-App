@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Button,
+  Platform,
 } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
@@ -193,20 +194,37 @@ export default function NewsScreen() {
               </Text>
 
               <View className="mt-4">
-                <Button
-                  title="Manage interests"
-                  onPress={() => navigation.navigate("ManageInterests")}
-                  color={
-                    isDarkMode ? COLORS.primaryColorTheme : COLORS.primaryColor
-                  }
-                />
+                {Platform.OS === "android" ? (
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("ManageInterests")}
+                    className="py-3 rounded-md bg-trasparent border border-primaryColor dark:border-primaryColorTheme"
+                  >
+                    <Text className="text-primaryColor dark:text-primaryColorTheme font-semibold text-center text-xl">
+                      Manage interests
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <Button
+                    title="Manage interests"
+                    onPress={() => navigation.navigate("ManageInterests")}
+                    color={
+                      isDarkMode
+                        ? COLORS.primaryColorTheme
+                        : COLORS.primaryColor
+                    }
+                  />
+                )}
               </View>
             </View>
           ) : null}
         </View>
       ) : (
         <View className="pt-3" style={{ zIndex: -1 }}>
-          <NewsCard dataToUse={dataToUse} setDataToUse={setDataToUse} />
+          <NewsCard
+            dataToUse={dataToUse}
+            setDataToUse={setDataToUse}
+            location=""
+          />
         </View>
       )}
 

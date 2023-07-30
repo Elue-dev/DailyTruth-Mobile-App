@@ -1,5 +1,5 @@
 import { View, Text, SafeAreaView } from "react-native";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
 import Search from "../../components/search";
@@ -8,6 +8,8 @@ import NewsCard from "../../components/news/NewsCard";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
+import useFetchCollection from "../../hooks/useFetchCollection";
+import Loader from "../../components/loader";
 
 export default function SearchScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -15,6 +17,16 @@ export default function SearchScreen() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchInitiated, setSearchIntiated] = useState(false);
   const { isDarkMode } = useSheet();
+
+  const { data, loading } = useFetchCollection("news");
+
+  useEffect(() => {
+    setNewsData(data);
+  }, [loading, data]);
+
+  // useEffect(() => {
+  //   setNewsData(newsData);
+  // }, [searchQuery]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -30,11 +42,14 @@ export default function SearchScreen() {
     });
   }, [isDarkMode]);
 
+  if (loading) return <Loader />;
+
   return (
     <SafeAreaView
       className={`flex-1 ${isDarkMode ? "bg-darkNeutral" : "bg-white"}`}
     >
       <Search
+        newsFromComponent={newsData}
         setNewsData={setNewsData || undefined}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
@@ -74,7 +89,7 @@ export default function SearchScreen() {
           </Text>
         </View>
       ) : (
-        <NewsCard dataToUse={newsData} />
+        <NewsCard dataToUse={newsData} location="search" />
       )}
     </SafeAreaView>
   );
