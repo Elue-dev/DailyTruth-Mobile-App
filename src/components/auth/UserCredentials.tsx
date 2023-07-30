@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { UserCredentialsProps } from "../../types/auth";
+import { User, UserCredentialsProps } from "../../types/auth";
 import {
   CommonActions,
   NavigationProp,
@@ -59,11 +59,7 @@ export default function UserCredentials({
     if (email || password) {
       setLoading(true);
       try {
-        const user: any = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+        const user = await signInWithEmailAndPassword(auth, email, password);
         if (user) {
           const userDocReference = doc(database, "users", user.user.uid);
           const userDocSnapshot = await getDoc(userDocReference);
@@ -76,6 +72,7 @@ export default function UserCredentials({
               email: userData.email || "",
               interests: userData.interests || [""],
               avatar: userData.avatar || "",
+              isDeactivated: userData.isDeactivated || false,
             };
             setActiveUser(userObj);
           }
@@ -282,7 +279,7 @@ export default function UserCredentials({
           </View>
         </View>
 
-        <View className="mt-14">
+        <View className="mt-7">
           {loading ? (
             <TouchableOpacity className="bg-primaryColorLighter py-3 rounded-md">
               <ActivityIndicator color={"#fff"} size="small" />
@@ -297,18 +294,18 @@ export default function UserCredentials({
               </Text>
             </TouchableOpacity>
           )}
-
-          {/* Forgot Passwoord */}
-          {authAction === "Sign In" && (
-            <TouchableOpacity
-              onPress={() => navigation.navigate("ForgotPassword")}
-            >
-              <Text className="text-base text-darkNeutral dark:text-white mt-3 text-right">
-                Forgot your password?
-              </Text>
-            </TouchableOpacity>
-          )}
         </View>
+
+        {/* Forgot Passwoord */}
+        {authAction === "Sign In" && (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ForgotPassword")}
+          >
+            <Text className="text-base text-darkNeutral dark:text-white mt-5 text-right">
+              Forgot your password?
+            </Text>
+          </TouchableOpacity>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

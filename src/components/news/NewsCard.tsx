@@ -45,6 +45,14 @@ export default function NewsCard({
         message: "You must be logged in to saved this news",
       });
 
+    if (state.user.isDeactivated)
+      return showAlertAndContent({
+        type: "error",
+        message:
+          "Your account is currently deactivated. Reactivate your account to continue",
+        timeout: 5000,
+      });
+
     setLoading(true);
     const querySnapshot = await getDocs(collection(database, "saved"));
     const savedDoc = querySnapshot.docs.find(

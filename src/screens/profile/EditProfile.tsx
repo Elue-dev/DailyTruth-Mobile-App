@@ -116,6 +116,15 @@ export default function EditProfile() {
   }
 
   async function updateUserProfile() {
+    if (user?.isDeactivated) {
+      navigation.goBack();
+      return showAlertAndContent({
+        type: "error",
+        message:
+          "Your account is currently deactivated. Reactivate your account to continue",
+      });
+    }
+
     if (!username) return setInputError(true);
 
     if (username === user?.username && !imageHasChanged) {
@@ -145,6 +154,7 @@ export default function EditProfile() {
         email: user?.email!,
         interests: user?.interests!,
         avatar: imageHasChanged ? imageUrl! : user?.avatar!,
+        isDeactivated: user?.isDeactivated!,
       };
       setActiveUser(userInfo);
       setLoading(false);

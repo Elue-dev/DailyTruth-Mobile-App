@@ -60,7 +60,7 @@ export default function Search({
         ref={location === "saved" ? null : inputRef}
         value={searchQuery}
         onChangeText={(value) => setSearchQuery(value)}
-        className="text-base h-full mt-2 text-darkNeutral dark:text-grayNeutral"
+        className="text-base h-full mt-2 text-darkNeutral dark:text-grayNeutral w-[90%]"
         placeholder="Search news, keywords"
         placeholderTextColor={isDarkMode ? "white" : COLORS.grayText}
         selectionColor={

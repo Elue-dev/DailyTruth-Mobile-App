@@ -3,7 +3,6 @@ import {
   Text,
   SafeAreaView,
   TouchableOpacity,
-  Alert,
   Switch,
   Pressable,
 } from "react-native";
@@ -13,6 +12,9 @@ import {
   SimpleLineIcons,
   FontAwesome,
   MaterialIcons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+  AntDesign,
 } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
 import { profileData } from "./data";
@@ -22,6 +24,7 @@ import { useAuth } from "../../context/auth/AuthContext";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { styles } from "./pages/styles";
 import { useAlert } from "../../context/alert/AlertContext";
+import { useModal } from "../../context/modal/ModalCotext";
 
 export default function ProfileScreen() {
   const navigation = useNavigation<NavigationProp<any>>();
@@ -30,9 +33,9 @@ export default function ProfileScreen() {
     state: { user },
     removeActiveUser,
   } = useAuth();
-
   const { isDarkMode, toggleTheme } = useSheet();
   const { showAlertAndContent } = useAlert();
+  const { showModalAndContent } = useModal();
   const [isEnabled, setIsEnabled] = useState(isDarkMode);
 
   useLayoutEffect(() => {
@@ -80,6 +83,26 @@ export default function ProfileScreen() {
       default:
         return null;
     }
+  }
+
+  async function deactivateAccount() {
+    showModalAndContent({
+      title: "Account Deativation",
+      message:
+        "You are about to deactivate your account. You would no longer be able to react to news, share or flag news. Are you sure you want to proceed?  You can change this settings later in your profile",
+      actionBtnText: "Deactivate",
+      action: "Deactivate",
+    });
+  }
+
+  async function reactivateAccount() {
+    showModalAndContent({
+      title: "Account Reactivation",
+      message:
+        "You are about to reactivate your account. You would now be able to react to news, share or flag news. You can change this settings later in your profile",
+      actionBtnText: "Reactivate",
+      action: "Reactivate",
+    });
   }
 
   async function logOutUser() {
@@ -171,38 +194,61 @@ export default function ProfileScreen() {
           />
         </Pressable>
 
+        {user && (
+          <TouchableOpacity
+            onPress={
+              user?.isDeactivated ? reactivateAccount : deactivateAccount
+            }
+            className={`flex-row justify-between items-center pb-5 border-grayNeutral dark:border-b-lightBorder border-b-2`}
+          >
+            <View>
+              <Text className="text-[17px] mt-4 font-semibold text-primaryColorSec dark:text-gray100">
+                {user?.isDeactivated
+                  ? "Account Reactivation"
+                  : "Account Deactivation"}
+              </Text>
+              <Text className="text-gray200 font-normal dark:text-lightText dark:font-light pt-1">
+                {user?.isDeactivated
+                  ? "Reactivate your account here"
+                  : "Deactivate your account here"}
+              </Text>
+            </View>
+
+            {user.isDeactivated ? (
+              <MaterialCommunityIcons
+                name="account-lock-open"
+                size={38}
+                color={isDarkMode ? COLORS.gray100 : COLORS.primaryColorSec}
+              />
+            ) : (
+              <FontAwesome5
+                name="user-lock"
+                size={26}
+                color={isDarkMode ? COLORS.gray100 : COLORS.primaryColorSec}
+              />
+            )}
+          </TouchableOpacity>
+        )}
+
         {user ? (
           <View>
-            <TouchableOpacity
-              onPress={logOutUser}
-              className="flex-row justify-between items-center pb-5 "
-            >
+            <View className="flex-row justify-between items-center pb-5 ">
               <View>
-                <Text
-                  className={`${
-                    isDarkMode ? "text-gray100" : "text-primaryColorSec"
-                  }  text-[17px] mt-4 font-semibold`}
-                >
+                <Text className="text-primaryColorSec dark:text-gray100 text-[17px] mt-4 font-semibold">
                   Log Out
                 </Text>
-                <Text
-                  className={`${
-                    isDarkMode
-                      ? "text-lightText font-light"
-                      : "text-gray200 font-normal"
-                  } pt-1 `}
-                >
+                <Text className="text-gray200 font-normal dark:text-lightText dark:font-light pt-1">
                   Log out of your account
                 </Text>
               </View>
-              <View>
-                <SimpleLineIcons
+              <TouchableOpacity onPress={logOutUser} className="mr-2">
+                <AntDesign
                   name="logout"
-                  size={25}
+                  size={26}
                   color={isDarkMode ? COLORS.gray100 : COLORS.primaryColorSec}
                 />
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           </View>
         ) : (
           <View>
@@ -213,20 +259,10 @@ export default function ProfileScreen() {
               className="flex-row justify-between items-center pb-5"
             >
               <View>
-                <Text
-                  className={`${
-                    isDarkMode ? "text-gray100" : "text-primaryColorSec"
-                  }  text-[17px] mt-4 font-semibold`}
-                >
+                <Text className="text-primaryColorSec dark:text-gray100 text-[17px] mt-4 font-semibold">
                   Sign In / Sign Up
                 </Text>
-                <Text
-                  className={`${
-                    isDarkMode
-                      ? "text-lightText font-light"
-                      : "text-gray200 font-normal"
-                  } pt-1 `}
-                >
+                <Text className="text-gray200 font-normal dark:text-lightText dark:font-light pt-1">
                   Sign up or Sign in to your account
                 </Text>
               </View>

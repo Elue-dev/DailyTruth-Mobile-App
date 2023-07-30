@@ -9,11 +9,11 @@ export const profileData = [
     description: "Manage your interests according to your preferences",
     isProtected: true,
   },
-  {
-    title: "Contact Support",
-    description: "Reach out to our team for complaints and questions",
-    isProtected: false,
-  },
+  // {
+  //   title: "Contact Support",
+  //   description: "Reach out to our team for complaints and questions",
+  //   isProtected: false,
+  // },
   {
     title: "Terms and Privacy Policy",
     description: "Guidelines guiding this platform and activities here",

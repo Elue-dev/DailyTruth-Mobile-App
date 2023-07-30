@@ -11,6 +11,9 @@ import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { COLORS } from "../../common/colors";
 import { useState } from "react";
 import { useAlert } from "../../context/alert/AlertContext";
+import { useLayoutEffect } from "react";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function VerificationStart({
   newsData,
@@ -22,6 +25,35 @@ export default function VerificationStart({
   const { isDarkMode } = useSheet();
   const [loading, setLoading] = useState(false);
   const { showAlertAndContent } = useAlert();
+  const navigation = useNavigation<NavigationProp<any>>();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <Text className="text-primaryColorSec dark:text-gray300 font-semibold text-[18px]">
+          Verify
+        </Text>
+      ),
+
+      headerLeft: () =>
+        Platform.OS === "ios" ? (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+              setKeyword("");
+              setVerificationResults([]);
+            }}
+            className="mx-3"
+          >
+            <Ionicons
+              name="arrow-back-circle"
+              size={29}
+              color={COLORS.gray200}
+            />
+          </TouchableOpacity>
+        ) : null,
+    });
+  }, [isDarkMode]);
 
   async function verifyNews() {
     setLoading(true);
@@ -66,12 +98,12 @@ export default function VerificationStart({
             }}
           >
             <View className="mx-1">
-              <Text className="text-darkNeutral dark:text-lightText text-base font-bold mt-8">
+              <Text className="text-darkNeutral dark:text-lightText text-base font-bold mt-4">
                 Verify via Keywords
               </Text>
 
               <View
-                className={`mt-4 mb-8 px-3 pb-4 shadow-sm rounded-lg flex-row justify-between items-center border-gray100 dark:border-gray200 ${
+                className={`mt-4 mb-8 px-3 pb-3 shadow-sm rounded-lg flex-row justify-between items-center border-gray100 dark:border-gray200 ${
                   Platform.OS === "android" ? "border-4 dark:border" : "border"
                 }`}
                 style={{
@@ -82,7 +114,7 @@ export default function VerificationStart({
                 <TextInput
                   value={keyword}
                   onChangeText={(newVal) => setKeyword(newVal)}
-                  className="text-base mt-2 text-darkNeutral dark:text-grayNeutral"
+                  className="text-base mt-2 text-darkNeutral dark:text-grayNeutral w-full h-full"
                   placeholder="Enter news keywords"
                   placeholderTextColor={
                     isDarkMode ? COLORS.lightGray : COLORS.grayText
@@ -99,10 +131,16 @@ export default function VerificationStart({
               <TouchableOpacity className="bg-primaryColorLighter py-3 rounded-md">
                 <ActivityIndicator color={"#fff"} size="small" />
               </TouchableOpacity>
+            ) : !keyword ? (
+              <View className="bg-[#e48287] py-3 rounded-md">
+                <Text className="text-white font-semibold text-center text-xl">
+                  Verify News
+                </Text>
+              </View>
             ) : (
               <TouchableOpacity
                 onPress={verifyNews}
-                className={`bg-primaryColor dark:bg-primaryColorTheme py-3 rounded-md`}
+                className="bg-primaryColor dark:bg-primaryColorTheme py-3 rounded-md"
               >
                 <Text className="text-white font-semibold text-center text-xl">
                   Verify News

@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView, Image } from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
@@ -59,20 +59,17 @@ export default function SearchScreen() {
 
       {!searchQuery ? (
         <>
-          <View className="flex justify-center items-center pt-20">
-            <MaterialCommunityIcons
-              name="text-box-search-outline"
-              size={150}
-              color={COLORS.gray200}
+          <View className="flex-1 justify-center items-center bg-white dark:bg-darkNeutral">
+            <Image
+              source={require("../../assets/cuate.png")}
+              className="h-80 w-80"
+              style={{ resizeMode: "contain" }}
             />
+
+            <Text className="text-darkNeutral dark:text-lightGray text-[19px] text-center mt-5 mx-3">
+              Start searching some news by Title, Keywords or Categories!
+            </Text>
           </View>
-          <Text
-            className={`${
-              isDarkMode ? "text-lightGray" : "text-grayText "
-            } text-center text-[20px] pt-4 mx-4 leading-7`}
-          >
-            Start searching some news by Title, Keywords or Categories!
-          </Text>
         </>
       ) : searchInitiated && newsData?.length === 0 ? (
         <View className="justify-center items-center pt-20">

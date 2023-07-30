@@ -8,7 +8,6 @@ import {
   AntDesign,
   FontAwesome,
   Ionicons,
-  MaterialIcons,
   Entypo,
 } from "@expo/vector-icons";
 import { Platform, StyleSheet } from "react-native";
@@ -62,15 +61,17 @@ export default function TabsNavigator() {
                 style={styles.tabBarIcon}
               />
             );
-          case "AddNews":
+          case "AddNews": {
             return (
-              <MaterialIcons
-                name="post-add"
+              <Entypo
+                name="add-to-list"
                 size={size + 8}
                 color={focused ? colorToUse : "#AEAEB2"}
                 style={styles.tabBarIconSec}
               />
             );
+          }
+
           case "Profile":
             return (
               <FontAwesome

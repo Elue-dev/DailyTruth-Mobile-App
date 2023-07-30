@@ -14,9 +14,13 @@ export function handleAuthErrors(error: string) {
     case "Firebase: Error (auth/wrong-password).":
       errorMessage = "Invalid credentials provided";
       break;
+    case "Firebase: Error (auth/missing-password).":
+      errorMessage = "Invalid credentials provided";
+      break;
     case "Firebase: Error (auth/email-already-in-use).":
       errorMessage = "Email already in use";
       break;
+
     case "Firebase: Password should be at least 6 characters (auth/weak-password).":
       errorMessage = "Password should be at least 6 characters";
       break;

@@ -30,6 +30,7 @@ export interface User {
   email: string;
   interests: string[];
   avatar: string;
+  isDeactivated: boolean;
 }
 
 export interface AuthState {

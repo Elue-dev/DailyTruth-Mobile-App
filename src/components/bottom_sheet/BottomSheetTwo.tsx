@@ -23,6 +23,7 @@ import { database } from "../../lib/firebase";
 import { useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
 import { BottomSheetTwoProps } from "../../types/bottom_sheet";
+import Alert from "../alert/Alert";
 
 export default function BottomSheetTwo({ currentNews }: BottomSheetTwoProps) {
   const [loading, setLoading] = useState(false);
@@ -43,23 +44,50 @@ export default function BottomSheetTwo({ currentNews }: BottomSheetTwoProps) {
   }
 
   function flagNews() {
+    closeAlert();
+
+    if (user?.isDeactivated) {
+      showAlertAndContent({
+        type: "error",
+        message:
+          "Your account is currently deactivated. Reactivate your account to continue",
+      });
+      handleBottomSheetActions();
+      return;
+    }
+
     showModalAndContent({
       title: "You are about to flag this News",
       message:
         "This will put this news up for further verification and might be removed from this platform if proven false",
       actionBtnText: "Flag News",
+      action: "Flag",
     });
   }
 
   async function reactToNews(action: string) {
-    if (!user)
-      return showAlertAndContent({
+    closeAlert();
+
+    if (!user) {
+      showAlertAndContent({
         type: "error",
         message: `You must be logged in ${
           action === "upvote" ? "upvote" : "down vote"
         } this news `,
       });
-    closeAlert();
+      handleBottomSheetActions();
+      return;
+    }
+
+    if (user?.isDeactivated) {
+      showAlertAndContent({
+        type: "error",
+        message:
+          "Your account is currently deactivated. Reactivate your account to continue",
+      });
+      handleBottomSheetActions();
+      return;
+    }
 
     setLoading(true);
     try {
@@ -135,11 +163,23 @@ export default function BottomSheetTwo({ currentNews }: BottomSheetTwoProps) {
 
   async function saveNews() {
     closeAlert();
-    if (!user)
+    if (!user) {
       return showAlertAndContent({
         type: "error",
         message: "You must be logged in to saved this news",
       });
+    }
+
+    if (user?.isDeactivated) {
+      showAlertAndContent({
+        type: "error",
+        message:
+          "Your account is currently deactivated. Reactivate your account to continue",
+      });
+      handleBottomSheetActions();
+      return;
+    }
+
     setSaveLoading(true);
     const querySnapshot = await getDocs(collection(database, "saved"));
     const savedDoc = querySnapshot.docs.find(
@@ -170,7 +210,6 @@ export default function BottomSheetTwo({ currentNews }: BottomSheetTwoProps) {
       });
     } catch (error) {
       setSaveLoading(false);
-      console.log({ error });
       showAlertAndContent({
         type: "error",
         message: "Something went wrong. Please try again",

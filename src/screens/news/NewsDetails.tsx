@@ -15,7 +15,6 @@ import {
 } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
 import {
-  AntDesign,
   MaterialIcons,
   Ionicons,
   Entypo,
@@ -63,32 +62,6 @@ export default function NewsDetails() {
     toggleOverlay();
   }
 
-  function backArrow() {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          navigation.goBack();
-        }}
-      >
-        <AntDesign
-          name="arrowleft"
-          size={24}
-          color={isDarkMode ? COLORS.gray300 : COLORS.primaryColorSec}
-        />
-      </TouchableOpacity>
-    );
-  }
-
-  function backArrowDisabled() {
-    return (
-      <AntDesign
-        name="arrowleft"
-        size={24}
-        color={isDarkMode ? COLORS.gray300 : COLORS.primaryColorSec}
-      />
-    );
-  }
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
@@ -109,6 +82,14 @@ export default function NewsDetails() {
       return showAlertAndContent({
         type: "error",
         message: "You must be logged in to upvote",
+      });
+
+    if (user.isDeactivated)
+      return showAlertAndContent({
+        type: "error",
+        message:
+          "Your account is currently deactivated. Reactivate your account to continue",
+        timeout: 5000,
       });
 
     setLoading(true);
@@ -174,7 +155,7 @@ export default function NewsDetails() {
               <View className="flex-row items-center">
                 <Text
                   className={`text-[14px] font-semibold ${
-                    news.isVerified ? "text-customGreen" : "text-primaryColor"
+                    news.isVerified ? "text-customGreen" : "text-red-500"
                   }`}
                 >
                   {news.isVerified ? "Verified" : "Unverified"}{" "}

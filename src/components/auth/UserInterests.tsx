@@ -51,7 +51,7 @@ export default function UserInterests({
   }
 
   async function createUserAccount() {
-    if (selectedCategories.length < 5) {
+    if (selectedCategories.length >= 4) {
       setLoading(true);
       try {
         const userCredential = await createUserWithEmailAndPassword(
@@ -78,6 +78,7 @@ export default function UserInterests({
             email,
             interests: selectedCategories,
             avatar: "",
+            isDeactivated: false,
           };
           setActiveUser(userObj);
           navigation.dispatch(

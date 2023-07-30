@@ -11,6 +11,7 @@ module.exports = {
         primaryColorSec: "#270809",
         primaryColorTet: "#74171C",
         primaryColorTetTheme: "#4E0F12",
+        primaryColorDisabled: "#e48287",
         grayText: "#636366",
         lightGray: "#C7C7CC",
         extraLightGray: "#48484A",

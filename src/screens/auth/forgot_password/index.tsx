@@ -32,7 +32,7 @@ export default function ForgotPassword() {
     navigation.setOptions({
       headerTitle: () => (
         <Text className="text-primaryColorSec dark:text-gray300 font-semibold text-[18px]">
-          Reset Password
+          Forgot Password
         </Text>
       ),
 

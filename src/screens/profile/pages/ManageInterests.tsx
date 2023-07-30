@@ -59,6 +59,15 @@ export default function ManageInterests() {
   }
 
   async function updateUserInterests() {
+    if (user?.isDeactivated) {
+      navigation.goBack();
+      return showAlertAndContent({
+        type: "error",
+        message:
+          "Your account is currently deactivated. Reactivate your account to continue",
+      });
+    }
+
     if (uInterests?.length! < 4) {
       return showAlertAndContent({
         type: "error",
@@ -80,6 +89,7 @@ export default function ManageInterests() {
         email: user?.email!,
         interests: uInterests!,
         avatar: user?.avatar!,
+        isDeactivated: user?.isDeactivated!,
       };
       setActiveUser(userInfo);
       navigation.goBack();

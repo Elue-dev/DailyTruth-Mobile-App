@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect } from "react";
 import { View, Text, Image, ScrollView, Platform } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../types/navigation";
@@ -11,7 +11,6 @@ import { AntDesign } from "@expo/vector-icons";
 import { COLORS } from "../../../common/colors";
 
 export default function AccountInfo() {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { isDarkMode } = useSheet();
   const {
@@ -135,7 +134,7 @@ export default function AccountInfo() {
               <View key={interest}>
                 <Text
                   style={{
-                    color: "gray",
+                    color: COLORS.gray300,
                     borderColor: isDarkMode
                       ? COLORS.lightBorder
                       : COLORS.grayNeutral,
