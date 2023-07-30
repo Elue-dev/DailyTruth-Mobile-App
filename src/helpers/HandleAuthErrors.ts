@@ -17,6 +17,9 @@ export function handleAuthErrors(error: string) {
     case "Firebase: Error (auth/email-already-in-use).":
       errorMessage = "Email already in use";
       break;
+    case "Firebase: Password should be at least 6 characters (auth/weak-password).":
+      errorMessage = "Password should be at least 6 characters";
+      break;
     case "Firebase: Error (auth/network-request-failed).":
       errorMessage =
         "Network failure. Please ensure you have a stable internet connection";

@@ -53,9 +53,9 @@ export default function AddNews() {
     <SafeAreaView
       className={`flex-1 ${isDarkMode ? "bg-darkNeutral" : "bg-white"}`}
     >
-      <Pressable onPress={addNews}>
+      {/* <Pressable onPress={addNews}>
         <Text className="text-white">Add News</Text>
-      </Pressable>
+      </Pressable> */}
     </SafeAreaView>
   );
 }

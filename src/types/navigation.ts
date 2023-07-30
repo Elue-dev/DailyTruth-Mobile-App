@@ -23,6 +23,7 @@ export type RootStackParamList = {
     defaultTitle: "string";
   };
   EditProfile: undefined;
+  ForgotPassword: undefined;
 };
 
 export type TabStackParamList = {

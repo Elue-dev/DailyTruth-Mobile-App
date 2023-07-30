@@ -281,6 +281,7 @@ export default function UserCredentials({
             />
           </View>
         </View>
+
         <View className="mt-14">
           {loading ? (
             <TouchableOpacity className="bg-primaryColorLighter py-3 rounded-md">
@@ -293,6 +294,17 @@ export default function UserCredentials({
             >
               <Text className="text-white font-semibold text-center text-xl">
                 {authAction === "Sign In" ? "Sign In" : "Continue"}
+              </Text>
+            </TouchableOpacity>
+          )}
+
+          {/* Forgot Passwoord */}
+          {authAction === "Sign In" && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("ForgotPassword")}
+            >
+              <Text className="text-base text-darkNeutral dark:text-white mt-3 text-right">
+                Forgot your password?
               </Text>
             </TouchableOpacity>
           )}

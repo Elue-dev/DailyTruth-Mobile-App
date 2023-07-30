@@ -19,7 +19,6 @@ import ProfileScreen from "../screens/profile";
 import { COLORS } from "../common/colors";
 import { useSheet } from "../context/bottom_sheet/BottomSheetContext";
 import { useAuth } from "../context/auth/AuthContext";
-import AuthSequence from "../screens/auth_sequence";
 import AddNews from "../screens/add_news";
 
 const TabStack = createBottomTabNavigator<TabStackParamList>();
@@ -130,15 +129,17 @@ export default function TabsNavigator() {
           headerTitleAlign: "center",
         }}
       />
-      <TabStack.Screen
-        name="AddNews"
-        component={user ? AddNews : AuthSequence}
-        options={{
-          headerShown: user ? true : false,
-          tabBarLabel: "Add News",
-          headerTitleAlign: "center",
-        }}
-      />
+      {user && (
+        <TabStack.Screen
+          name="AddNews"
+          component={AddNews}
+          options={{
+            headerShown: user ? true : false,
+            tabBarLabel: "Add News",
+            headerTitleAlign: "center",
+          }}
+        />
+      )}
       <TabStack.Screen
         name="Search"
         component={SearchScreen}

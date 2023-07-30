@@ -45,7 +45,7 @@ export default function NewsCard({
       (doc) => doc.data().id === news.id
     );
 
-    if (savedDoc?.data()) {
+    if (action === "save" && savedDoc?.data()) {
       setLoading(false);
       showAlertAndContent({
         type: "error",
@@ -115,34 +115,35 @@ export default function NewsCard({
               }}
             >
               {/* Header */}
-              <View className="flex-row justify-between items-center pb-3">
-                <Text
-                  className={`${
-                    isDarkMode ? "text-lightText" : "text-extraLightGray"
-                  } font-light`}
-                >
-                  {getTimeDifference(news.date)}
-                </Text>
-                <View className="flex-row gap-1">
-                  {news.isVerified ? (
-                    <MaterialIcons
-                      name="verified"
-                      size={15}
-                      color={COLORS.customGreen}
-                    />
-                  ) : (
-                    <Ionicons
-                      name="ios-warning-outline"
-                      size={15}
-                      color={
-                        isDarkMode
-                          ? COLORS.primaryColorTheme
-                          : COLORS.primaryColor
-                      }
-                    />
-                  )}
+              {location !== "saved" && (
+                <View className="flex-row justify-between items-center pb-3">
+                  <Text
+                    className={`${
+                      isDarkMode ? "text-lightText" : "text-extraLightGray"
+                    } font-light`}
+                  >
+                    {getTimeDifference(news.date)}
+                  </Text>
 
-                  {location !== "saved" && (
+                  <View className="flex-row gap-1">
+                    {news.isVerified ? (
+                      <MaterialIcons
+                        name="verified"
+                        size={15}
+                        color={COLORS.customGreen}
+                      />
+                    ) : (
+                      <Ionicons
+                        name="ios-warning-outline"
+                        size={15}
+                        color={
+                          isDarkMode
+                            ? COLORS.primaryColorTheme
+                            : COLORS.primaryColor
+                        }
+                      />
+                    )}
+
                     <View className="flex-row items-center">
                       <Text
                         className={`mr-1 ${
@@ -158,9 +159,9 @@ export default function NewsCard({
                         {news.upvotes.length === 1 ? "upvote" : "upvotes"}
                       </Text>
                     </View>
-                  )}
+                  </View>
                 </View>
-              </View>
+              )}
 
               {/* Body */}
               <Text

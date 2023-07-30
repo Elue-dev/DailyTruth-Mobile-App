@@ -23,6 +23,7 @@ import { useState } from "react";
 import { useAuth } from "../../context/auth/AuthContext";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { useAlert } from "../../context/alert/AlertContext";
+import { handleAuthErrors } from "../../helpers/HandleAuthErrors";
 
 export default function UserInterests({
   initiaCredentials,
@@ -50,7 +51,7 @@ export default function UserInterests({
   }
 
   async function createUserAccount() {
-    if (selectedCategories.length > 4) {
+    if (selectedCategories.length < 5) {
       setLoading(true);
       try {
         const userCredential = await createUserWithEmailAndPassword(
@@ -94,10 +95,11 @@ export default function UserInterests({
           });
         }
       } catch (error: any) {
+        const errorMessage = handleAuthErrors(error.message);
         setLoading(false);
         showAlertAndContent({
           type: "error",
-          message: error.message,
+          message: errorMessage,
         });
       }
     } else {
@@ -144,7 +146,6 @@ export default function UserInterests({
             <TouchableOpacity
               key={interest}
               className="w-20"
-              // style={{maxWidth: 20}}
               onPress={() => setUserInterests(interest)}
             >
               <View

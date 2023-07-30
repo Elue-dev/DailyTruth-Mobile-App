@@ -86,7 +86,6 @@ export default function ProfileScreen() {
     try {
       await signOut(auth);
       removeActiveUser();
-      navigation.navigate("News");
     } catch (error: any) {
       console.log(error);
       showAlertAndContent({
