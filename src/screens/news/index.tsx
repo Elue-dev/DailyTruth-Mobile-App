@@ -11,7 +11,11 @@ import {
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  MaterialCommunityIcons,
+  Feather,
+} from "@expo/vector-icons";
 import NewsCard from "../../components/news/NewsCard";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import BottomSheetComponent from "../../components/bottom_sheet";
@@ -20,9 +24,9 @@ import { News } from "../../types/news";
 import { COLORS } from "../../common/colors";
 import useFetchCollection from "../../hooks/useFetchCollection";
 import Loader from "../../components/loader";
-import { Image } from "react-native";
 import { useAuth } from "../../context/auth/AuthContext";
 import { interests } from "../../data/interests";
+import CuateSVG from "../../assets/cuate.svg";
 
 export default function NewsScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -90,9 +94,9 @@ export default function NewsScreen() {
       ),
       headerLeft: () => (
         <TouchableOpacity className="ml-2" onPress={resetOnboarding}>
-          <FontAwesome
-            name="tachometer"
-            size={24}
+          <Feather
+            name="refresh-cw"
+            size={22}
             color={`${isDarkMode ? COLORS.gray300 : "#666"}`}
           />
         </TouchableOpacity>
@@ -176,11 +180,7 @@ export default function NewsScreen() {
 
       {selectedInterest !== "All" && dataToUse.length === 0 ? (
         <View className="mx-4 mt-20">
-          <Image
-            source={require("../../assets/Character.png")}
-            className="h-80 w-full"
-            style={{ resizeMode: "contain" }}
-          />
+          <CuateSVG width={"90%"} height={300} />
           <Text className="pt-8 text-xl text-center text-extraLightGray dark:text-grayNeutral">
             No news found with category {selectedInterest}{" "}
             {selectedOption !== "VerfiedAndUnverified" &&

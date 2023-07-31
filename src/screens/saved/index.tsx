@@ -10,6 +10,7 @@ import CustomLeftHeader from "../../helpers/CustomLeftHeader";
 import useFetchCollection from "../../hooks/useFetchCollection";
 import { useAuth } from "../../context/auth/AuthContext";
 import Loader from "../../components/loader";
+import CuateSVG from "../../assets/cuate.svg";
 
 export default function SavedScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -100,12 +101,7 @@ export default function SavedScreen() {
 function NoSavedNews() {
   return (
     <View className="flex-1 justify-center items-center bg-white dark:bg-darkNeutral">
-      <Image
-        source={require("../../assets/rafiki.png")}
-        className="h-80 w-80"
-        style={{ resizeMode: "contain" }}
-      />
-
+      <CuateSVG width={"90%"} height={400} />
       <Text className="text-darkNeutral dark:text-lightGray text-xl mt-5 mx-3">
         Nothing here yet. Any news you save will appear here
       </Text>

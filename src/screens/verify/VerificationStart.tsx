@@ -9,10 +9,14 @@ import {
 import { News, VerificationStartProps } from "../../types/news";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { COLORS } from "../../common/colors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAlert } from "../../context/alert/AlertContext";
 import { useLayoutEffect } from "react";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  useNavigation,
+  useIsFocused,
+} from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function VerificationStart({
@@ -26,6 +30,7 @@ export default function VerificationStart({
   const [loading, setLoading] = useState(false);
   const { showAlertAndContent } = useAlert();
   const navigation = useNavigation<NavigationProp<any>>();
+  const isFocused = useIsFocused();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -54,6 +59,10 @@ export default function VerificationStart({
         ) : null,
     });
   }, [isDarkMode]);
+
+  useEffect(() => {
+    setKeyword("");
+  }, [isFocused]);
 
   async function verifyNews() {
     setLoading(true);

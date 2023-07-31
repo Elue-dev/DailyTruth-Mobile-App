@@ -11,7 +11,12 @@ import {
   Ionicons,
   Entypo,
 } from "@expo/vector-icons";
-import { Platform, StyleSheet } from "react-native";
+import {
+  Platform,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import NewsScreen from "../screens/news";
 import VerifyScreen from "../screens/verify";
 import SearchScreen from "../screens/search";

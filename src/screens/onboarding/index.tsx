@@ -23,6 +23,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "./styles";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import { COLORS } from "../../common/colors";
+import SVG1 from "../../assets/cuate.svg";
+import SVG2 from "../../assets/rafiki.svg";
+import SVG3 from "../../assets/union.svg";
 
 export default function OnboardingScreen() {
   const { width, height } = Dimensions.get("window");
@@ -87,9 +90,15 @@ export default function OnboardingScreen() {
         showsHorizontalScrollIndicator={false}
         snapToAlignment="center"
         decelerationRate="fast"
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <View style={{ width }} key={item.id}>
-            <Image source={item.image} style={styles.image} />
+            {index === 0 ? (
+              <SVG1 width={"100%"} height={290} />
+            ) : index === 1 ? (
+              <SVG2 width={"100%"} height={290} />
+            ) : (
+              <SVG3 width={"100%"} height={290} />
+            )}
             <Text
               style={[
                 styles.titleText,

@@ -2,7 +2,7 @@ import { View, TextInput, TouchableOpacity, Platform } from "react-native";
 import { useEffect, useRef } from "react";
 import { COLORS } from "../../common/colors";
 import { MaterialIcons } from "@expo/vector-icons";
-// import { useFocusEffect } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 import { News, SearchNews } from "../../types/news";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import useFetchCollection from "../../hooks/useFetchCollection";
@@ -23,10 +23,11 @@ export default function Search({
   } = useAuth();
   const { isDarkMode } = useSheet();
   const { data: allNews } = useFetchCollection("news");
+  const isFocused = useIsFocused();
 
-  // useFocusEffect(() => {
-  //   inputRef.current?.focus();
-  // });
+  useEffect(() => {
+    setSearchQuery("");
+  }, [isFocused]);
 
   useEffect(() => {
     const userSpecificNews = allNews.filter((news: News) =>
@@ -56,7 +57,7 @@ export default function Search({
 
   return (
     <View
-      className={`mt-8  px-3 pb-4 mx-4 shadow-sm rounded-lg flex-row justify-between items-center border-gray100 dark:border-gray200 ${
+      className={`mt-8 px-3 pb-4 mx-4 shadow-sm rounded-lg flex-row justify-between items-center border-gray100 dark:border-gray200 ${
         Platform.OS === "android" ? "border-4 dark:border" : "border"
       }`}
       style={{

@@ -10,6 +10,7 @@ import { COLORS } from "../../common/colors";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import useFetchCollection from "../../hooks/useFetchCollection";
 import Loader from "../../components/loader";
+import CuateSVG from "../../assets/union.svg";
 
 export default function SearchScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -60,11 +61,12 @@ export default function SearchScreen() {
       {!searchQuery ? (
         <>
           <View className="flex-1 justify-center items-center bg-white dark:bg-darkNeutral">
-            <Image
+            {/* <Image
               source={require("../../assets/cuate.png")}
               className="h-80 w-80"
               style={{ resizeMode: "contain" }}
-            />
+            /> */}
+            <CuateSVG width={"90%"} height={300} />
 
             <Text className="text-darkNeutral dark:text-lightGray text-[19px] text-center mt-5 mx-3">
               Start searching some news by Title, Keywords or Categories!{" "}

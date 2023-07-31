@@ -23,6 +23,7 @@ import {
 import { database } from "../../lib/firebase";
 import { useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
+import SavedIcon from "../../assets/saved.svg";
 
 export default function NewsCard({
   dataToUse,
@@ -211,13 +212,14 @@ export default function NewsCard({
                         />
                       </TouchableOpacity>
                     ) : (
-                      <TouchableOpacity onPress={() => saveNews(news, "save")}>
-                        <MaterialCommunityIcons
-                          name="bookmark-multiple-outline"
-                          size={20}
-                          color={isDarkMode ? COLORS.gray100 : COLORS.grayText}
-                        />
-                      </TouchableOpacity>
+                      // <TouchableOpacity onPress={() => saveNews(news, "save")}>
+                      //   <MaterialCommunityIcons
+                      //     name="bookmark-multiple-outline"
+                      //     size={20}
+                      //     color={isDarkMode ? COLORS.gray100 : COLORS.grayText}
+                      //   />
+                      // </TouchableOpacity>
+                      <SavedIcon onPress={() => saveNews(news, "save")} />
                     )}
                   </>
                 )}
