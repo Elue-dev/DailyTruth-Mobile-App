@@ -10,7 +10,7 @@ import {
   Ionicons,
   Entypo,
 } from "@expo/vector-icons";
-import { Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet, TouchableOpacity } from "react-native";
 import NewsScreen from "../screens/news";
 import VerifyScreen from "../screens/verify";
 import SearchScreen from "../screens/search";
@@ -19,6 +19,12 @@ import { COLORS } from "../common/colors";
 import { useSheet } from "../context/bottom_sheet/BottomSheetContext";
 import { useAuth } from "../context/auth/AuthContext";
 import AddNews from "../screens/add_news";
+import {
+  useFocusEffect,
+  useNavigationState,
+  useRoute,
+} from "@react-navigation/native";
+import { useEffect, useState } from "react";
 
 const TabStack = createBottomTabNavigator<TabStackParamList>();
 
@@ -27,6 +33,8 @@ export default function TabsNavigator() {
   const {
     state: { user },
   } = useAuth();
+
+  const [currrRoute, setCurrRoute] = useState("News");
 
   function screenOptions({ route }: RoutePropArg): BottomTabNavigationOptions {
     const colorToUse = isDarkMode ? "#CE5158" : "#C2262E";
@@ -61,7 +69,7 @@ export default function TabsNavigator() {
                 style={styles.tabBarIcon}
               />
             );
-          case "AddNews": {
+          case "AddNews":
             return (
               <Entypo
                 name="add-to-list"
@@ -70,7 +78,6 @@ export default function TabsNavigator() {
                 style={styles.tabBarIconSec}
               />
             );
-          }
 
           case "Profile":
             return (
@@ -105,9 +112,9 @@ export default function TabsNavigator() {
       },
       tabBarStyle: {
         display: state.bottomSheetOpen ? "none" : "flex",
-        borderTopWidth: isDarkMode ? 0 : 1,
+        borderTopWidth: isDarkMode ? 0 : 0.8,
         borderColor: "#d8d8d8",
-        backgroundColor: isDarkMode ? "rgba(31, 31, 31, 0.96)" : "#FFF",
+        backgroundColor: isDarkMode ? "rgba(31, 31, 31, 0.99)" : "#FFF",
         position: "absolute",
         bottom: 0,
         left: 0,
@@ -117,13 +124,29 @@ export default function TabsNavigator() {
   }
 
   return (
-    <TabStack.Navigator screenOptions={screenOptions}>
+    <TabStack.Navigator
+      screenOptions={screenOptions}
+      screenListeners={({ route }) => ({
+        tabPress: () => {
+          setCurrRoute(route.name);
+        },
+      })}
+    >
       <TabStack.Screen
         name="News"
         component={NewsScreen}
         options={{
           headerShown: true,
           headerTitleAlign: "center",
+          tabBarItemStyle:
+            currrRoute === "News"
+              ? {
+                  borderTopWidth: 2,
+                  borderColor: isDarkMode
+                    ? COLORS.primaryColorTheme
+                    : COLORS.primaryColor,
+                }
+              : {},
         }}
       />
       <TabStack.Screen
@@ -132,6 +155,15 @@ export default function TabsNavigator() {
         options={{
           headerShown: true,
           headerTitleAlign: "center",
+          tabBarItemStyle:
+            currrRoute === "Verify"
+              ? {
+                  borderTopWidth: 2,
+                  borderColor: isDarkMode
+                    ? COLORS.primaryColorTheme
+                    : COLORS.primaryColor,
+                }
+              : {},
         }}
       />
       {user && (
@@ -142,6 +174,15 @@ export default function TabsNavigator() {
             headerShown: user ? true : false,
             tabBarLabel: "Add News",
             headerTitleAlign: "center",
+            tabBarItemStyle:
+              currrRoute === "AddNews"
+                ? {
+                    borderTopWidth: 2,
+                    borderColor: isDarkMode
+                      ? COLORS.primaryColorTheme
+                      : COLORS.primaryColor,
+                  }
+                : {},
           }}
         />
       )}
@@ -151,6 +192,15 @@ export default function TabsNavigator() {
         options={{
           headerShown: true,
           headerTitleAlign: "center",
+          tabBarItemStyle:
+            currrRoute === "Search"
+              ? {
+                  borderTopWidth: 2,
+                  borderColor: isDarkMode
+                    ? COLORS.primaryColorTheme
+                    : COLORS.primaryColor,
+                }
+              : {},
         }}
       />
 
@@ -160,6 +210,15 @@ export default function TabsNavigator() {
         options={{
           headerShown: true,
           headerTitleAlign: "center",
+          tabBarItemStyle:
+            currrRoute === "Profile"
+              ? {
+                  borderTopWidth: 2,
+                  borderColor: isDarkMode
+                    ? COLORS.primaryColorTheme
+                    : COLORS.primaryColor,
+                }
+              : {},
         }}
       />
     </TabStack.Navigator>
@@ -177,5 +236,9 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: "600",
+  },
+  tabBarIconFocused: {
+    borderTopWidth: 1,
+    borderColor: "red",
   },
 });

@@ -60,7 +60,7 @@ export default function SavedScreen() {
   }, [searchQuery]);
 
   if (loading) return <Loader />;
-  if (userSavedNews.length === 0) return <NoSavedNews />;
+  if (data.length === 0) return <NoSavedNews />;
 
   return (
     <SafeAreaView className="flex-1 bg-white dark:bg-darkNeutral">

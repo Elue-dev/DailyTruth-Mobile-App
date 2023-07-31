@@ -20,6 +20,8 @@ interface AuthContextType {
   state: AuthState;
   selectedInterest: string;
   setSelectedInterest: Dispatch<SetStateAction<string>>;
+  currrRoute: any;
+  setCurrRoute: any;
   dispatch: Dispatch<AuthAction>;
   setActiveUser: (user: User) => Promise<void>;
   removeActiveUser: () => void;
@@ -43,6 +45,7 @@ async function loadUserFromStorage(dispatch: Dispatch<AuthAction>) {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [selectedInterest, setSelectedInterest] = useState("All");
+  const [currrRoute, setCurrRoute] = useState<any>();
   const [state, dispatch] = useReducer(AuthReducer, {
     user: null,
   });
@@ -70,6 +73,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     state,
     selectedInterest,
     setSelectedInterest,
+    currrRoute,
+    setCurrRoute,
     dispatch,
     setActiveUser,
     removeActiveUser,
