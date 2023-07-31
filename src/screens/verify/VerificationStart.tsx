@@ -85,7 +85,10 @@ export default function VerificationStart({
           </Text>
           <Text className="text-darkNeutral dark:text-lightText font-normal dark:font-light text-[16px] mt-3 tracking-wide leading-6">
             You can verify a news by typing in the keywords in that particular
-            news.
+            news.{" "}
+            <Text className="text-authDark">
+              (news outside your interests also appear)
+            </Text>
           </Text>
         </View>
 

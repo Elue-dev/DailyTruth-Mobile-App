@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
@@ -10,7 +11,7 @@ import {
   Ionicons,
   Entypo,
 } from "@expo/vector-icons";
-import { Platform, StyleSheet, TouchableOpacity } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import NewsScreen from "../screens/news";
 import VerifyScreen from "../screens/verify";
 import SearchScreen from "../screens/search";
@@ -19,12 +20,6 @@ import { COLORS } from "../common/colors";
 import { useSheet } from "../context/bottom_sheet/BottomSheetContext";
 import { useAuth } from "../context/auth/AuthContext";
 import AddNews from "../screens/add_news";
-import {
-  useFocusEffect,
-  useNavigationState,
-  useRoute,
-} from "@react-navigation/native";
-import { useEffect, useState } from "react";
 
 const TabStack = createBottomTabNavigator<TabStackParamList>();
 
@@ -204,23 +199,43 @@ export default function TabsNavigator() {
         }}
       />
 
-      <TabStack.Screen
-        name={user ? "Profile" : "More"}
-        component={ProfileScreen}
-        options={{
-          headerShown: true,
-          headerTitleAlign: "center",
-          tabBarItemStyle:
-            currrRoute === "Profile"
-              ? {
-                  borderTopWidth: 2,
-                  borderColor: isDarkMode
-                    ? COLORS.primaryColorTheme
-                    : COLORS.primaryColor,
-                }
-              : {},
-        }}
-      />
+      {user ? (
+        <TabStack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            headerShown: true,
+            headerTitleAlign: "center",
+            tabBarItemStyle:
+              currrRoute === "Profile"
+                ? {
+                    borderTopWidth: 2,
+                    borderColor: isDarkMode
+                      ? COLORS.primaryColorTheme
+                      : COLORS.primaryColor,
+                  }
+                : {},
+          }}
+        />
+      ) : (
+        <TabStack.Screen
+          name="More"
+          component={ProfileScreen}
+          options={{
+            headerShown: true,
+            headerTitleAlign: "center",
+            tabBarItemStyle:
+              currrRoute === "More"
+                ? {
+                    borderTopWidth: 2,
+                    borderColor: isDarkMode
+                      ? COLORS.primaryColorTheme
+                      : COLORS.primaryColor,
+                  }
+                : {},
+          }}
+        />
+      )}
     </TabStack.Navigator>
   );
 }

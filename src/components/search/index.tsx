@@ -32,8 +32,9 @@ export default function Search({
     const userSpecificNews = allNews.filter((news: News) =>
       user?.interests.includes(news.category)
     );
+    const newsToUse = user ? userSpecificNews : allNews;
     function handleNewsSearch() {
-      const searchResults = userSpecificNews?.filter(
+      const searchResults = newsToUse?.filter(
         (news: News) =>
           news.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           news.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -80,7 +81,7 @@ export default function Search({
           <MaterialIcons
             name="clear"
             size={28}
-            color={isDarkMode ? "#E5E5EA" : COLORS.primaryColor}
+            color={isDarkMode ? "#E5E5EA" : COLORS.authDark}
             style={{ paddingTop: 10 }}
           />
         </TouchableOpacity>

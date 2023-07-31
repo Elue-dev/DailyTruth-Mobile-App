@@ -5,18 +5,18 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
-  Alert,
   ActivityIndicator,
   Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { User, UserCredentialsProps } from "../../types/auth";
+import { UserCredentialsProps } from "../../types/auth";
 import {
   CommonActions,
   NavigationProp,
   useNavigation,
 } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, database } from "../../lib/firebase";
 import { useAuth } from "../../context/auth/AuthContext";
@@ -27,6 +27,7 @@ import {
   handleAuthErrors,
   validateEmail,
 } from "../../helpers/HandleAuthErrors";
+import { COLORS } from "../../common/colors";
 
 export default function UserCredentials({
   initiaCredentials,
@@ -39,6 +40,7 @@ export default function UserCredentials({
 }: UserCredentialsProps) {
   const [currentInput, setCurrentInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
   const [authAction, setAuthAction] = useState("Sign Up");
   const changedActionState = authAction === "Sign Up" ? "Sign In" : "Sign Up";
   const isAndroid = Platform.OS === "android";
@@ -265,13 +267,28 @@ export default function UserCredentials({
             >
               Password
             </Text>
+
+            <TouchableOpacity
+              className="absolute right-0 bottom-2 z-10"
+              onPress={() => {
+                setHidePassword(!hidePassword);
+                setCurrentInput("Password");
+              }}
+            >
+              <Feather
+                name={hidePassword ? "eye-off" : "eye"}
+                size={22}
+                style={{ color: isDarkMode ? "#E5E5EA" : COLORS.authDark }}
+              />
+            </TouchableOpacity>
+
             <TextInput
               value={password}
-              secureTextEntry
+              secureTextEntry={hidePassword}
               onChangeText={(text) => handleTextChange("password", text)}
               className={`${
                 isDarkMode ? "border-lightBorder" : "border-lightGray"
-              } border-b-2  relative text-[16px]`}
+              } border-b-2 relative text-[16px] z-1`}
               onFocus={() => setCurrentInput("Password")}
               onBlur={() => setCurrentInput("")}
               style={{ color: isDarkMode ? "#E5E5EA" : "#000" }}

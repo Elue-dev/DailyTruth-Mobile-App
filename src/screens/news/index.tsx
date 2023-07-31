@@ -48,8 +48,9 @@ export default function NewsScreen() {
     const userSpecificNews = data.filter((news: News) =>
       user?.interests.includes(news.category)
     );
-    setNewsData(userSpecificNews);
-    setDataToUse(userSpecificNews);
+    const newsToUse = user ? userSpecificNews : data;
+    setNewsData(newsToUse);
+    setDataToUse(newsToUse);
   }, [loading, data, user?.interests]);
 
   const primaryColorToUse = isDarkMode

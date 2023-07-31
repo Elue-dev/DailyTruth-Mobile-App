@@ -62,7 +62,7 @@ export default function NewsCard({
     if (action === "save" && savedDoc?.data()) {
       setLoading(false);
       showAlertAndContent({
-        type: "error",
+        type: "info",
         message: "You have previously saved this post",
       });
       return;
@@ -115,14 +115,14 @@ export default function NewsCard({
         showsVerticalScrollIndicator={false}
         renderItem={({ item: news, index }) => (
           <View
-            className={`${
-              isDarkMode ? "border-gray200" : "border-gray100 border-b-2"
-            }   ${index === dataToUse.length - 1 ? "pb-14" : ""}`}
+            className={`border-gray100 dark:border-gray200  ${
+              index === dataToUse.length - 1 ? "pb-24 border-b-0" : ""
+            }`}
           >
             <View
-              className={`border ${
-                isDarkMode ? "border-extraLightGray" : "border-gray100"
-              }  mb-5 shadow-sm px-2 py-4 mt-3 rounded-lg`}
+              className={`border border-gray100 dark:border-extraLightGray  shadow-sm px-2 py-4 mt-3 rounded-lg
+             ${index === dataToUse.length - 1 ? "mb-24" : "mb-2"}
+               `}
               style={{
                 elevation: 1,
                 backgroundColor: isDarkMode ? COLORS.darkNeutral : "#FFF",
@@ -131,11 +131,7 @@ export default function NewsCard({
               {/* Header */}
               {location !== "saved" && (
                 <View className="flex-row justify-between items-center pb-3">
-                  <Text
-                    className={`${
-                      isDarkMode ? "text-lightText" : "text-extraLightGray"
-                    } font-light`}
-                  >
+                  <Text className="text-extraLightGray dark:text-lightText font-light">
                     {getTimeDifference(news.date)}
                   </Text>
 
@@ -159,13 +155,7 @@ export default function NewsCard({
                     )}
 
                     <View className="flex-row items-center">
-                      <Text
-                        className={`mr-1 ${
-                          isDarkMode
-                            ? "text-lightText font-normal"
-                            : "text-lightGray font-bold"
-                        }  `}
-                      >
+                      <Text className="mr-1 text-lightGray font-bold dark:text-lightText dark:font-normal">
                         |
                       </Text>
                       <Text className="text-gray200 font-light">
@@ -178,31 +168,17 @@ export default function NewsCard({
               )}
 
               {/* Body */}
-              <Text
-                className={`${
-                  isDarkMode ? "text-grayNeutral" : "text-extraLightGray"
-                } text-[18px]  font-bold`}
-              >
+              <Text className="text-extraLightGray dark:text-grayNeutral text-[18px] font-bold">
                 {news.title}
               </Text>
               <View className="">
-                <Text
-                  className={`${
-                    isDarkMode ? "text-white" : "text-extraLightGray"
-                  }  font-light leading-6 pt-2 text-base`}
-                >
+                <Text className="text-extraLightGray dark:text-white font-light leading-6 pt-2 text-base">
                   {news.content.slice(0, 175)}...
                 </Text>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("NewsDetails", { news })}
                 >
-                  <Text
-                    className={`${
-                      isDarkMode
-                        ? "text-primaryColorTheme"
-                        : "text-primaryColor"
-                    } pt-1 pb-2 font-semibold text-base`}
-                  >
+                  <Text className="text-primaryColor dark:text-primaryColorTheme pt-1 pb-2 font-semibold text-base">
                     Read More
                   </Text>
                 </TouchableOpacity>
