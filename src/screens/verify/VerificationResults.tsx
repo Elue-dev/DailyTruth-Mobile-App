@@ -1,8 +1,12 @@
 import { View, Text, Platform, ScrollView } from "react-native";
 import { VerificationResultsProps } from "../../types/news";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
-import { useLayoutEffect } from "react";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useEffect, useLayoutEffect } from "react";
+import {
+  NavigationProp,
+  useNavigation,
+  useIsFocused,
+} from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "../../common/colors";
@@ -15,6 +19,8 @@ export default function VerificationResults({
 }: VerificationResultsProps) {
   const { isDarkMode } = useSheet();
   const navigation = useNavigation<NavigationProp<any>>();
+  const isFocused = useIsFocused();
+  const notFocused = !isFocused;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,6 +42,10 @@ export default function VerificationResults({
         ) : null,
     });
   }, [isDarkMode]);
+
+  useEffect(() => {
+    if (notFocused) prevStep();
+  }, [notFocused]);
 
   return (
     <ScrollView

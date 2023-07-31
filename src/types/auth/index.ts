@@ -11,6 +11,7 @@ export interface UserCredentialsProps {
   credentials: Credentials;
   paramsPassed: string;
   setCredentials: Dispatch<SetStateAction<UserCredentialsProps["credentials"]>>;
+  setSelectedCategories: Dispatch<SetStateAction<string[]>>;
   handleTextChange: (name: string, text: string) => void;
   prevStep: () => void;
   nextStep: () => void;

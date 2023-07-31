@@ -16,7 +16,7 @@ import { styles } from "./styles";
 
 export default function Modal() {
   const { width } = Dimensions.get("window");
-  const { isDarkMode } = useSheet();
+  const { isDarkMode, toggleBottomSheet, toggleOverlay } = useSheet();
   const {
     state: { user },
     setActiveUser,
@@ -48,6 +48,8 @@ export default function Modal() {
       type: "success",
       message: "Your response has been noted and will be looked into",
     });
+    toggleBottomSheet();
+    toggleOverlay();
   }
 
   async function deactivateAccount() {

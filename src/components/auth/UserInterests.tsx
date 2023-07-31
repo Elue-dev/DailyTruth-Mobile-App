@@ -118,7 +118,7 @@ export default function UserInterests({
       <ScrollView
         showsVerticalScrollIndicator={false}
         className="px-4"
-        style={{ marginTop: Platform.OS === "android" ? 85 : null }}
+        style={{ marginTop: Platform.OS === "android" ? 85 : 32 }}
       >
         <TouchableOpacity onPress={prevStep}>
           <Ionicons

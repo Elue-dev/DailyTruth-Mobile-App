@@ -11,11 +11,7 @@ import {
 import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  FontAwesome,
-  MaterialCommunityIcons,
-  Feather,
-} from "@expo/vector-icons";
+import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import NewsCard from "../../components/news/NewsCard";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import BottomSheetComponent from "../../components/bottom_sheet";
@@ -93,7 +89,7 @@ export default function NewsScreen() {
         </Text>
       ),
       headerLeft: () => (
-        <TouchableOpacity className="ml-2" onPress={resetOnboarding}>
+        <TouchableOpacity className="ml-4" onPress={resetOnboarding}>
           <Feather
             name="refresh-cw"
             size={22}

@@ -1,7 +1,4 @@
 export function handleAuthErrors(error: string) {
-  console.log({ error });
-  console.log({ type: typeof error });
-
   let errorMessage;
 
   switch (error) {
@@ -20,7 +17,6 @@ export function handleAuthErrors(error: string) {
     case "Firebase: Error (auth/email-already-in-use).":
       errorMessage = "Email already in use";
       break;
-
     case "Firebase: Password should be at least 6 characters (auth/weak-password).":
       errorMessage = "Password should be at least 6 characters";
       break;

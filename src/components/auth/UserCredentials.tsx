@@ -34,6 +34,7 @@ export default function UserCredentials({
   credentials,
   paramsPassed,
   setCredentials,
+  setSelectedCategories,
   handleTextChange,
   nextStep,
   prevStep,
@@ -56,6 +57,10 @@ export default function UserCredentials({
     const paramsToUse = paramsPassed === "Sign Up" ? "Sign Up" : "Sign In";
     setAuthAction(paramsToUse);
   }, [paramsPassed]);
+
+  useEffect(() => {
+    if (authAction === "Sign In") setSelectedCategories([]);
+  }, [authAction]);
 
   async function loginUser() {
     if (email || password) {
@@ -243,6 +248,7 @@ export default function UserCredentials({
             </Text>
             <TextInput
               value={email}
+              keyboardType="email-address"
               onChangeText={(text) => handleTextChange("email", text)}
               className={`${
                 isDarkMode ? "border-lightBorder" : "border-lightGray"

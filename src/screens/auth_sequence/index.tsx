@@ -43,6 +43,7 @@ export default function AuthSequence() {
           credentials={credentials}
           setCredentials={setCredentials}
           handleTextChange={handleTextChange}
+          setSelectedCategories={setSelectedCategories}
         />
       );
     case "interests":
