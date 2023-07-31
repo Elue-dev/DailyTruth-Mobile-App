@@ -69,12 +69,22 @@ export default function ManageInterests() {
       });
     }
 
-    if (uInterests?.length! < 4) {
+    const stringifiedUserInterests = JSON.stringify(
+      Array.from(user?.interests!)
+    );
+    const stringifiedUpdatedInterests = JSON.stringify(uInterests);
+
+    if (stringifiedUserInterests === stringifiedUpdatedInterests)
+      return showAlertAndContent({
+        type: "info",
+        message: "You have not made any updates to your interests",
+      });
+
+    if (uInterests?.length! < 4)
       return showAlertAndContent({
         type: "error",
         message: "Interests must be 4 and above",
       });
-    }
 
     setLoading(true);
     try {
