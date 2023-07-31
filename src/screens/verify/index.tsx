@@ -25,16 +25,6 @@ export default function VerifyScreen() {
     setVerificationStep("start");
   }
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: () => (
-        <Text className="text-primaryColorSec dark:text-gray300 font-semibold text-[18px]">
-          Verify
-        </Text>
-      ),
-    });
-  }, [isDarkMode]);
-
   if (loading) return <Loader />;
 
   switch (verificationStep) {

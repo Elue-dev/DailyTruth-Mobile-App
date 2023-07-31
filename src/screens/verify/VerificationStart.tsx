@@ -40,23 +40,7 @@ export default function VerificationStart({
         </Text>
       ),
 
-      headerLeft: () =>
-        Platform.OS === "ios" ? (
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-              setKeyword("");
-              setVerificationResults([]);
-            }}
-            className="mx-3"
-          >
-            <Ionicons
-              name="arrow-back-circle"
-              size={29}
-              color={COLORS.gray200}
-            />
-          </TouchableOpacity>
-        ) : null,
+      headerLeft: () => null,
     });
   }, [isDarkMode]);
 

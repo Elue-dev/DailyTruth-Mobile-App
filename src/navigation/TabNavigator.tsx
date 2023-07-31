@@ -15,6 +15,7 @@ import {
   Platform,
   Pressable,
   StyleSheet,
+  Text,
   TouchableOpacity,
 } from "react-native";
 import NewsScreen from "../screens/news";
