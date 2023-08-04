@@ -83,7 +83,6 @@ export default function NewsCard({
       if (action === "unsave" && savedDoc) {
         await deleteDoc(doc(database, "saved", savedDoc.id));
         setLoading(false);
-        navigation.goBack();
         showAlertAndContent({
           type: "success",
           message: "News removed from saved",

@@ -25,10 +25,6 @@ export default function SearchScreen() {
     setNewsData(data);
   }, [loading, data]);
 
-  // useEffect(() => {
-  //   setNewsData(newsData);
-  // }, [searchQuery]);
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (

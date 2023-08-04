@@ -27,11 +27,7 @@ export default function SavedScreen() {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <Text
-          className={`${
-            isDarkMode ? "text-gray300" : "text-primaryColorSec"
-          }  font-semibold text-[18px]`}
-        >
+        <Text className="font-semibold text-[18px] text-primaryColorSec dark:text-gray300">
           Saved News
         </Text>
       ),

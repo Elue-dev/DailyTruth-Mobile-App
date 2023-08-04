@@ -17,7 +17,6 @@ import {
   useNavigation,
   useIsFocused,
 } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
 
 export default function VerificationStart({
   newsData,

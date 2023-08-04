@@ -2,7 +2,6 @@ import { View, TextInput, TouchableOpacity, Platform } from "react-native";
 import { useEffect, useRef } from "react";
 import { COLORS } from "../../common/colors";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useIsFocused } from "@react-navigation/native";
 import { News, SearchNews } from "../../types/news";
 import { useSheet } from "../../context/bottom_sheet/BottomSheetContext";
 import useFetchCollection from "../../hooks/useFetchCollection";
@@ -23,11 +22,6 @@ export default function Search({
   } = useAuth();
   const { isDarkMode } = useSheet();
   const { data: allNews } = useFetchCollection("news");
-  const isFocused = useIsFocused();
-
-  useEffect(() => {
-    setSearchQuery("");
-  }, [isFocused]);
 
   useEffect(() => {
     const userSpecificNews = allNews.filter((news: News) =>

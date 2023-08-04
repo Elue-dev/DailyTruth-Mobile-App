@@ -47,7 +47,7 @@ export default function TabsNavigator() {
             return (
               <Ionicons
                 name="newspaper-outline"
-                size={size}
+                size={size - 5}
                 color={focused ? colorToUse : "#AEAEB2"}
                 style={styles.tabBarIcon}
               />
@@ -56,7 +56,7 @@ export default function TabsNavigator() {
             return (
               <MaterialCommunityIcons
                 name="newspaper-check"
-                size={size + 5}
+                size={size}
                 color={focused ? colorToUse : "#AEAEB2"}
                 style={styles.tabBarIconSec}
               />
@@ -74,7 +74,7 @@ export default function TabsNavigator() {
             return (
               <Entypo
                 name="add-to-list"
-                size={size + 8}
+                size={size + 2}
                 color={focused ? colorToUse : "#AEAEB2"}
                 style={styles.tabBarIconSec}
               />
@@ -84,7 +84,7 @@ export default function TabsNavigator() {
             return (
               <FontAwesome
                 name="user-o"
-                size={size}
+                size={size - 10}
                 color={focused ? colorToUse : "#AEAEB2"}
                 style={styles.tabBarIcon}
               />
@@ -248,7 +248,7 @@ export default function TabsNavigator() {
 
 const styles = StyleSheet.create({
   tabBarIcon: {
-    fontSize: 26,
+    fontSize: 22,
     paddingTop: Platform.OS === "ios" ? 5 : 3,
   },
   tabBarIconSec: {
