@@ -53,7 +53,7 @@ export default function AddNews() {
     setImage(null);
     setVerificationStatus("Unverified");
     setContent("");
-    previousStep();
+    setPageStep(1);
     setCurrRoute("News");
     setCategory("");
   }

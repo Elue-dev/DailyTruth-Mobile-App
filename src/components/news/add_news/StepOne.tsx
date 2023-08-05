@@ -45,7 +45,7 @@ export default function StepOne({
         <TouchableOpacity
           className="mr-3"
           onPress={() => {
-            resetFields;
+            resetFields();
             Keyboard.dismiss();
           }}
         >

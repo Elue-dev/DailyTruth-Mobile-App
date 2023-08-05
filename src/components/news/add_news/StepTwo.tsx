@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
 } from "react-native";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { StepTwoProps } from "../../../types/news";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useSheet } from "../../../context/bottom_sheet/BottomSheetContext";
@@ -74,7 +74,7 @@ export default function StepTwo({
         <TouchableOpacity
           className="mr-3"
           onPress={() => {
-            resetFields;
+            resetFields();
             Keyboard.dismiss();
           }}
         >
