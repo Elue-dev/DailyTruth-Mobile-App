@@ -23,7 +23,6 @@ import { database } from "../../lib/firebase";
 import { useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
 import { BottomSheetTwoProps } from "../../types/bottom_sheet";
-import Alert from "../alert/Alert";
 
 export default function BottomSheetTwo({ currentNews }: BottomSheetTwoProps) {
   const [loading, setLoading] = useState(false);

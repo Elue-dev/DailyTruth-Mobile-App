@@ -26,6 +26,7 @@ import { COLORS } from "../common/colors";
 import { useSheet } from "../context/bottom_sheet/BottomSheetContext";
 import { useAuth } from "../context/auth/AuthContext";
 import AddNews from "../screens/add_news";
+// import AddNews from "../screens/add_news";
 
 const TabStack = createBottomTabNavigator<TabStackParamList>();
 
@@ -33,9 +34,9 @@ export default function TabsNavigator() {
   const { state, isDarkMode } = useSheet();
   const {
     state: { user },
+    currrRoute,
+    setCurrRoute,
   } = useAuth();
-
-  const [currrRoute, setCurrRoute] = useState("News");
 
   function screenOptions({ route }: RoutePropArg): BottomTabNavigationOptions {
     const colorToUse = isDarkMode ? "#CE5158" : "#C2262E";

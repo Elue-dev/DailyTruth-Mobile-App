@@ -114,65 +114,73 @@ export default function VerificationResults({
               News with similar keywords
             </Text>
 
-            {verificationResults.map((news) => (
-              <View
-                key={news.id}
-                className={`mt-4 mb-2 px-3 pb-4 shadow-sm rounded-lg flex-row justify-between items-center border-gray100 dark:border-gray200 ${
-                  Platform.OS === "android" ? "border-4 dark:border" : "border"
-                }`}
-                style={{
-                  elevation: 1,
-                  backgroundColor: isDarkMode ? "transparent" : "#FFF",
-                }}
-              >
-                <View>
-                  {/* header */}
-                  <View className="flex-row items-center gap-1 mt-1">
-                    <Text className="text-gray200 dark:text-lightText text-base font-normal">
-                      News status:
-                    </Text>
-                    {news.isVerified ? (
-                      <View className="flex-row items-center gap-[.7px]">
-                        <Text className="text-customGreen text-base font-bold">
-                          Verified
-                        </Text>
-                        <MaterialIcons
-                          name="verified"
-                          size={16}
-                          color={COLORS.customGreen}
-                        />
-                      </View>
-                    ) : (
-                      <Text className="text-red-500 text-base font-bold">
-                        Unverified
+            <View
+              style={{
+                marginBottom: 100,
+              }}
+            >
+              {verificationResults.map((news, index) => (
+                <View
+                  key={news.id}
+                  className={`mt-4 px-3 pb-4 shadow-sm rounded-lg flex-row justify-between items-center border-gray100 dark:border-gray200 ${
+                    Platform.OS === "android"
+                      ? "border-4 dark:border"
+                      : "border"
+                  }`}
+                  style={{
+                    elevation: 1,
+                    backgroundColor: isDarkMode ? "transparent" : "#FFF",
+                  }}
+                >
+                  <View>
+                    {/* header */}
+                    <View className="flex-row items-center gap-1 mt-1">
+                      <Text className="text-gray200 dark:text-lightText text-base font-normal">
+                        News status:
                       </Text>
-                    )}
-                  </View>
-
-                  {/* title */}
-                  <View className="mt-3">
-                    <Text className="text-extraLightGray dark:text-grayNeutral text-[16px] font-bold">
-                      {news.title}
-                    </Text>
-
-                    <Text className="text-extraLightGray dark:text-lightGray font-light leading-6 pt-2 text-base">
-                      {news.content.slice(0, 90)}...
-                    </Text>
-                    {news.isVerified && (
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate("NewsDetails", { news })
-                        }
-                      >
-                        <Text className="text-primaryColor dark:text-primaryColorTheme text-[15px] text-right mt-3 font-bold underline">
-                          Read News
+                      {news.isVerified ? (
+                        <View className="flex-row items-center gap-[.7px]">
+                          <Text className="text-customGreen text-base font-bold">
+                            Verified
+                          </Text>
+                          <MaterialIcons
+                            name="verified"
+                            size={16}
+                            color={COLORS.customGreen}
+                          />
+                        </View>
+                      ) : (
+                        <Text className="text-red-500 text-base font-bold">
+                          Unverified
                         </Text>
-                      </TouchableOpacity>
-                    )}
+                      )}
+                    </View>
+
+                    {/* title */}
+                    <View className="mt-3">
+                      <Text className="text-extraLightGray dark:text-grayNeutral text-[16px] font-bold">
+                        {news.title}
+                      </Text>
+
+                      <Text className="text-extraLightGray dark:text-lightGray font-light leading-6 pt-2 text-base">
+                        {news.content.slice(0, 90)}...
+                      </Text>
+                      {news.isVerified && (
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate("NewsDetails", { news })
+                          }
+                        >
+                          <Text className="text-primaryColor dark:text-primaryColorTheme text-[15px] text-right mt-3 font-bold underline">
+                            Read News
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
                   </View>
                 </View>
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
         )}
       </View>

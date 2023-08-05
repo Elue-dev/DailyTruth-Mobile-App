@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
@@ -61,22 +61,16 @@ export default function BottomSheetComponent({
             <AntDesign name="closecircle" size={24} color={COLORS.gray50} />
           </TouchableOpacity>
 
-          <Text
-            className={`${
-              isDarkMode ? "text-gray100" : "text-darkNeutral"
-            } text-xl text-center  font-medium pb-5`}
-          >
+          <Text className="text-xl text-center  font-medium pb-5 dark:text-gray100 text-darkNeutral">
             News Filter
           </Text>
 
           <View className="flex-row justify-between items-center pb-4 border-b-[1px] border-grayNeutral">
             <Text
               style={styles.sheetText}
-              className={`${
-                isDarkMode ? "text-gray100" : "text-extraLightGray"
-              } font-normal`}
+              className="font-normal text-extraLightGray dark:text-gray100"
             >
-              Verfied News Only
+              Verified News Only
             </Text>
             <TouchableOpacity onPress={() => setSelectedOption("VerfiedOnly")}>
               {selectedOption === "VerfiedOnly" ? (
@@ -100,9 +94,7 @@ export default function BottomSheetComponent({
           <View className="flex-row justify-between items-center pb-4 border-b-[1px] border-grayNeutral mt-3">
             <Text
               style={styles.sheetText}
-              className={`${
-                isDarkMode ? "text-gray100" : "text-extraLightGray"
-              } font-normal`}
+              className="font-normal text-extraLightGray dark:text-gray100"
             >
               Verified and Unverified
             </Text>
@@ -130,9 +122,7 @@ export default function BottomSheetComponent({
           <View className="flex-row justify-between items-center pb-4 mt-3">
             <Text
               style={styles.sheetText}
-              className={`${
-                isDarkMode ? "text-gray100" : "text-extraLightGray"
-              } font-normal`}
+              className="font-normal text-extraLightGray dark:text-gray100"
             >
               Unverified News Only
             </Text>
@@ -159,9 +149,7 @@ export default function BottomSheetComponent({
 
           <TouchableOpacity
             onPress={handleNewsFilter}
-            className={`${
-              isDarkMode ? "bg-primaryColorTheme" : "bg-primaryColor"
-            }  py-3 rounded-md mt-5`}
+            className="bg-primaryColor dark:bg-primaryColorTheme py-3 rounded-md mt-5"
           >
             <Text className="text-white font-semibold text-center text-xl">
               Save

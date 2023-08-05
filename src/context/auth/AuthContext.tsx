@@ -45,7 +45,7 @@ async function loadUserFromStorage(dispatch: Dispatch<AuthAction>) {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [selectedInterest, setSelectedInterest] = useState("All");
-  const [currrRoute, setCurrRoute] = useState<any>();
+  const [currrRoute, setCurrRoute] = useState("News");
   const [state, dispatch] = useReducer(AuthReducer, {
     user: null,
   });

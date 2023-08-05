@@ -76,7 +76,7 @@ export default function SavedScreen() {
           <View className="justify-center items-center pt-20">
             <View className="flex-row items-center gap-1 pb-2">
               <Text className="text-xl font-semibold text-grayText dark:text-lightText">
-                No News found for
+                No saved news found for
               </Text>
               <Text className="text-xl font-semibold text-primaryColor dark:text-primaryColorTheme">
                 '{searchQuery}'

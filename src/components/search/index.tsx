@@ -24,7 +24,8 @@ export default function Search({
   const { data: allNews } = useFetchCollection("news");
 
   useEffect(() => {
-    const userSpecificNews = allNews.filter((news: News) =>
+    const newsToFilter = location === "saved" ? newsFromComponent : allNews;
+    const userSpecificNews = newsToFilter?.filter((news: News) =>
       user?.interests.includes(news.category)
     );
     const newsToUse = user ? userSpecificNews : allNews;

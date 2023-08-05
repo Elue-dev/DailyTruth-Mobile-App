@@ -24,6 +24,8 @@ import { database } from "../../lib/firebase";
 import { useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
 import SavedIcon from "../../assets/saved.svg";
+import { parseText } from "../../utils";
+import PostContent from "../../helpers/PostContent";
 
 export default function NewsCard({
   dataToUse,
@@ -173,7 +175,8 @@ export default function NewsCard({
               </Text>
               <View className="">
                 <Text className="text-extraLightGray dark:text-white font-light leading-6 pt-2 text-base">
-                  {news.content.slice(0, 175)}...
+                  {parseText(news.content.slice(0, 175))}...
+                  {/* <PostContent content={news.content.slice(0, 175)} /> */}
                 </Text>
                 <TouchableOpacity
                   onPress={() => navigation.navigate("NewsDetails", { news })}

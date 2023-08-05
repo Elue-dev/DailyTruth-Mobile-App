@@ -38,6 +38,7 @@ import {
 import { database } from "../../lib/firebase";
 import { useAlert } from "../../context/alert/AlertContext";
 import { useAuth } from "../../context/auth/AuthContext";
+import PostContent from "../../helpers/PostContent";
 
 interface NewsParams {
   news: News;
@@ -147,7 +148,7 @@ export default function NewsDetails() {
   }
 
   return (
-    <SafeAreaView className={`${isDarkMode ? "bg-darkNeutral" : ""} `}>
+    <SafeAreaView className={`${isDarkMode ? "bg-darkNeutral" : ""} flex-1`}>
       <ScrollView
         className={`pb-44 ${!bottomSheetOpen && "mx-3"}`}
         showsVerticalScrollIndicator={false}
@@ -259,9 +260,9 @@ export default function NewsDetails() {
               isDarkMode ? "text-gray100" : "text-grayText"
             } pt-2 leading-5 font-light  text-base`}
           >
-            {news.content}
+            <PostContent content={news.content} />
           </Text>
-          <View className="pt-5 pb-10">
+          {/* <View className="pt-5 pb-10">
             <Text
               className={`${
                 isDarkMode ? "text-gray100" : "text-grayText"
@@ -291,7 +292,7 @@ export default function NewsDetails() {
                 </Text>
               </View>
             ))}
-          </View>
+          </View> */}
         </View>
       </ScrollView>
 

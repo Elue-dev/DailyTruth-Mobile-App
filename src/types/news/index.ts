@@ -62,3 +62,33 @@ export interface VerificationResultsProps {
   verificationResults: News[];
   setVerificationResults: Dispatch<SetStateAction<News[]>>;
 }
+
+interface Values {
+  title: string;
+  readTime: string;
+}
+
+export interface StepOneProps {
+  values: Values;
+  image: string | null;
+  setImage: Dispatch<SetStateAction<string | null>>;
+  handleTextChange: (name: string, text: string) => void;
+  nextStep: () => void;
+  resetFields: () => void;
+}
+
+export interface StepTwoProps {
+  values: Values;
+  setValues: Dispatch<SetStateAction<Values>>;
+  verificationStatus: string;
+  setVerificationStatus: Dispatch<SetStateAction<string>>;
+  image: string | null;
+  setImage: Dispatch<SetStateAction<string | null>>;
+  category: string;
+  content: string;
+  setContent: Dispatch<SetStateAction<string>>;
+  richText: any;
+  setCategory: Dispatch<SetStateAction<string>>;
+  previousStep: () => void;
+  resetFields: () => void;
+}
