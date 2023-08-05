@@ -131,9 +131,21 @@ export default function StepTwo({
   }
 
   async function addNews() {
-    setLoading(true);
     Keyboard.dismiss();
+
+    if (!category)
+      return showAlertAndContent({
+        type: "error",
+        message: "Please specify news category",
+      });
+
+    if (!content)
+      return showAlertAndContent({
+        type: "error",
+        message: "Please specify news content",
+      });
     try {
+      setLoading(true);
       let imageUrl;
       if (image) imageUrl = await uploadImageToStorage();
       const collectionRef = collection(database, "news");
@@ -145,7 +157,7 @@ export default function StepTwo({
         image: imageUrl || "",
         readTime,
         isVerified: verificationStatus === "Unverified" ? false : true,
-        upvotes: 0,
+        upvotes: [],
         date: serverTimestamp(),
       };
       await addDoc(collectionRef, data);
@@ -156,6 +168,7 @@ export default function StepTwo({
 
       navigation.navigate("TabStack", { screen: "News" });
       resetFields();
+      setCurrRoute("News");
       setLoading(false);
     } catch (error: any) {
       console.log({ error: error.message });
@@ -298,7 +311,7 @@ export default function StepTwo({
         </View>
 
         {/* BUTTON */}
-        <View className="justify-end items-end mt-2 mx-2 pb-20">
+        <View className="justify-end items-end mt-2 mx-2">
           {loading ? (
             <TouchableOpacity className="bg-primaryColorLighter py-3 rounded-md w-full">
               <ActivityIndicator color={"#fff"} size="small" />
@@ -306,13 +319,22 @@ export default function StepTwo({
           ) : (
             <TouchableOpacity
               onPress={addNews}
-              className="bg-primaryColor dark:bg-primaryColorTheme py-3 rounded-md w-full mb-16"
+              className="bg-primaryColor dark:bg-primaryColorTheme py-3 rounded-md w-full mb-4"
             >
               <Text className="text-white font-semibold text-center text-xl">
                 Add News
               </Text>
             </TouchableOpacity>
           )}
+
+          <TouchableOpacity
+            className="mr-3 mb-16"
+            onPress={() => Keyboard.dismiss()}
+          >
+            <Text className="text-darkNeutral dark:text-lightText text-base">
+              Close keyboard
+            </Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </ScrollView>

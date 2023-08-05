@@ -67,6 +67,7 @@ export default function StepOne({
   }
 
   function handleStepChange() {
+    Keyboard.dismiss();
     if (!title || !readTime)
       return showAlertAndContent({
         type: "error",
