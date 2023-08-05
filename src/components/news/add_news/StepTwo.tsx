@@ -50,6 +50,7 @@ export default function StepTwo({
   const [uploadProgress, setUploadProgress] = useState<any>(0);
   const { showAlertAndContent } = useAlert();
   const { title, readTime } = values;
+  const { setCurrRoute } = useAuth();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -75,6 +76,7 @@ export default function StepTwo({
           className="mr-3"
           onPress={() => {
             resetFields();
+            setCurrRoute("News");
             Keyboard.dismiss();
           }}
         >
