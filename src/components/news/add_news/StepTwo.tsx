@@ -76,7 +76,6 @@ export default function StepTwo({
           className="mr-3"
           onPress={() => {
             resetFields();
-            setCurrRoute("News");
             Keyboard.dismiss();
           }}
         >
